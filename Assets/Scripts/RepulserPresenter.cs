@@ -10,7 +10,6 @@ public class RepulserPresenter : MonoBehaviour
     [SerializeField] private TimecodeIndicator _timecodeIndicator;
 
     private List<PulseSettingPresenter> pulseList = new List<PulseSettingPresenter>();
-    private int pulseNum = 0;
     
     private void Start()
     {
@@ -19,13 +18,27 @@ public class RepulserPresenter : MonoBehaviour
 
         _repulserView.OnAddButtonClickedAsObservable.Subscribe(_ =>
         {
-            pulseList.Add(_repulserView.AddPulser());
-            pulseNum = pulseList.Count;
+            var pulsePresenter = _repulserView.AddPulser();
+            pulsePresenter.Initialize(() =>
+            {
+                pulseList.Remove(pulsePresenter);
+            });
+            pulseList.Add(pulsePresenter);
         }).AddTo(this);
 
         _repulserView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
         {
             Save();
+        }).AddTo(this);
+
+        _repulserView.OnRemoveAllClickedAsObservable.Subscribe(_ =>
+        {
+            pulseList.ForEach(pulse =>
+            {
+                Destroy(pulse.gameObject);
+            });
+            pulseList.Clear();
+            
         }).AddTo(this);
 
     }
@@ -42,11 +55,15 @@ public class RepulserPresenter : MonoBehaviour
 
     private void Load()
     {
-        pulseNum = PlayerPrefs.GetInt("PulseNum", 0);
+        var pulseNum = PlayerPrefs.GetInt("PulseNum", 0);
         
         for (var i = 0; i < pulseNum; i++)
         {
             var pulsePresenter = _repulserView.AddPulser();
+            pulsePresenter.Initialize(() =>
+            {
+                pulseList.Remove(pulsePresenter);
+            });
             pulsePresenter.Load(i);
             pulseList.Add(pulsePresenter);
         }
@@ -59,7 +76,7 @@ public class RepulserPresenter : MonoBehaviour
             pulseList[i].Save(i);
         }
         
-        PlayerPrefs.SetInt("PulseNum", pulseNum);
+        PlayerPrefs.SetInt("PulseNum", pulseList.Count);
     }
     
     

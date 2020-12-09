@@ -2796,6 +2796,9 @@ MonoBehaviour:
   timecodeMinuteInputField: {fileID: 1010506098443451314}
   timecodeSecondInputField: {fileID: 5179277144796593469}
   timecodeFrameInputField: {fileID: 1668105739292226068}
+  upButton: {fileID: 7867676364547637457}
+  deleteButton: {fileID: 6853426344528776634}
+  downButton: {fileID: 6260605079562920019}
   backgroundImage: {fileID: 7357284206791450833}
   beforeColor: {r: 0, g: 0.3, b: 0.3, a: 1}
   afterColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

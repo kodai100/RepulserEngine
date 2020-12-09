@@ -17,6 +17,10 @@ public class PulseSettingView : MonoBehaviour
     [SerializeField] public InputField timecodeSecondInputField;
     [SerializeField] public InputField timecodeFrameInputField;
 
+    [SerializeField] private Button upButton;
+    [SerializeField] private Button deleteButton;
+    [SerializeField] private Button downButton;
+
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
     [SerializeField] private Color afterColor = new Color(0.2f, 0.2f, 0.2f);
@@ -29,6 +33,10 @@ public class PulseSettingView : MonoBehaviour
     public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
     public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
     public IObservable<string> OverrideIpAsObservable => overrideIpField.OnValueChangedAsObservable().Skip(1);
+
+    public IObservable<Unit> OnUpButtonClickedAsObservable => upButton.OnClickAsObservable();
+    public IObservable<Unit> OnDeleteButtonClickedAsObservable => deleteButton.OnClickAsObservable();
+    public IObservable<Unit> OnDownButtonClickedAsObservable => downButton.OnClickAsObservable();
 
     // private Material mat;
 

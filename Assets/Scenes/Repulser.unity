@@ -4320,6 +4320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addButton: {fileID: 130864208}
   saveButton: {fileID: 1422090689}
+  removeAllButton: {fileID: 1112898341}
   scrollViewParentTransform: {fileID: 1691175700}
   pulseSettingPrefab: {fileID: 8989888627331514664, guid: 914bf5bab9b699543857cdcb9c61c9fa,
     type: 3}
@@ -4371,8 +4372,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1.614999}
-  m_SizeDelta: {x: 0, y: -3.230002}
+  m_AnchoredPosition: {x: 0, y: 0.44999868}
+  m_SizeDelta: {x: 0, y: -0.90000254}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1529222888
 MonoBehaviour:
@@ -5012,8 +5013,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 1.614999}
-  m_SizeDelta: {x: 0, y: -3.230002}
+  m_AnchoredPosition: {x: 0, y: 0.099998474}
+  m_SizeDelta: {x: 0, y: -0.20000121}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1642283059
 MonoBehaviour:
@@ -5047,7 +5048,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Reset All
+  m_Text: Remove All
 --- !u!222 &1642283060
 CanvasRenderer:
   m_ObjectHideFlags: 0

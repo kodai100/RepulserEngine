@@ -12,6 +12,14 @@ public class PulseSettingPresenter : MonoBehaviour
 
     private PulseSetting pulseSetting = null;
 
+    public void Initialize(Action onDeleteAction)
+    {
+        _pulseSettingView.OnDeleteButtonClickedAsObservable.Subscribe(_ =>
+        {
+            onDeleteAction?.Invoke();
+            Destroy(gameObject);
+        }).AddTo(this);
+    }
 
     private void Start()
     {
