@@ -1,48 +1,57 @@
 ﻿using System.Net;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SenderAssembly : MonoBehaviour
+public class SenderAssembly : SingletonMonoBehaviour<SenderAssembly>
 {
-    private static SenderAssembly instance;
-    public static SenderAssembly Instance
-    {
-        get
-        {
-            if (instance != null) return instance;
-            instance = (SenderAssembly)FindObjectOfType(typeof(SenderAssembly));
-
-            if (instance == null)
-            {
-                Debug.LogWarning(typeof(SenderAssembly) + "is nothing");
-            }
-
-            return instance;
-        }
-    }
 
     [SerializeField] private InputField defaultRemoteIpField;
-    [SerializeField] private int destinationPort = 10010;
+    [SerializeField] private Button defaultRemoteIpSetButton;
+    [SerializeField] private int destinationPort = 10100;
 
     [SerializeField] private Text statusText;
     
     private OscSender _oscSender;
-    private IPEndPoint defaultDestination;
+    private IPEndPoint _defaultDestination;
     
     private void Start()
     {
         _oscSender = new OscSender();
-        defaultDestination = new IPEndPoint(IPAddress.Parse("255.255.255.255"), destinationPort);
+        
+        _defaultDestination = Load();
+
+        defaultRemoteIpSetButton.OnClickAsObservable().Subscribe(_ =>
+        {
+            _defaultDestination = new IPEndPoint(IPAddress.Parse(defaultRemoteIpField.text), destinationPort);
+            Save();
+        }).AddTo(this);
     }
 
-    private void SetDefaultDestination()
+    private IPEndPoint Load()
     {
-        defaultDestination = new IPEndPoint(IPAddress.Parse(defaultRemoteIpField.text), destinationPort);
+        var loadedIp = PlayerPrefs.GetString("IP");
+
+        if (!string.IsNullOrEmpty(loadedIp))
+        {
+            defaultRemoteIpField.text = loadedIp;
+            return new IPEndPoint(IPAddress.Parse(loadedIp), destinationPort);
+        }
+        else
+        {
+            defaultRemoteIpField.text = "255.255.255.255";
+            return new IPEndPoint(IPAddress.Broadcast, destinationPort);
+        }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetString("IP", defaultRemoteIpField.text);
     }
 
     public void Send(string oscAddress, string oscData)
     {
-        _oscSender.Send(defaultDestination, oscAddress, oscData);
+        _oscSender.Send(_defaultDestination, oscAddress, oscData);
         statusText.text = $"{oscAddress} : {oscData}";
     }
 
@@ -52,5 +61,10 @@ public class SenderAssembly : MonoBehaviour
         _oscSender.Send(endpoint, oscAddress, oscData);
 
         statusText.text = $"{oscAddress} : {oscData}";
+    }
+
+    private void OnDestroy()
+    {
+        _oscSender.Dispose();
     }
 }

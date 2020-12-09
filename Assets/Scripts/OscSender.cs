@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using Osc;
 
-public class OscSender
+public class OscSender : IDisposable
 {
     private static UdpClient _client;
 
@@ -20,4 +21,8 @@ public class OscSender
         _client.Send(oscEnc.Encode(), byteData.Length, endPoint);
     }
 
+    public void Dispose()
+    {
+        _client.Dispose();
+    }
 }
