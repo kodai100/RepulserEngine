@@ -6250,7 +6250,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultRemoteIpField: {fileID: 1584497314}
-  destinationPort: 10010
+  defaultRemoteIpSetButton: {fileID: 177358601}
+  destinationPort: 10100
   statusText: {fileID: 1003406749}
 --- !u!1 &2107510911
 GameObject:
