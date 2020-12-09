@@ -13,18 +13,22 @@ namespace ProjectBlue.RepulserEngine
 
         public override void Save(int index)
         {
+            Debug.Log("Save");
+            endpoint = new IPEndPoint(IPAddress.Parse(listComponentView.IP), int.Parse(listComponentView.Port));
+            
             PlayerPrefs.SetString($"IP_{index}", endpoint.Address.ToString());
-            PlayerPrefs.SetInt($"IP_{index}", endpoint.Port);
+            PlayerPrefs.SetInt($"Port_{index}", endpoint.Port);
         }
 
         public override void Load(int index)
         {
             var loadedIp = PlayerPrefs.GetString($"IP_{index}");
-            var loadedPort = PlayerPrefs.GetInt($"Port_{index}");
+            var loadedPort = PlayerPrefs.GetInt($"Port_{index}", 0);
             
-            if (!string.IsNullOrEmpty(loadedIp))
+            if (!string.IsNullOrEmpty(loadedIp) && loadedPort != 0)
             {
                 listComponentView.SetIPText(loadedIp);
+                listComponentView.SetPortText(loadedPort);
                 endpoint = new IPEndPoint(IPAddress.Parse(loadedIp), loadedPort);
             }
         }

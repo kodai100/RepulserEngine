@@ -24,7 +24,7 @@ namespace ProjectBlue.RepulserEngine
 
         public void SetPortText(int port)
         {
-            ipTextField.text = port.ToString();
+            portTextField.text = port.ToString();
         }
 
 
