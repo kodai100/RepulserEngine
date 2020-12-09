@@ -15,9 +15,20 @@ public class PulseSettingPresenter : MonoBehaviour
     {
         if (pulseSetting == null) return;
 
+        if (timecode < pulseSetting.Timecode)
+        {
+            _pulseSettingView.SetBefore();
+        }
+        
         if (timecode == pulseSetting.Timecode)
         {
+            _pulseSettingView.SetPulse();
             Pulse();
+        }
+        
+        if (pulseSetting.Timecode < timecode)
+        {
+            _pulseSettingView.SetAfter();
         }
     }
 

@@ -16,6 +16,10 @@ public class PulseSettingView : MonoBehaviour
     [SerializeField] public InputField timecodeMinuteInputField;
     [SerializeField] public InputField timecodeSecondInputField;
     [SerializeField] public InputField timecodeFrameInputField;
+
+    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
+    [SerializeField] private Color afterColor = new Color(0.2f, 0.2f, 0.2f);
     
     public IObservable<string> HourAsObservable => timecodeHourInputField.OnValueChangedAsObservable();
     public IObservable<string> MinuteAsObservable => timecodeMinuteInputField.OnValueChangedAsObservable();
@@ -25,7 +29,22 @@ public class PulseSettingView : MonoBehaviour
     public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable();
     public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable();
     public IObservable<string> OverrideIpAsObservable => overrideIpField.OnValueChangedAsObservable();
+
+    // private Material mat;
+
+    public enum State
+    {
+        Initialize, Before, Pulse, After
+    }
+
+    private State state = State.Initialize;
     
+    private void Start()
+    {
+        // mat = (Material)Instantiate(new Material(Shader.Find("UI/Default")));
+        // backgroundImage.material = mat;
+    }
+
     public void SetData(PulseSetting pulseSetting)
     {
         oscAddressField.text = pulseSetting.OscAddress;
@@ -37,6 +56,28 @@ public class PulseSettingView : MonoBehaviour
         timecodeMinuteInputField.text = pulseSetting.Timecode.minute.ToString();
         timecodeSecondInputField.text = pulseSetting.Timecode.second.ToString();
         timecodeFrameInputField.text = pulseSetting.Timecode.frame.ToString();
+    }
+
+    public void SetBefore()
+    {
+        if (state == State.Before) return;
+        backgroundImage.color = beforeColor;
+        state = State.Before;
+
+    }
+    
+    public void SetPulse()
+    {
+        if (state == State.Pulse) return;
+        backgroundImage.color = Color.red;
+        state = State.Pulse;
+    }
+
+    public void SetAfter()
+    {
+        if (state == State.After) return;
+        backgroundImage.color = afterColor;
+        state = State.After;
     }
     
 }
