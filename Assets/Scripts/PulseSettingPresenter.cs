@@ -3,102 +3,99 @@ using Ltc;
 using UniRx;
 using UnityEngine;
 
-public class PulseSettingPresenter : MonoBehaviour
+namespace ProjectBlue.RepulserEngine
 {
-    // TODO clean architecture
-    [SerializeField] private PulseSettingView _pulseSettingView;
-
-    private bool alreadyPulsed = false;
-
-    private PulseSetting pulseSetting = null;
-
-    public void Initialize(Action onDeleteAction)
+    public class PulseSettingPresenter : MonoBehaviour
     {
-        _pulseSettingView.OnDeleteButtonClickedAsObservable.Subscribe(_ =>
-        {
-            onDeleteAction?.Invoke();
-            Destroy(gameObject);
-        }).AddTo(this);
-    }
+        // TODO clean architecture
+        [SerializeField] private PulseSettingView _pulseSettingView;
 
-    private void Start()
-    {
-        Observable.Merge(
-            _pulseSettingView.OverrideIpAsObservable,
-            _pulseSettingView.OscAddressAsObservable,
-            _pulseSettingView.OscDataAsObservable,
-            _pulseSettingView.HourAsObservable,
-            _pulseSettingView.MinuteAsObservable,
-            _pulseSettingView.SecondAsObservable,
-            _pulseSettingView.FrameAsObservable
-        ).Subscribe(value =>
-        {
-            _pulseSettingView.SetEdited();
-        }).AddTo(this);
-    }
+        private bool alreadyPulsed = false;
 
-    public void Evaluate(Timecode timecode)
-    {
-        if (pulseSetting == null) return;
+        private PulseSetting pulseSetting = null;
 
-        if (timecode < pulseSetting.Timecode)
+        public void Initialize(Action onDeleteAction)
         {
-            _pulseSettingView.SetBefore();
-        }
-        
-        if (timecode == pulseSetting.Timecode)
-        {
-            _pulseSettingView.SetPulse();
-            Pulse();
-        }
-        
-        if (pulseSetting.Timecode < timecode)
-        {
-            _pulseSettingView.SetAfter();
-        }
-    }
-
-    public void Load(int index)
-    {
-        pulseSetting = PulseSetting.Load(index);
-        _pulseSettingView.SetData(pulseSetting);
-    }
-    
-    public void Save(int index)
-    {
-        pulseSetting = new PulseSetting(
-            index,
-            _pulseSettingView.oscAddressField.text,
-            _pulseSettingView.oscDataField.text,
-            _pulseSettingView.overrideIpField.text,
-            new Timecode
+            _pulseSettingView.OnDeleteButtonClickedAsObservable.Subscribe(_ =>
             {
-                dropFrame = false,
-                frame = int.Parse(_pulseSettingView.timecodeFrameInputField.text),
-                hour = int.Parse(_pulseSettingView.timecodeHourInputField.text),
-                minute = int.Parse(_pulseSettingView.timecodeMinuteInputField.text),
-                second = int.Parse(_pulseSettingView.timecodeSecondInputField.text),
+                onDeleteAction?.Invoke();
+                Destroy(gameObject);
+            }).AddTo(this);
+        }
+
+        private void Start()
+        {
+            Observable.Merge(
+                _pulseSettingView.OscAddressAsObservable,
+                _pulseSettingView.OscDataAsObservable,
+                _pulseSettingView.HourAsObservable,
+                _pulseSettingView.MinuteAsObservable,
+                _pulseSettingView.SecondAsObservable,
+                _pulseSettingView.FrameAsObservable
+            ).Subscribe(value =>
+            {
+                _pulseSettingView.SetEdited();
+            }).AddTo(this);
+        }
+
+        public void Evaluate(Timecode timecode)
+        {
+            if (pulseSetting == null) return;
+
+            if (timecode < pulseSetting.Timecode)
+            {
+                alreadyPulsed = false;
+                _pulseSettingView.SetBefore();
             }
-        );
+            
+            if (timecode == pulseSetting.Timecode)
+            {
+                _pulseSettingView.SetPulse();
+                Pulse();
+            }
+            
+            if (pulseSetting.Timecode < timecode)
+            {
+                _pulseSettingView.SetAfter();
+            }
+        }
+
+        public void Load(int index)
+        {
+            pulseSetting = PulseSetting.Load(index);
+            _pulseSettingView.SetData(pulseSetting);
+        }
         
-        pulseSetting.Save();
-        _pulseSettingView.SetSaved();
-    }
-    
-    private void Pulse()
-    {
-        if (alreadyPulsed || pulseSetting == null) return;
-
-        if (String.IsNullOrEmpty(pulseSetting.OverrideIP))
+        public void Save(int index)
         {
+            pulseSetting = new PulseSetting(
+                index,
+                _pulseSettingView.oscAddressField.text,
+                _pulseSettingView.oscDataField.text,
+                new Timecode
+                {
+                    dropFrame = false,
+                    frame = int.Parse(_pulseSettingView.timecodeFrameInputField.text),
+                    hour = int.Parse(_pulseSettingView.timecodeHourInputField.text),
+                    minute = int.Parse(_pulseSettingView.timecodeMinuteInputField.text),
+                    second = int.Parse(_pulseSettingView.timecodeSecondInputField.text),
+                }
+            );
+            
+            pulseSetting.Save();
+            _pulseSettingView.SetSaved();
+        }
+        
+        private void Pulse()
+        {
+            if (alreadyPulsed || pulseSetting == null) return;
+
             SenderAssembly.Instance.Send(pulseSetting.OscAddress, pulseSetting.OscData);
-        }
-        else
-        {
-            SenderAssembly.Instance.Send(pulseSetting.OverrideIP, pulseSetting.OscAddress, pulseSetting.OscData);
+
+            alreadyPulsed = true;
         }
 
-        alreadyPulsed = true;
     }
 
 }
+

@@ -55,7 +55,7 @@ namespace Ltc
             return frame > t.frame;
         }
 
-        public bool Equals(Timecode t)
+        private bool Equals(Timecode t)
         {
             return hour == t.hour && minute == t.minute && second == t.second && frame == t.frame;
         }

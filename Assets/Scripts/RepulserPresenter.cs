@@ -3,81 +3,85 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-public class RepulserPresenter : MonoBehaviour
+namespace ProjectBlue.RepulserEngine
 {
-
-    [SerializeField] private RepulserView _repulserView;
-    [SerializeField] private TimecodeIndicator _timecodeIndicator;
-
-    private List<PulseSettingPresenter> pulseList = new List<PulseSettingPresenter>();
-    
-    private void Start()
+    public class RepulserPresenter : MonoBehaviour
     {
+    
+        [SerializeField] private RepulserView _repulserView;
+        [SerializeField] private TimecodeIndicator _timecodeIndicator;
+    
+        private List<PulseSettingPresenter> pulseList = new List<PulseSettingPresenter>();
         
-        Load();
-
-        _repulserView.OnAddButtonClickedAsObservable.Subscribe(_ =>
+        private void Start()
         {
-            var pulsePresenter = _repulserView.AddPulser();
-            pulsePresenter.Initialize(() =>
+            
+            Load();
+    
+            _repulserView.OnAddButtonClickedAsObservable.Subscribe(_ =>
             {
-                pulseList.Remove(pulsePresenter);
-            });
-            pulseList.Add(pulsePresenter);
-        }).AddTo(this);
-
-        _repulserView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+                var pulsePresenter = _repulserView.AddPulser();
+                pulsePresenter.Initialize(() =>
+                {
+                    pulseList.Remove(pulsePresenter);
+                });
+                pulseList.Add(pulsePresenter);
+            }).AddTo(this);
+    
+            _repulserView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            {
+                Save();
+            }).AddTo(this);
+    
+            _repulserView.OnRemoveAllClickedAsObservable.Subscribe(_ =>
+            {
+                pulseList.ForEach(pulse =>
+                {
+                    Destroy(pulse.gameObject);
+                });
+                pulseList.Clear();
+                
+            }).AddTo(this);
+    
+        }
+    
+        private void Update()
         {
-            Save();
-        }).AddTo(this);
-
-        _repulserView.OnRemoveAllClickedAsObservable.Subscribe(_ =>
-        {
+            
             pulseList.ForEach(pulse =>
             {
-                Destroy(pulse.gameObject);
+                pulse.Evaluate(_timecodeIndicator.CurrentTimecode);
             });
-            pulseList.Clear();
             
-        }).AddTo(this);
-
-    }
-
-    private void Update()
-    {
-        
-        pulseList.ForEach(pulse =>
+        }
+    
+        private void Load()
         {
-            pulse.Evaluate(_timecodeIndicator.CurrentTimecode);
-        });
-        
-    }
-
-    private void Load()
-    {
-        var pulseNum = PlayerPrefs.GetInt("PulseNum", 0);
-        
-        for (var i = 0; i < pulseNum; i++)
-        {
-            var pulsePresenter = _repulserView.AddPulser();
-            pulsePresenter.Initialize(() =>
+            var pulseNum = PlayerPrefs.GetInt("PulseNum", 0);
+            
+            for (var i = 0; i < pulseNum; i++)
             {
-                pulseList.Remove(pulsePresenter);
-            });
-            pulsePresenter.Load(i);
-            pulseList.Add(pulsePresenter);
+                var pulsePresenter = _repulserView.AddPulser();
+                pulsePresenter.Initialize(() =>
+                {
+                    pulseList.Remove(pulsePresenter);
+                });
+                pulsePresenter.Load(i);
+                pulseList.Add(pulsePresenter);
+            }
         }
-    }
-
-    private void Save()
-    {
-        for (var i = 0; i < pulseList.Count; i++)
+    
+        private void Save()
         {
-            pulseList[i].Save(i);
+            for (var i = 0; i < pulseList.Count; i++)
+            {
+                pulseList[i].Save(i);
+            }
+            
+            PlayerPrefs.SetInt("PulseNum", pulseList.Count);
         }
         
-        PlayerPrefs.SetInt("PulseNum", pulseList.Count);
+        
     }
-    
-    
+
 }
