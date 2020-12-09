@@ -6,7 +6,7 @@ using UniRx;
 namespace ProjectBlue.RepulserEngine
 {
     
-    public class PulseSettingView : MonoBehaviour
+    public class PulseSettingView : ListComponentView
     {
 
         // TODO capsule
@@ -19,7 +19,6 @@ namespace ProjectBlue.RepulserEngine
         [SerializeField] public InputField timecodeFrameInputField;
 
         [SerializeField] private Button upButton;
-        [SerializeField] private Button deleteButton;
         [SerializeField] private Button downButton;
 
         [SerializeField] private Image backgroundImage;
@@ -35,7 +34,6 @@ namespace ProjectBlue.RepulserEngine
         public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
 
         public IObservable<Unit> OnUpButtonClickedAsObservable => upButton.OnClickAsObservable();
-        public IObservable<Unit> OnDeleteButtonClickedAsObservable => deleteButton.OnClickAsObservable();
         public IObservable<Unit> OnDownButtonClickedAsObservable => downButton.OnClickAsObservable();
 
         // private Material mat;

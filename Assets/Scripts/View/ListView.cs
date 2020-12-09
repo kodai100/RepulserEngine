@@ -5,24 +5,18 @@ using UnityEngine.UI;
 
 namespace ProjectBlue.RepulserEngine
 {
-    public class RepulserView : MonoBehaviour
+    public class ListView : MonoBehaviour
     {
         [SerializeField] private Button addButton;
         [SerializeField] private Button saveButton;
         [SerializeField] private Button removeAllButton;
-        [SerializeField] private RectTransform scrollViewParentTransform;
-
-        [SerializeField] private PulseSettingPresenter pulseSettingPrefab;
+        [SerializeField] protected RectTransform scrollViewParentTransform;
 
         public IObservable<Unit> OnAddButtonClickedAsObservable => addButton.OnClickAsObservable();
         public IObservable<Unit> OnSaveButtonClickedAsObservable => saveButton.OnClickAsObservable();
+        public IObservable<Unit> OnRemoveAllButtonClickedAsObservable => removeAllButton.OnClickAsObservable();
 
-        public IObservable<Unit> OnRemoveAllClickedAsObservable => removeAllButton.OnClickAsObservable();
-    
-        public PulseSettingPresenter AddPulser()
-        {
-            return Instantiate(pulseSettingPrefab, scrollViewParentTransform);
-        }
+        public RectTransform ScrollViewParentTransform => scrollViewParentTransform;
     }
-
+    
 }
