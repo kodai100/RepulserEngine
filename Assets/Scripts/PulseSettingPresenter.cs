@@ -21,14 +21,16 @@ public class PulseSettingPresenter : MonoBehaviour
         }
     }
 
-    public void Load()
+    public void Load(int index)
     {
-        
+        pulseSetting = PulseSetting.Load(index);
+        _pulseSettingView.SetData(pulseSetting);
     }
     
-    public void Save()
+    public void Save(int index)
     {
         pulseSetting = new PulseSetting(
+            index,
             _pulseSettingView.oscAddressField.text,
             _pulseSettingView.oscDataField.text,
             _pulseSettingView.overrideIpField.text,
@@ -41,6 +43,8 @@ public class PulseSettingPresenter : MonoBehaviour
                 second = int.Parse(_pulseSettingView.timecodeSecondInputField.text),
             }
         );
+        
+        pulseSetting.Save();
     }
     
     private void Pulse()

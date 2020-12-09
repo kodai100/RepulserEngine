@@ -26,4 +26,18 @@ public class PulseSettingView : MonoBehaviour
     public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable();
     public IObservable<string> OverrideIpAsObservable => overrideIpField.OnValueChangedAsObservable();
 
+
+    public void SetData(PulseSetting pulseSetting)
+    {
+        oscAddressField.text = pulseSetting.OscAddress;
+        oscDataField.text = pulseSetting.OscData;
+
+        overrideIpField.text = pulseSetting.OverrideIP;
+
+        timecodeHourInputField.text = pulseSetting.Timecode.hour.ToString();
+        timecodeMinuteInputField.text = pulseSetting.Timecode.minute.ToString();
+        timecodeSecondInputField.text = pulseSetting.Timecode.second.ToString();
+        timecodeFrameInputField.text = pulseSetting.Timecode.frame.ToString();
+    }
+    
 }
