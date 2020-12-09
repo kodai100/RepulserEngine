@@ -1,5 +1,6 @@
 ﻿using System;
 using Ltc;
+using UniRx;
 using UnityEngine;
 
 public class PulseSettingPresenter : MonoBehaviour
@@ -10,6 +11,23 @@ public class PulseSettingPresenter : MonoBehaviour
     private bool alreadyPulsed = false;
 
     private PulseSetting pulseSetting = null;
+
+
+    private void Start()
+    {
+        Observable.Merge(
+            _pulseSettingView.OverrideIpAsObservable,
+            _pulseSettingView.OscAddressAsObservable,
+            _pulseSettingView.OscDataAsObservable,
+            _pulseSettingView.HourAsObservable,
+            _pulseSettingView.MinuteAsObservable,
+            _pulseSettingView.SecondAsObservable,
+            _pulseSettingView.FrameAsObservable
+        ).Subscribe(value =>
+        {
+            _pulseSettingView.SetEdited();
+        }).AddTo(this);
+    }
 
     public void Evaluate(Timecode timecode)
     {
@@ -56,6 +74,7 @@ public class PulseSettingPresenter : MonoBehaviour
         );
         
         pulseSetting.Save();
+        _pulseSettingView.SetSaved();
     }
     
     private void Pulse()
