@@ -6,6 +6,7 @@ namespace ProjectBlue.RepulserEngine
 {
     public abstract class ListPresenter<T, U> : MonoBehaviour where T : ListComponentPresenter<U> where U : ListComponentView
     {
+
         [SerializeField] private ListView listView;
     
         [SerializeField] private T listComponentPrefab;

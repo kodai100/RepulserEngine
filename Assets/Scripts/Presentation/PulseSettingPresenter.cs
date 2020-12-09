@@ -5,9 +5,10 @@ namespace ProjectBlue.RepulserEngine
 {
     public class PulseSettingPresenter : ListComponentPresenter<PulseSettingView>
     {
-        private bool alreadyPulsed = false;
 
-        private PulseSetting pulseSetting = null;
+        public bool AlreadyPulsed { get; set; } = false;
+
+        public PulseSetting PulseSetting { get; private set; } = null;
 
         private void Start()
         {
@@ -24,37 +25,15 @@ namespace ProjectBlue.RepulserEngine
             }).AddTo(this);
         }
 
-        public void Evaluate(Timecode timecode)
-        {
-            if (pulseSetting == null) return;
-
-            if (timecode < pulseSetting.Timecode)
-            {
-                alreadyPulsed = false;
-                listComponentView.SetBefore();
-            }
-            
-            if (timecode == pulseSetting.Timecode)
-            {
-                listComponentView.SetPulse();
-                Pulse();
-            }
-            
-            if (pulseSetting.Timecode < timecode)
-            {
-                listComponentView.SetAfter();
-            }
-        }
-
         public override void Load(int index)
         {
-            pulseSetting = PulseSetting.Load(index);
-            listComponentView.SetData(pulseSetting);
+            PulseSetting = PulseSetting.Load(index);
+            listComponentView.SetData(PulseSetting);
         }
         
         public override void Save(int index)
         {
-            pulseSetting = new PulseSetting(
+            PulseSetting = new PulseSetting(
                 index,
                 listComponentView.oscAddressField.text,
                 listComponentView.oscDataField.text,
@@ -68,19 +47,25 @@ namespace ProjectBlue.RepulserEngine
                 }
             );
             
-            pulseSetting.Save();
+            PulseSetting.Save();
             listComponentView.SetSaved();
         }
-        
-        private void Pulse()
+
+        public void SetBefore()
         {
-            if (alreadyPulsed || pulseSetting == null) return;
-
-            // SendDestinationListPresenter.Instance.Send(pulseSetting.OscAddress, pulseSetting.OscData);
-
-            alreadyPulsed = true;
+            listComponentView.SetBefore();
+        }
+        
+        public void SetAfter()
+        {
+            listComponentView.SetAfter();
         }
 
+        public void SetPulsed()
+        {
+            
+        }
+        
     }
 
 }

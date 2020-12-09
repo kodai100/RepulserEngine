@@ -69,13 +69,6 @@ namespace ProjectBlue.RepulserEngine
 
         }
 
-        public void SetPulse()
-        {
-            if (state == State.Pulse || state == State.Edited) return;
-            backgroundImage.color = Color.red;
-            state = State.Pulse;
-        }
-
         public void SetSaved()
         {
             state = State.Saved;
