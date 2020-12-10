@@ -1,0 +1,15 @@
+{
+    "name": "RepulserEngine.PresenterInterface",
+    "references": [
+        "GUID:0e53b2bb75da5b9488eee3180595203d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

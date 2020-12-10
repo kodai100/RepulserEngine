@@ -12,7 +12,9 @@ namespace ProjectBlue.RepulserEngine
 
         private Subject<Message> onSendSubject = new Subject<Message>();
         public IObservable<Message> OnSendAsObservable => onSendSubject;
-        
+
+        private Timecode prevTimecode;
+
         protected override string SaveHash => "Pulser";
 
         private void Update()
@@ -27,7 +29,7 @@ namespace ProjectBlue.RepulserEngine
 
         private void Evaluate(PulseSettingPresenter pulseSettingPresenter, Timecode timecode)
         {
-            if (pulseSettingPresenter == null) return;
+            if (pulseSettingPresenter == null || prevTimecode == timecode) return;
 
             if (timecode < pulseSettingPresenter.PulseSetting.Timecode)
             {
@@ -44,6 +46,8 @@ namespace ProjectBlue.RepulserEngine
             {
                 pulseSettingPresenter.SetAfter();
             }
+
+            prevTimecode = timecode;
         }
         
         private void Pulse(PulseSettingPresenter pulseSettingPresenter)

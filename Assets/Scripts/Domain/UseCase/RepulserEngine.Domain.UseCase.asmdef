@@ -1,0 +1,17 @@
+{
+    "name": "RepulserEngine.Domain.UseCase",
+    "references": [
+        "GUID:7fa7afa0bec8edd45b5c89e28f71e06c",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:0e53b2bb75da5b9488eee3180595203d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
