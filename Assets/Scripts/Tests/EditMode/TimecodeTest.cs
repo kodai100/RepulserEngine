@@ -4,66 +4,62 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Ltc;
+using UnityEditor;
 
 namespace Tests
 {
     public class TimecodeTest
     {
         
-        [Test]
-        public void LessThanTest()
+        private Timecode FramesToTimecode(int frames, int framerate)
         {
-            var timecode1 = new Timecode {
-                dropFrame = false,
-                hour = 1,
-                minute = 0,
-                second = 5,
-                frame = 0
-            };
 
-            var timecode2 = new Timecode
+            var h = frames / (60 * 60 * framerate);
+            var m = (frames / (60 * framerate)) % 60;
+            var s = frames % (60 * framerate) / framerate;
+            var f = frames % (60 * framerate) % framerate;
+
+            return new Timecode { dropFrame = false, hour = h, minute = m, second = s, frame = f };
+        }
+
+        [UnityTest]
+        public IEnumerator LargerThanTest()
+        {
+
+            var fps = 30;
+
+            var totalFarameNum = 23 * 60 * 60 * fps + 59 * 60 * fps + 59 * fps + (fps-1);
+
+            for(var i = 0; i < totalFarameNum; i++)
             {
-                dropFrame = false,
-                hour = 1,
-                minute = 1,
-                second = 5,
-                frame = 0
-            };
 
-            var result = timecode1 > timecode2;
-            Assert.AreEqual(false, result);
+                var baseTimecode = FramesToTimecode(i, fps);
 
-            result = timecode2 > timecode1;
-            Assert.AreEqual(true, result);
+                for (var j = 0; j < totalFarameNum; j++)
+                {
+
+                    var targetTimecode = FramesToTimecode(j, fps);
+
+                    var result = baseTimecode > targetTimecode;
+
+                    if(baseTimecode.ToFrame(fps) > targetTimecode.ToFrame(fps) != result)
+                    {
+                        Debug.LogError($"{baseTimecode} > {targetTimecode} = {result}");
+                        AsyncProgressBar.Clear();
+                    }
+
+                    Assert.AreEqual(baseTimecode.ToFrame(fps) > targetTimecode.ToFrame(fps), result);
+
+                }
+
+                yield return null;
+                AsyncProgressBar.Display($"Progress {i} / {totalFarameNum}", i / (float)totalFarameNum);
+            }
+
+            // 非表示
+            AsyncProgressBar.Clear();
 
         }
 
-        [Test]
-        public void LargerThanTest()
-        {
-            var timecode1 = new Timecode
-            {
-                dropFrame = false,
-                hour = 1,
-                minute = 0,
-                second = 5,
-                frame = 0
-            };
-
-            var timecode2 = new Timecode
-            {
-                dropFrame = false,
-                hour = 1,
-                minute = 1,
-                second = 5,
-                frame = 0
-            };
-
-            var result = timecode1 < timecode2;
-            Assert.AreEqual(true, result);
-
-            result = timecode2 < timecode1;
-            Assert.AreEqual(false, result);
-        }
     }
 }

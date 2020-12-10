@@ -50,9 +50,17 @@ namespace Ltc
         private bool LargerThan(Timecode t)
         {
             if (hour > t.hour) return true;
+            if (hour < t.hour) return false;
+
             if (minute > t.minute) return true;
+            if (minute < t.minute) return false;
+
             if (second > t.second) return true;
-            return frame > t.frame;
+            if (second < t.second) return false;
+
+            if (frame > t.frame) return true;
+            
+            return false;
         }
 
         private bool Equals(Timecode t)
