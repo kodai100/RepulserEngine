@@ -22,49 +22,15 @@ namespace ProjectBlue.RepulserEngine
             
             ComponentList.ForEach(pulse =>
             {
-                Evaluate(pulse, timecodeIndicator.CurrentTimecode);
+                pulse.Evaluate(timecodeIndicator.CurrentTimecode, message => { onSendSubject.OnNext(message); });
             });
             
         }
 
-        private void Evaluate(PulseSettingPresenter pulseSettingPresenter, Timecode timecode)
+        private void OnDestroy()
         {
-            if (pulseSettingPresenter == null || prevTimecode == timecode) return;
-
-            if (timecode < pulseSettingPresenter.PulseSetting.Timecode)
-            {
-                pulseSettingPresenter.AlreadyPulsed = false;
-                pulseSettingPresenter.SetBefore();
-            }
-            
-            if (timecode == pulseSettingPresenter.PulseSetting.Timecode)
-            {
-                Pulse(pulseSettingPresenter);
-            }
-            
-            if (pulseSettingPresenter.PulseSetting.Timecode < timecode)
-            {
-                pulseSettingPresenter.SetAfter();
-            }
-
-            prevTimecode = timecode;
+            onSendSubject.Dispose();
         }
-        
-        private void Pulse(PulseSettingPresenter pulseSettingPresenter)
-        {
-            if (pulseSettingPresenter.AlreadyPulsed || pulseSettingPresenter.PulseSetting == null) return;
-
-            var message = new Message
-            {
-                OscAddress = pulseSettingPresenter.PulseSetting.OscAddress,
-                OscData = pulseSettingPresenter.PulseSetting.OscData
-            };
-            
-            onSendSubject.OnNext(message);
-
-            pulseSettingPresenter.AlreadyPulsed = true;
-        }
-        
 
     }
 

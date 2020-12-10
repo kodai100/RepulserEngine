@@ -975,9 +975,9 @@ RectTransform:
   - {fileID: 104678180}
   - {fileID: 1711334736}
   - {fileID: 1985310632}
-  - {fileID: 1626490902}
   - {fileID: 1222609340}
   - {fileID: 1385318365}
+  - {fileID: 1626490902}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3870,7 +3870,7 @@ RectTransform:
   m_Children:
   - {fileID: 510724673}
   m_Father: {fileID: 246380490}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4496,7 +4496,7 @@ RectTransform:
   - {fileID: 1767292150}
   - {fileID: 578118149}
   m_Father: {fileID: 246380490}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4571,6 +4571,7 @@ MonoBehaviour:
   listView: {fileID: 1385318366}
   listComponentPrefab: {fileID: 4214786714952703429, guid: 1e875e6cfc72f1c44bcf5ffe18c76dc3,
     type: 3}
+  ComponentList: []
 --- !u!114 &1385318370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5471,7 +5472,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 246380490}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6897,6 +6898,7 @@ MonoBehaviour:
   listView: {fileID: 1985310635}
   listComponentPrefab: {fileID: 8989888627331514664, guid: 914bf5bab9b699543857cdcb9c61c9fa,
     type: 3}
+  ComponentList: []
   timecodeIndicator: {fileID: 757443014}
 --- !u!114 &1985310637
 MonoBehaviour:

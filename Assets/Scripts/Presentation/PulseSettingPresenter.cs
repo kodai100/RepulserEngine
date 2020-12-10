@@ -1,14 +1,18 @@
 ﻿using Ltc;
+using System;
 using UniRx;
+using Zenject;
 
 namespace ProjectBlue.RepulserEngine
 {
     public class PulseSettingPresenter : ListComponentPresenter<PulseSettingView>
     {
 
-        public bool AlreadyPulsed { get; set; } = false;
+        public bool AlreadyPulsed { get; private set; } = false;
 
         public PulseSetting PulseSetting { get; private set; } = null;
+
+        private Timecode prevTimecode;
 
         private void Start()
         {
@@ -51,19 +55,57 @@ namespace ProjectBlue.RepulserEngine
             listComponentView.SetSaved();
         }
 
+        public void Evaluate(Timecode timecode, Action<Message> onPulse)
+        {
+            if (prevTimecode == timecode || PulseSetting == null) return;
+
+            if (timecode < PulseSetting.Timecode)
+            {
+                SetBefore();
+            }
+
+            if (timecode == PulseSetting.Timecode)
+            {
+                Pulse(onPulse);
+            }
+
+            if (PulseSetting.Timecode < timecode)
+            {
+                SetAfter();
+            }
+
+            prevTimecode = timecode;
+        }
+
+        private void Pulse(Action<Message> onPulse)
+        {
+            if (AlreadyPulsed) return;
+
+            var message = new Message
+            {
+                OscAddress = PulseSetting.OscAddress,
+                OscData = PulseSetting.OscData
+            };
+
+            onPulse?.Invoke(message);
+            
+        }
+
         public void SetBefore()
         {
             listComponentView.SetBefore();
+            AlreadyPulsed = false;
         }
         
         public void SetAfter()
         {
             listComponentView.SetAfter();
+            AlreadyPulsed = true;
         }
 
         public void SetPulsed()
         {
-            
+            AlreadyPulsed = true;
         }
         
     }

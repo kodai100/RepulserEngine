@@ -11,7 +11,7 @@ namespace ProjectBlue.RepulserEngine
     
         [SerializeField] private T listComponentPrefab;
 
-        protected readonly List<T> ComponentList = new List<T>();
+        [SerializeField, ReadOnly] protected List<T> ComponentList = new List<T>();
         
         protected abstract string SaveHash { get; }
         
@@ -22,12 +22,7 @@ namespace ProjectBlue.RepulserEngine
     
             listView.OnAddButtonClickedAsObservable.Subscribe(_ =>
             {
-                var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
-                listComponentPresenter.Initialize(() =>
-                {
-                    ComponentList.Remove(listComponentPresenter);
-                });
-                ComponentList.Add(listComponentPresenter);
+                AddToList();
             }).AddTo(this);
     
             listView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
@@ -37,14 +32,28 @@ namespace ProjectBlue.RepulserEngine
     
             listView.OnRemoveAllButtonClickedAsObservable.Subscribe(_ =>
             {
-                ComponentList.ForEach(pulse =>
-                {
-                    Destroy(pulse.gameObject);
-                });
-                ComponentList.Clear();
-                
+                ClearList();
             }).AddTo(this);
     
+        }
+
+        private void AddToList()
+        {
+            var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
+            listComponentPresenter.Initialize(() =>
+            {
+                ComponentList.Remove(listComponentPresenter);
+            });
+            ComponentList.Add(listComponentPresenter);
+        }
+
+        private void ClearList()
+        {
+            ComponentList.ForEach(pulse =>
+            {
+                Destroy(pulse.gameObject);
+            });
+            ComponentList.Clear();
         }
     
         private void Load()
@@ -56,7 +65,7 @@ namespace ProjectBlue.RepulserEngine
                 var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
                 listComponentPresenter.Initialize(() =>
                 {
-                    ComponentList.Remove(listComponentPrefab);
+                    ComponentList.Remove(listComponentPresenter);
                 });
                 listComponentPresenter.Load(i);
                 ComponentList.Add(listComponentPresenter);
@@ -71,6 +80,8 @@ namespace ProjectBlue.RepulserEngine
             }
             
             PlayerPrefs.SetInt(SaveHash, ComponentList.Count);
+
+            Debug.Log("Saved");
         }
     }
 

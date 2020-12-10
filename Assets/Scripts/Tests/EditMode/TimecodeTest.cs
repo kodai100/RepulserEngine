@@ -50,10 +50,12 @@ namespace Tests
 
                     Assert.AreEqual(baseTimecode.ToFrame(fps) > targetTimecode.ToFrame(fps), result);
 
+                    AsyncProgressBar.Display($"Progress {j} / {totalFarameNum}", j / (float)totalFarameNum);
+
                 }
 
                 yield return null;
-                AsyncProgressBar.Display($"Progress {i} / {totalFarameNum}", i / (float)totalFarameNum);
+                
             }
 
             // 非表示

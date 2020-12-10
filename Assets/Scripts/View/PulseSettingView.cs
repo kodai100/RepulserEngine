@@ -72,6 +72,7 @@ namespace ProjectBlue.RepulserEngine
         public void SetSaved()
         {
             state = State.Saved;
+            backgroundImage.color = beforeColor;
         }
 
         public void SetAfter()
