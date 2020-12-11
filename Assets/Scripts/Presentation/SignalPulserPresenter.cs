@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ltc;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
@@ -10,7 +12,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
     public class SignalPulserPresenter : ReorderableListPresenter<PulseSettingPresenter, PulseSettingView>, ISignalPulserPresenter
     {
 
-        [SerializeField] private TimecodeIndicator timecodeIndicator;
+        [SerializeField] private TimecodeDecoderPresenter timecodeDecoderPresenter;
 
         private Subject<OscMessage> onSendSubject = new Subject<OscMessage>();
         public IObservable<OscMessage> OnSendAsObservable => onSendSubject;
@@ -19,12 +21,15 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
         protected override string SaveHash => "Pulser";
 
+        public IEnumerable<PulseSetting> PulseSettingList
+            => ComponentList.Select(presenter => presenter.PulseSetting);
+
         private void Update()
         {
             
             ComponentList.ForEach(pulse =>
             {
-                pulse.Evaluate(timecodeIndicator.CurrentTimecode, message => { onSendSubject.OnNext(message); });
+                pulse.Evaluate(timecodeDecoderPresenter.CurrentTimecode, message => { onSendSubject.OnNext(message); });
             });
             
         }

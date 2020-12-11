@@ -11,6 +11,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
     public interface ISignalPulserPresenter
     {
+        IEnumerable<PulseSetting> PulseSettingList { get; }
         IObservable<OscMessage> OnSendAsObservable { get; }
     }
 }

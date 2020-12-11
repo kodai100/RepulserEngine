@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public sealed class TimecodeIndicator : MonoBehaviour
 {
     [SerializeField] DeviceSelector _selector = null;
-    [SerializeField] TMP_Text _label = null;
+    [SerializeField] TMP_Text label = null;
     [SerializeField] private Text _dropFrameText;
 
     [SerializeField] private int framerate = 30;
@@ -16,7 +16,7 @@ public sealed class TimecodeIndicator : MonoBehaviour
     [SerializeField] private Color stayingColor = new Color(0, 0.7058824f, 1);
     [SerializeField] private float stayThresholdSeconds = 0.5f;
 
-    TimecodeDecoder _decoder = new TimecodeDecoder();
+    TimecodeDecoder timecodeDecoder = new TimecodeDecoder();
 
     public Timecode CurrentTimecode { get; private set; }
     private Timecode lastTimecode;
@@ -30,11 +30,11 @@ public sealed class TimecodeIndicator : MonoBehaviour
     {
         time += Time.deltaTime;
         
-        _decoder.ParseAudioData(_selector.AudioDataSpan);
+        timecodeDecoder.ParseAudioData(_selector.AudioDataSpan);
         
-        CurrentTimecode = _decoder.LastTimecode;
+        CurrentTimecode = timecodeDecoder.LastTimecode;
         _dropFrameText.text = CurrentTimecode.dropFrame ? "Drop Frame" : "Non-Drop Frame";
-        _label.text = $"{CurrentTimecode.ToString()}";
+        label.text = $"{CurrentTimecode.ToString()}";
 
         if (time > (1f / framerate))
         {
@@ -42,7 +42,7 @@ public sealed class TimecodeIndicator : MonoBehaviour
             time = 0;
         }
 
-        _label.color = running ? runningColor : stayingColor;
+        label.color = running ? runningColor : stayingColor;
     }
 
     private void TargetFrameratedUpdate(Timecode currentTimecode)
