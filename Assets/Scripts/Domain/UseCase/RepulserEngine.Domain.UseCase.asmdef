@@ -1,10 +1,12 @@
 {
     "name": "RepulserEngine.Domain.UseCase",
     "references": [
+        "GUID:d2c0aa680bd17bf478610e82c624be8b",
         "GUID:7fa7afa0bec8edd45b5c89e28f71e06c",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
         "GUID:0e53b2bb75da5b9488eee3180595203d",
-        "GUID:13f3c5b32965e744c949f00c200dc653"
+        "GUID:13f3c5b32965e744c949f00c200dc653",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:db50f50b3962ccb4083db31bf9150d7f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

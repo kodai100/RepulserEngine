@@ -1,10 +1,11 @@
 ﻿using System;
 using UniRx;
 using ProjectBlue.RepulserEngine.Presentation;
+using ProjectBlue.RepulserEngine.Repository;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
-    public class RepulserUseCase : IDisposable
+    public class SendToEndpointUseCase : IDisposable
     {
         
         // TODO move to repository
@@ -14,24 +15,22 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         private IEndPointListPresenter endpointListPresenter;
         private IOverlayPresenter overlayPresenter;
+
+        private ITimecodeDecoderRepository timecodeDecoderRepository;
         
-        public RepulserUseCase(
-            IEndPointListPresenter endpointListPresenter, 
-            ISignalPulserPresenter signalPulserPresenter, IOverlayPresenter overlayPresenter)
+        public SendToEndpointUseCase(
+            IEndPointListPresenter endpointListPresenter,
+            IOverlayPresenter overlayPresenter,
+            ITimecodeDecoderRepository timecodeDecoderRepository)
         {
             this.endpointListPresenter = endpointListPresenter;
             this.overlayPresenter = overlayPresenter;
 
-            signalPulserPresenter.OnSendAsObservable.Subscribe(message =>
-            {
-                
-                Send(message.OscAddress, message.OscData);
-                
-            }).AddTo(_disposable);
-            
+            this.timecodeDecoderRepository = timecodeDecoderRepository;
+
         }
         
-        private void Send(string oscAddress, string oscData)
+        public void Send(string oscAddress, string oscData)
         {
 
             foreach (var setting in endpointListPresenter.EndpointSettingList)

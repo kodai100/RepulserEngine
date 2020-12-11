@@ -1,15 +1,16 @@
 {
-    "name": "RepulserEngine.PresenterInterface",
+    "name": "RepulserEngine.DataStore",
     "references": [
-        "GUID:0e53b2bb75da5b9488eee3180595203d",
-        "GUID:db50f50b3962ccb4083db31bf9150d7f"
+        "GUID:db50f50b3962ccb4083db31bf9150d7f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:4eb0f9545c2200b4da5800f91cbcd660"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

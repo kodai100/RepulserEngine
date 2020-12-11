@@ -1,4 +1,6 @@
+using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
+using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Installer
@@ -8,7 +10,12 @@ namespace ProjectBlue.RepulserEngine.Installer
         public override void InstallBindings()
         {
 
-            Container.BindInterfacesAndSelfTo<RepulserUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();
 
         }
     }
