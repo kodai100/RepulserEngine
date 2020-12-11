@@ -5486,6 +5486,7 @@ GameObject:
   - component: {fileID: 1626490905}
   - component: {fileID: 1626490904}
   - component: {fileID: 1626490903}
+  - component: {fileID: 1626490906}
   m_Layer: 5
   m_Name: Overlay
   m_TagString: Untagged
@@ -5565,6 +5566,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626490901}
   m_CullTransparentMesh: 0
+--- !u!114 &1626490906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626490901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 1626490903}
+  _identifier: 
+  _useSceneContext: 1
+  _context: {fileID: 0}
+  _bindType: 2
 --- !u!1 &1642283057
 GameObject:
   m_ObjectHideFlags: 0

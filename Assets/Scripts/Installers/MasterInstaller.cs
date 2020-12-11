@@ -1,13 +1,15 @@
-using System;
-using ProjectBlue.RepulserEngine;
+using ProjectBlue.RepulserEngine.Domain.UseCase;
 using Zenject;
 
-public class MasterInstaller : MonoInstaller
+namespace ProjectBlue.RepulserEngine.Installer
 {
-    public override void InstallBindings()
+    public class MasterInstaller : MonoInstaller
     {
+        public override void InstallBindings()
+        {
 
-        Container.BindInterfacesAndSelfTo<RepulserUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<RepulserUseCase>().AsSingle().NonLazy();
 
+        }
     }
 }

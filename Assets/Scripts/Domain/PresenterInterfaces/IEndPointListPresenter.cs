@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.Domain.Model;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public interface IEndPointListPresenter
     {
-        void Send(string oscAddress, string oscData);
+        IEnumerable<EndpointSetting> EndpointSettingList { get; }
     }
 
     public interface ISignalPulserPresenter
     {
-        IObservable<Message> OnSendAsObservable { get; }
+        IObservable<OscMessage> OnSendAsObservable { get; }
     }
 }

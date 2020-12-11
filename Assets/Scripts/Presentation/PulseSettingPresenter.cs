@@ -1,9 +1,10 @@
 ﻿using Ltc;
 using System;
+using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.View;
 using UniRx;
-using Zenject;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView>
     {
@@ -58,7 +59,7 @@ namespace ProjectBlue.RepulserEngine
             reorderableListComponentView.SetSaved();
         }
 
-        public void Evaluate(Timecode timecode, Action<Message> onPulse)
+        public void Evaluate(Timecode timecode, Action<OscMessage> onPulse)
         {
             if (prevTimecode == timecode || PulseSetting == null) return;
 
@@ -80,11 +81,11 @@ namespace ProjectBlue.RepulserEngine
             prevTimecode = timecode;
         }
 
-        private void Pulse(Action<Message> onPulse)
+        private void Pulse(Action<OscMessage> onPulse)
         {
             if (AlreadyPulsed) return;
 
-            var message = new Message
+            var message = new OscMessage
             {
                 OscAddress = PulseSetting.OscAddress,
                 OscData = PulseSetting.OscData

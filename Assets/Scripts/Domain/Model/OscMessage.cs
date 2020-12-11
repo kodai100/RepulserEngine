@@ -1,7 +1,7 @@
 ﻿
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Domain.Model
 {
-    public class Message
+    public class OscMessage
     {
         public string OscAddress;
         public string OscData;

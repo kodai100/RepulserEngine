@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 using UniRx;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public abstract class ListPresenter<T, U> : MonoBehaviour where T : ListComponentPresenter<U> where U : ListComponentView
     {
@@ -11,7 +12,7 @@ namespace ProjectBlue.RepulserEngine
     
         [SerializeField] private T listComponentPrefab;
 
-        [SerializeField, ReadOnly] protected List<T> ComponentList = new List<T>();
+        [SerializeField, ReadOnly] public List<T> ComponentList = new List<T>();
         
         protected abstract string SaveHash { get; }
         

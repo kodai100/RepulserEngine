@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public abstract class ReorderableListComponentPresenter<T> : MonoBehaviour where T : ReorderableListComponentView
     {

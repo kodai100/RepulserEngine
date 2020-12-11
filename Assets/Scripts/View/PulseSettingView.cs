@@ -1,9 +1,10 @@
 ﻿using System;
+using ProjectBlue.RepulserEngine.Domain.Model;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.View
 {
     
     public class PulseSettingView : ReorderableListComponentView

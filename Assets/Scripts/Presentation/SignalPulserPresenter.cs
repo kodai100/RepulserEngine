@@ -1,17 +1,19 @@
 ﻿using System;
 using Ltc;
+using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.View;
 using UniRx;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public class SignalPulserPresenter : ReorderableListPresenter<PulseSettingPresenter, PulseSettingView>, ISignalPulserPresenter
     {
 
         [SerializeField] private TimecodeIndicator timecodeIndicator;
 
-        private Subject<Message> onSendSubject = new Subject<Message>();
-        public IObservable<Message> OnSendAsObservable => onSendSubject;
+        private Subject<OscMessage> onSendSubject = new Subject<OscMessage>();
+        public IObservable<OscMessage> OnSendAsObservable => onSendSubject;
 
         private Timecode prevTimecode;
 

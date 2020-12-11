@@ -1,7 +1,8 @@
 ﻿using System.Net;
+using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     
     public class EndpointSettingPresenter : ListComponentPresenter<EndpointSettingView>

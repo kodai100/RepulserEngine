@@ -1,8 +1,9 @@
 ﻿using System;
+using ProjectBlue.RepulserEngine.View;
 using UniRx;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public abstract class ListComponentPresenter<T> : MonoBehaviour where T : ListComponentView
     {

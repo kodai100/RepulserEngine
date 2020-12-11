@@ -1,25 +1,17 @@
-﻿namespace ProjectBlue.RepulserEngine
+﻿using System.Collections.Generic;
+using System.Linq;
+using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.View;
+
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public class EndpointListPresenter : ListPresenter<EndpointSettingPresenter, EndpointSettingView>, IEndPointListPresenter
     {
-
-        private OscSender sender = new OscSender();
         
         protected override string SaveHash => "Endpoint";
-        
-        public void Send(string oscAddress, string oscData)
-        {
-            
-            ComponentList.ForEach(endpointSetting =>
-            {
-                sender.Send(endpointSetting.EndPoint, oscAddress, oscData);
-            });
-            
-            Logger.Instance.Log($"{oscAddress} : {oscData}");
-            
-            Overlay.Instance.Trigger();
-        }
 
+        public IEnumerable<EndpointSetting> EndpointSettingList
+            => ComponentList.Select(presenter => new EndpointSetting(presenter.EndPoint, "", 0));
         
     }
 }

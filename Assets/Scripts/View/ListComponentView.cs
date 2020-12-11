@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.View
 {
     public class ListComponentView : MonoBehaviour
     {

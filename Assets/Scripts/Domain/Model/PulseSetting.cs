@@ -1,7 +1,7 @@
 ﻿using Ltc;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Domain.Model
 {
     public class PulseSetting
     {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 using UniRx;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.Presentation
 {
     public abstract class ReorderableListPresenter<T, U> : MonoBehaviour where T : ReorderableListComponentPresenter<U> where U : ReorderableListComponentView
     {
