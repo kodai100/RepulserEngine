@@ -14,7 +14,6 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
         public override void Save(int index)
         {
-            Debug.Log("Save");
             endpoint = new IPEndPoint(IPAddress.Parse(listComponentView.IP), int.Parse(listComponentView.Port));
             
             PlayerPrefs.SetString($"IP_{index}", endpoint.Address.ToString());

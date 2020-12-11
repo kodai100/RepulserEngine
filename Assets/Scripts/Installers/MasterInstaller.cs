@@ -13,6 +13,9 @@ namespace ProjectBlue.RepulserEngine.Installer
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
 
+            Container.BindInterfacesAndSelfTo<OscSenderDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SenderRepository>().AsSingle();
+
             Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();

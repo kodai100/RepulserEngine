@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using UniRx;
 using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
@@ -7,27 +8,22 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     public class SendToEndpointUseCase : IDisposable
     {
-        
-        // TODO move to repository
-        private OscSender sender = new OscSender();
-        
+
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         private IEndPointListPresenter endpointListPresenter;
         private IOverlayPresenter overlayPresenter;
 
-        private ITimecodeDecoderRepository timecodeDecoderRepository;
+        private ISenderRepository senderRepository;
         
         public SendToEndpointUseCase(
             IEndPointListPresenter endpointListPresenter,
             IOverlayPresenter overlayPresenter,
-            ITimecodeDecoderRepository timecodeDecoderRepository)
+            ISenderRepository senderRepository)
         {
             this.endpointListPresenter = endpointListPresenter;
             this.overlayPresenter = overlayPresenter;
-
-            this.timecodeDecoderRepository = timecodeDecoderRepository;
-
+            this.senderRepository = senderRepository;
         }
         
         public void Send(string oscAddress, string oscData)
@@ -35,12 +31,42 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
             foreach (var setting in endpointListPresenter.EndpointSettingList)
             {
-                sender.Send(setting.EndPoint, oscAddress, oscData);
+                SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
             
             Logger.Instance.Log($"{oscAddress} : {oscData}");
             
             overlayPresenter.Trigger();
+        }
+
+        private void SendIntermediator(IPEndPoint endPoint, string oscAddress, string oscData)
+        {
+
+            // float detection
+            if (oscData.Contains("."))
+            {
+                if (float.TryParse(oscData, out var floaResult))
+                {
+                    senderRepository.Send(endPoint, oscAddress, floaResult);
+                }
+                else
+                {
+                    senderRepository.Send(endPoint, oscAddress, oscData);
+                }
+
+                return;
+            }
+            
+            // int detection
+            if (int.TryParse(oscData, out var intResult))
+            {
+                senderRepository.Send(endPoint, oscAddress, intResult);
+            }
+            else
+            {
+                senderRepository.Send(endPoint, oscAddress, oscData);
+            }
+            
         }
 
         public void Dispose()
