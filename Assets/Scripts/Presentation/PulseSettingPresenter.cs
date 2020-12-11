@@ -1,5 +1,4 @@
 ﻿using Ltc;
-using System;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
 using UniRx;
@@ -9,14 +8,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
     public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView>
     {
 
-        public bool AlreadyPulsed { get; private set; } = false;
-
         public PulseSetting PulseSetting { get; private set; } = null;
-
-        public IObservable<Unit> OnUpButtonClickedAsObservable => reorderableListComponentView.OnUpButtonClickedAsObservable;
-        public IObservable<Unit> OnDownButtonClickedAsObservable => reorderableListComponentView.OnDownButtonClickedAsObservable;
-
-        private Timecode prevTimecode;
 
         private void Start()
         {
@@ -59,59 +51,23 @@ namespace ProjectBlue.RepulserEngine.Presentation
             reorderableListComponentView.SetSaved();
         }
 
-        public void Evaluate(Timecode timecode, Action<OscMessage> onPulse)
+        private void Update()
         {
-            if (prevTimecode == timecode || PulseSetting == null) return;
+            
+            // PulseSetting is registered when save button is pressed
+            if(PulseSetting == null) return;
 
-            if (timecode < PulseSetting.Timecode)
+            if (PulseSetting.PulseState == PulseState.Predecessor)
             {
-                SetBefore();
+                reorderableListComponentView.SetBefore();
             }
-
-            if (timecode == PulseSetting.Timecode)
+            else if (PulseSetting.PulseState == PulseState.Successor)
             {
-                Pulse(onPulse);
+                reorderableListComponentView.SetAfter();
             }
-
-            if (PulseSetting.Timecode < timecode)
-            {
-                SetAfter();
-            }
-
-            prevTimecode = timecode;
-        }
-
-        private void Pulse(Action<OscMessage> onPulse)
-        {
-            if (AlreadyPulsed) return;
-
-            var message = new OscMessage
-            {
-                OscAddress = PulseSetting.OscAddress,
-                OscData = PulseSetting.OscData
-            };
-
-            onPulse?.Invoke(message);
             
         }
 
-        public void SetBefore()
-        {
-            reorderableListComponentView.SetBefore();
-            AlreadyPulsed = false;
-        }
-        
-        public void SetAfter()
-        {
-            reorderableListComponentView.SetAfter();
-            AlreadyPulsed = true;
-        }
-
-        public void SetPulsed()
-        {
-            AlreadyPulsed = true;
-        }
-        
     }
 
 }

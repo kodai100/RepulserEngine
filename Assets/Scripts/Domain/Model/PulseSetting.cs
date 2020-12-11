@@ -1,8 +1,15 @@
-﻿using Ltc;
+﻿using System;
+using Ltc;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.Model
 {
+
+    public enum PulseState
+    {
+        Predecessor, Pulse, Successor
+    }
+    
     public class PulseSetting
     {
         private int index;
@@ -15,8 +22,12 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
         private int timecodeSecond;
         private int timecodeFrame;
 
+        public PulseState PulseState { get; private set; } = PulseState.Predecessor;
+        
         public string OscAddress => oscAddress;
         public string OscData => oscData;
+        
+        private Timecode prevTimecode;
         
         public Timecode Timecode => new Timecode{dropFrame = false, hour = timecodeHour, minute = timecodeMinute, second = timecodeSecond,  frame = timecodeFrame};
 
@@ -29,6 +40,29 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
             timecodeMinute = timecode.minute;
             timecodeSecond = timecode.second;
             timecodeFrame = timecode.frame;
+        }
+        
+        public PulseState Evaluate(Timecode timecode)
+        {
+            
+            if (timecode == Timecode)
+            {
+                Debug.Log($"Pulse : {Timecode}");
+                PulseState = PulseState.Pulse;
+                return PulseState;
+            }
+            
+            if (timecode < Timecode)
+            {
+                PulseState = PulseState.Predecessor;
+            }
+
+            if (Timecode < timecode)
+            {
+                PulseState = PulseState.Successor;
+            }
+
+            return PulseState;    // TODO: Error code
         }
 
         public static PulseSetting Load(int index)
