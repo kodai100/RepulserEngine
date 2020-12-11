@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine
 {
-    public class SignalPulserPresenter : ListPresenter<PulseSettingPresenter, PulseSettingView>, ISignalPulserPresenter
+    public class SignalPulserPresenter : ReorderableListPresenter<PulseSettingPresenter, PulseSettingView>, ISignalPulserPresenter
     {
 
         [SerializeField] private TimecodeIndicator timecodeIndicator;

@@ -5,54 +5,57 @@ using Zenject;
 
 namespace ProjectBlue.RepulserEngine
 {
-    public class PulseSettingPresenter : ListComponentPresenter<PulseSettingView>
+    public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView>
     {
 
         public bool AlreadyPulsed { get; private set; } = false;
 
         public PulseSetting PulseSetting { get; private set; } = null;
 
+        public IObservable<Unit> OnUpButtonClickedAsObservable => reorderableListComponentView.OnUpButtonClickedAsObservable;
+        public IObservable<Unit> OnDownButtonClickedAsObservable => reorderableListComponentView.OnDownButtonClickedAsObservable;
+
         private Timecode prevTimecode;
 
         private void Start()
         {
             Observable.Merge(
-                listComponentView.OscAddressAsObservable,
-                listComponentView.OscDataAsObservable,
-                listComponentView.HourAsObservable,
-                listComponentView.MinuteAsObservable,
-                listComponentView.SecondAsObservable,
-                listComponentView.FrameAsObservable
+                reorderableListComponentView.OscAddressAsObservable,
+                reorderableListComponentView.OscDataAsObservable,
+                reorderableListComponentView.HourAsObservable,
+                reorderableListComponentView.MinuteAsObservable,
+                reorderableListComponentView.SecondAsObservable,
+                reorderableListComponentView.FrameAsObservable
             ).Subscribe(value =>
             {
-                listComponentView.SetEdited();
+                reorderableListComponentView.SetEdited();
             }).AddTo(this);
         }
 
-        public override void Load(int index)
+        public override void Load()
         {
-            PulseSetting = PulseSetting.Load(index);
-            listComponentView.SetData(PulseSetting);
+            PulseSetting = PulseSetting.Load(Index);
+            reorderableListComponentView.SetData(PulseSetting);
         }
         
-        public override void Save(int index)
+        public override void Save()
         {
             PulseSetting = new PulseSetting(
-                index,
-                listComponentView.oscAddressField.text,
-                listComponentView.oscDataField.text,
+                Index,
+                reorderableListComponentView.oscAddressField.text,
+                reorderableListComponentView.oscDataField.text,
                 new Timecode
                 {
                     dropFrame = false,
-                    frame = int.Parse(listComponentView.timecodeFrameInputField.text),
-                    hour = int.Parse(listComponentView.timecodeHourInputField.text),
-                    minute = int.Parse(listComponentView.timecodeMinuteInputField.text),
-                    second = int.Parse(listComponentView.timecodeSecondInputField.text),
+                    frame = int.Parse(reorderableListComponentView.timecodeFrameInputField.text),
+                    hour = int.Parse(reorderableListComponentView.timecodeHourInputField.text),
+                    minute = int.Parse(reorderableListComponentView.timecodeMinuteInputField.text),
+                    second = int.Parse(reorderableListComponentView.timecodeSecondInputField.text),
                 }
             );
             
             PulseSetting.Save();
-            listComponentView.SetSaved();
+            reorderableListComponentView.SetSaved();
         }
 
         public void Evaluate(Timecode timecode, Action<Message> onPulse)
@@ -93,13 +96,13 @@ namespace ProjectBlue.RepulserEngine
 
         public void SetBefore()
         {
-            listComponentView.SetBefore();
+            reorderableListComponentView.SetBefore();
             AlreadyPulsed = false;
         }
         
         public void SetAfter()
         {
-            listComponentView.SetAfter();
+            reorderableListComponentView.SetAfter();
             AlreadyPulsed = true;
         }
 

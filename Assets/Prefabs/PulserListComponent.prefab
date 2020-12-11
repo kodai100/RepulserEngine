@@ -2357,15 +2357,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6875d098bcb2f4b8a9bae4d908cf2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upButton: {fileID: 7867676364547637457}
   deleteButton: {fileID: 6853426344528776634}
+  downButton: {fileID: 6260605079562920019}
   oscAddressField: {fileID: 7527181410059886164}
   oscDataField: {fileID: 5587403325941207180}
   timecodeHourInputField: {fileID: 2536831684258676087}
   timecodeMinuteInputField: {fileID: 1010506098443451314}
   timecodeSecondInputField: {fileID: 5179277144796593469}
   timecodeFrameInputField: {fileID: 1668105739292226068}
-  upButton: {fileID: 7867676364547637457}
-  downButton: {fileID: 6260605079562920019}
   backgroundImage: {fileID: 7357284206791450833}
   beforeColor: {r: 0, g: 0.3, b: 0.3, a: 1}
   afterColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
@@ -2381,7 +2381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84bc9687c6b3f847bc6014e09fa840b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listComponentView: {fileID: 2988372729696343218}
+  reorderableListComponentView: {fileID: 2988372729696343218}
 --- !u!1 &7357284206791450835
 GameObject:
   m_ObjectHideFlags: 0
