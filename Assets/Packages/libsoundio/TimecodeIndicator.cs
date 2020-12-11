@@ -1,6 +1,7 @@
 using Ltc;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 // LTC (linear timecode) indicator
 
@@ -8,6 +9,7 @@ public sealed class TimecodeIndicator : MonoBehaviour
 {
     [SerializeField] DeviceSelector _selector = null;
     [SerializeField] TMP_Text _label = null;
+    [SerializeField] private Text _dropFrameText;
 
     [SerializeField] private int framerate = 30;
     [SerializeField] private Color runningColor = Color.red;
@@ -31,7 +33,7 @@ public sealed class TimecodeIndicator : MonoBehaviour
         _decoder.ParseAudioData(_selector.AudioDataSpan);
         
         CurrentTimecode = _decoder.LastTimecode;
-        var drop = CurrentTimecode.dropFrame ? " (drop frame)" : " (non-drop frame)";
+        _dropFrameText.text = CurrentTimecode.dropFrame ? "Drop Frame" : "Non-Drop Frame";
         _label.text = $"{CurrentTimecode.ToString()}";
 
         if (time > (1f / framerate))

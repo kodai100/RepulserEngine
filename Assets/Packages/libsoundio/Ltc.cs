@@ -35,7 +35,7 @@ namespace Ltc
 
         public override string ToString()
         {
-            return $"{hour:D2}:{minute:D2}:{second:D2}:{frame:D2}";
+            return $"{hour:D2}:{minute:D2}:{second:D2};{frame:D2}";
         }
         
         public override bool Equals(object obj)
