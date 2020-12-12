@@ -5853,7 +5853,7 @@ MonoBehaviour:
   framerate: 30
   runningColor: {r: 1, g: 0, b: 0, a: 1}
   stayingColor: {r: 0, g: 0.7058824, b: 1, a: 1}
-  stayThresholdSeconds: 0.5
+  stayThresholdSeconds: 0.1
 --- !u!114 &1711334738
 MonoBehaviour:
   m_ObjectHideFlags: 0
