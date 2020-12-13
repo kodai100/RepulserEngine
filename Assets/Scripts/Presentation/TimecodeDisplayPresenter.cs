@@ -19,7 +19,6 @@ namespace ProjectBlue.RepulserEngine.Presentation
         [SerializeField] private float stayThresholdSeconds = 0.1f;
 
         public Timecode currentTimecode;
-        private Timecode lastTimecode;
     
         private bool running = false;
         private float stopElapsedTime = 0;
@@ -29,11 +28,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
         public void UpdateTimecode(Timecode timecode)
         {
             time = 0;
-            
-            lastTimecode = currentTimecode;
             currentTimecode = timecode;
-            
-            Debug.Log($"{lastTimecode} {currentTimecode}");
         }
 
         private void Update()

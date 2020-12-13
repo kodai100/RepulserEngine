@@ -1,0 +1,18 @@
+name: master-deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+        clean: false
+
+    - name: Windows
+      shell: cmd
+      run: '"${{secrets.UNITY_EDITOR_PATH}}" -quit -batchmode -nographics -silent-crashes -logFile ${{secrets.BUILD_LOG_PATH}} -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}}'
