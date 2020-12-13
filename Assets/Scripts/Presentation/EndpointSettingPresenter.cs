@@ -1,38 +1,64 @@
 ﻿using System.Net;
+using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
-using UnityEngine;
+using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
     
-    public class EndpointSettingPresenter : ListComponentPresenter<EndpointSettingView>
+    public class EndpointSettingPresenter : ListComponentPresenter<EndpointSettingView, EndpointSetting>
     {
-
-        private IPEndPoint endpoint;
-
-        public IPEndPoint EndPoint => endpoint;
-
-        public override void Save(int index)
+        
+        private void Start()
         {
-            endpoint = new IPEndPoint(IPAddress.Parse(listComponentView.IP), int.Parse(listComponentView.Port));
-            
-            PlayerPrefs.SetString($"IP_{index}", endpoint.Address.ToString());
-            PlayerPrefs.SetInt($"Port_{index}", endpoint.Port);
-        }
-
-        public override void Load(int index)
-        {
-            var loadedIp = PlayerPrefs.GetString($"IP_{index}");
-            var loadedPort = PlayerPrefs.GetInt($"Port_{index}", 0);
-            
-            if (!string.IsNullOrEmpty(loadedIp) && loadedPort != 0)
+            Observable.Merge(
+                listComponentView.OnIPValueChangedAsObservable,
+                listComponentView.OnPortValueChangedAsObservable
+            ).Subscribe(value =>
             {
-                listComponentView.SetIPText(loadedIp);
-                listComponentView.SetPortText(loadedPort);
-                endpoint = new IPEndPoint(IPAddress.Parse(loadedIp), loadedPort);
-            }
+                // listComponentView.SetEdited();
+
+                UpdateData();
+                
+            }).AddTo(this);
         }
         
+        
+        public override void UpdateData()
+        {
+            if (Data == null)
+            {
+                Data = new EndpointSetting(
+                    new IPEndPoint(
+                        ValidatedIPAddress(listComponentView.ipTextField.text),
+                        ValidatedPort(listComponentView.portTextField.text)),
+                    "",
+                    0
+                );
+            }
+            else
+            {
+                Data.UpdateData(
+                    new IPEndPoint(
+                        ValidatedIPAddress(listComponentView.ipTextField.text),
+                        ValidatedPort(listComponentView.portTextField.text)),
+                    "",
+                    0
+                );
+            }
+        }
+
+        private IPAddress ValidatedIPAddress(string address)
+        {
+            return IPAddress.TryParse(address, out var result) ? result : ValidatedIPAddress("127.0.0.1");
+        }
+
+        private int ValidatedPort(string port)
+        {
+            return int.TryParse(port, out var result) ? result : 10100;
+        }
+        
+        // TODO validate
     }
 
 }

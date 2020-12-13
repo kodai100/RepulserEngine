@@ -1,33 +1,28 @@
 ﻿using System;
+using ProjectBlue.RepulserEngine.Domain.Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class EndpointSettingView : ListComponentView
+    public class EndpointSettingView : ListComponentView<EndpointSetting>
     {
 
-        [SerializeField] private InputField ipTextField;
-        [SerializeField] private InputField portTextField;
-
-        public string IP => ipTextField.text;
-        public string Port => portTextField.text;
+        [SerializeField] public InputField ipTextField;
+        [SerializeField] public InputField portTextField;
 
         public IObservable<string> OnIPValueChangedAsObservable => ipTextField.OnValueChangedAsObservable();
         public IObservable<string> OnPortValueChangedAsObservable => portTextField.OnValueChangedAsObservable();
-
-        public void SetIPText(string ip)
+        
+        
+        public override void SetData(EndpointSetting data)
         {
-            ipTextField.text = ip;
+            ipTextField.text = data.EndPoint.Address.ToString();
+            portTextField.text = data.EndPoint.Port.ToString();
+            
+            // TODO
         }
-
-        public void SetPortText(int port)
-        {
-            portTextField.text = port.ToString();
-        }
-
-
     }
 
 }

@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class ListComponentView : MonoBehaviour
+    public abstract class ListComponentView<T> : MonoBehaviour
     {
     
         [SerializeField] protected Button deleteButton;
     
         public IObservable<Unit> OnDeleteButtonClickedAsObservable => deleteButton.OnClickAsObservable();
-    
+
+        public abstract void SetData(T data);
+
     }
 
 }

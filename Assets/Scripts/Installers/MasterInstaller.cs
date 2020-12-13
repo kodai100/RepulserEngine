@@ -19,11 +19,15 @@ namespace ProjectBlue.RepulserEngine.Installer
 
             Container.BindInterfacesAndSelfTo<PulseSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<PulseSettingRepository>().AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<EndpointSettingDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EndpointSettingRepository>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PulseSettingUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EndpointSettingUseCase>().AsSingle().NonLazy();
 
         }
     }

@@ -5,13 +5,8 @@ using ProjectBlue.RepulserEngine.View;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class EndpointListPresenter : ListPresenter<EndpointSettingPresenter, EndpointSettingView>, IEndPointListPresenter
+    public class EndpointListPresenter : ListPresenter<EndpointSettingPresenter, EndpointSettingView, EndpointSetting>, IEndPointListPresenter
     {
-        
-        protected override string SaveHash => "Endpoint";
-
-        public IEnumerable<EndpointSetting> EndpointSettingList
-            => ComponentList.Select(presenter => new EndpointSetting(presenter.EndPoint, "", 0));
-        
+        public IEnumerable<EndpointSetting> EndpointSettingList => ComponentList.Select(presenter => presenter.Data);
     }
 }

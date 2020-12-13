@@ -8,6 +8,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
     public interface IEndPointListPresenter
     {
         IEnumerable<EndpointSetting> EndpointSettingList { get; }
+        IObservable<Unit> OnSaveButtonClickedAsObservable { get; }
+        void SetData(IEnumerable<EndpointSetting> settingList);
     }
 
     public interface IPulseSettingListPresenter

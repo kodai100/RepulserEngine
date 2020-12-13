@@ -17,7 +17,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
         [SerializeField, ReadOnly] private List<T> componentList = new List<T>();
 
         protected IEnumerable<T> ReorderedComponentList => componentList.OrderBy(component => component.Index);
-        public IEnumerable<V> PulseSettingList => ReorderedComponentList.Select(presenter => presenter.Data);
+        
         public IObservable<Unit> OnSaveButtonClickedAsObservable => listView.OnSaveButtonClickedAsObservable;
 
         private void Start()

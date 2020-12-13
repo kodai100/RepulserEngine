@@ -8,13 +8,13 @@ namespace ProjectBlue.RepulserEngine.DataStore
 {
 
     [Serializable]
-    public class PulseSettingListForSerialize
+    public class EndpointSettingListForSerialize
     {
-        public List<PulseSetting> Data = new List<PulseSetting>();
+        public List<EndpointSetting> Data = new List<EndpointSetting>();
 
-        public PulseSettingListForSerialize(){}
+        public EndpointSettingListForSerialize(){}
         
-        public PulseSettingListForSerialize(IEnumerable<PulseSetting> data)
+        public EndpointSettingListForSerialize(IEnumerable<EndpointSetting> data)
         {
             
             Data.Clear();
@@ -27,18 +27,18 @@ namespace ProjectBlue.RepulserEngine.DataStore
     }
     
 
-    public class PulseSettingDataStore : IPulseSettingDataStore
+    public class EndpointSettingDataStore : IEndpointSettingDataStore
     {
 
         private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "PulseSetting.json");
+            Path.Combine(UnityEngine.Application.streamingAssetsPath, "EndpointSetting.json");
         
-        public PulseSettingDataStore() { }
+        public EndpointSettingDataStore() { }
 
-        public void Save(IEnumerable<PulseSetting> pulseSettings)
+        public void Save(IEnumerable<EndpointSetting> endpointSettings)
         {
 
-            var target = new PulseSettingListForSerialize(pulseSettings);
+            var target = new EndpointSettingListForSerialize(endpointSettings);
 
             var json = JsonUtility.ToJson(target);
             
@@ -58,10 +58,10 @@ namespace ProjectBlue.RepulserEngine.DataStore
         }
         
         
-        public IEnumerable<PulseSetting> Load()
+        public IEnumerable<EndpointSetting> Load()
         {
 
-            var jsonDeserializedData = new PulseSettingListForSerialize();
+            var jsonDeserializedData = new EndpointSettingListForSerialize();
 
             try 
             {
@@ -70,7 +70,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
                 {
                     var result = sr.ReadToEnd ();
                     
-                    jsonDeserializedData =  JsonUtility.FromJson<PulseSettingListForSerialize>(result);
+                    jsonDeserializedData =  JsonUtility.FromJson<EndpointSettingListForSerialize>(result);
                 }
             }
             catch (Exception e)
