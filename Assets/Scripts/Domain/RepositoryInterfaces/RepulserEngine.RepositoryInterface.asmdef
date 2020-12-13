@@ -1,7 +1,8 @@
 {
     "name": "RepulserEngine.RepositoryInterface",
     "references": [
-        "GUID:db50f50b3962ccb4083db31bf9150d7f"
+        "GUID:db50f50b3962ccb4083db31bf9150d7f",
+        "GUID:0e53b2bb75da5b9488eee3180595203d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

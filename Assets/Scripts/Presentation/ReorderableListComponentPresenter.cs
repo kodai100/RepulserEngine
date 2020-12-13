@@ -4,12 +4,20 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public abstract class ReorderableListComponentPresenter<T> : MonoBehaviour where T : ReorderableListComponentView
+    public abstract class ReorderableListComponentPresenter<T, U> : MonoBehaviour where T : ReorderableListComponentView<U>
     {
 
         [SerializeField] protected T reorderableListComponentView;
 
-        protected int Index => transform.GetSiblingIndex();
+        public int Index
+        {
+            get
+            {
+                return transform.GetSiblingIndex();
+            }
+        }
+
+        public U Data;
         
         public void Initialize(Action onDeleteAction, Action onUpAction, Action onDownAction)
         {
@@ -30,9 +38,13 @@ namespace ProjectBlue.RepulserEngine.Presentation
             }).AddTo(this);
         }
 
-        public abstract void Load();
+        public void SetData(U data)
+        {
+            Data = data;
+            reorderableListComponentView.SetData(data);
+        }
 
-        public abstract void Save();
+        public abstract void UpdateData();
 
     }
 

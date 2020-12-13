@@ -10,17 +10,17 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     public class TimecodeEvaluationUseCase : IDisposable
     {
-        private ISignalPulserPresenter signalPulserPresenter;
+        private IPulseSettingListPresenter _pulseSettingListPresenter;
         private ITimecodeDecoderRepository timecodeDecoderRepository;
 
         private SendToEndpointUseCase sendToEndpointUseCase;
         
         private CompositeDisposable disposable = new CompositeDisposable();
 
-        public TimecodeEvaluationUseCase(SendToEndpointUseCase sendToEndpointUseCase, ISignalPulserPresenter signalPulserPresenter, ITimecodeDecoderRepository timecodeDecoderRepository)
+        public TimecodeEvaluationUseCase(SendToEndpointUseCase sendToEndpointUseCase, IPulseSettingListPresenter pulseSettingListPresenter, ITimecodeDecoderRepository timecodeDecoderRepository)
         {
             this.sendToEndpointUseCase = sendToEndpointUseCase;
-            this.signalPulserPresenter = signalPulserPresenter;
+            this._pulseSettingListPresenter = pulseSettingListPresenter;
             this.timecodeDecoderRepository = timecodeDecoderRepository;
 
             timecodeDecoderRepository.OnTimecodeUpdatedAsObservable.Subscribe(timecode =>
@@ -33,7 +33,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         private void OnTimecodeUpdated(Timecode timecode)
         {
 
-            foreach (var pulseSetting in signalPulserPresenter.PulseSettingList)
+            foreach (var pulseSetting in _pulseSettingListPresenter.PulseSettingList)
             {
                 
                 if(pulseSetting == null) continue;

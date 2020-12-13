@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ProjectBlue.RepulserEngine
 {
-    public class ReorderableListComponentView : MonoBehaviour
+    public abstract class ReorderableListComponentView<T> : MonoBehaviour
     {
 
         [SerializeField] protected Button upButton;
@@ -15,6 +15,8 @@ namespace ProjectBlue.RepulserEngine
         public IObservable<Unit> OnUpButtonClickedAsObservable => upButton.OnClickAsObservable();
         public IObservable<Unit> OnDeleteButtonClickedAsObservable => deleteButton.OnClickAsObservable();
         public IObservable<Unit> OnDownButtonClickedAsObservable => downButton.OnClickAsObservable();
+
+        public abstract void SetData(T data);
 
     }
 

@@ -1,49 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public abstract class ReorderableListPresenter<T, U> : MonoBehaviour where T : ReorderableListComponentPresenter<U> where U : ReorderableListComponentView
+    public abstract class ReorderableListPresenter<T, U, V> : MonoBehaviour where T : ReorderableListComponentPresenter<U, V> where U : ReorderableListComponentView<V>
     {
 
-        [SerializeField] private ListView listView;
+        [SerializeField] protected ListView listView;
     
         [SerializeField] private T listComponentPrefab;
 
-        [SerializeField, ReadOnly] protected List<T> ComponentList = new List<T>();
+        [SerializeField, ReadOnly] private List<T> componentList = new List<T>();
+
+        protected IEnumerable<T> ReorderedComponentList => componentList.OrderBy(component => component.Index);
         
-        protected abstract string SaveHash { get; }
-        
+        public IObservable<Unit> OnSaveButtonClickedAsObservable => listView.OnSaveButtonClickedAsObservable;
+
         private void Start()
         {
-            
-            Load();
-    
+
             listView.OnAddButtonClickedAsObservable.Subscribe(_ =>
             {
                 AddToList();
             }).AddTo(this);
-    
-            listView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
-            {
-                Save();
-            }).AddTo(this);
-    
+            
             listView.OnRemoveAllButtonClickedAsObservable.Subscribe(_ =>
             {
                 ClearList();
             }).AddTo(this);
-    
+            
+            StartInternal();
         }
+
+        protected virtual void StartInternal() {}
 
         private void AddToList()
         {
             var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
             listComponentPresenter.Initialize(() =>
             {
-                ComponentList.Remove(listComponentPresenter);
+                componentList.Remove(listComponentPresenter);
             }, () =>
             {
                 ReorderUp(listComponentPresenter);
@@ -51,40 +51,38 @@ namespace ProjectBlue.RepulserEngine.Presentation
             {
                 ReorderDown(listComponentPresenter);
             });
-            ComponentList.Add(listComponentPresenter);
+            componentList.Add(listComponentPresenter);
         }
 
         private void ReorderUp(T listComponentPresenter)
         {
             var currentIndex = listComponentPresenter.transform.GetSiblingIndex();
-            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex-1, 0, ComponentList.Count));
+            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex-1, 0, componentList.Count));
         }
         
         private void ReorderDown(T listComponentPresenter)
         {
             var currentIndex = listComponentPresenter.transform.GetSiblingIndex();
-            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex+1, 0, ComponentList.Count));
+            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex+1, 0, componentList.Count));
         }
 
         private void ClearList()
         {
-            ComponentList.ForEach(pulse =>
+            componentList.ForEach(pulse =>
             {
                 Destroy(pulse.gameObject);
             });
-            ComponentList.Clear();
+            componentList.Clear();
         }
-    
-        private void Load()
+
+        public void SetData(IEnumerable<V> data)
         {
-            var componentNum = PlayerPrefs.GetInt(SaveHash, 0);
-            
-            for (var i = 0; i < componentNum; i++)
+            foreach (var component in data)
             {
                 var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
                 listComponentPresenter.Initialize(() =>
                 {
-                    ComponentList.Remove(listComponentPresenter);
+                    componentList.Remove(listComponentPresenter);
                 }, () =>
                 {
                     ReorderUp(listComponentPresenter);
@@ -92,22 +90,11 @@ namespace ProjectBlue.RepulserEngine.Presentation
                 {
                     ReorderDown(listComponentPresenter);
                 });
-                listComponentPresenter.Load();
-                ComponentList.Add(listComponentPresenter);
+                listComponentPresenter.SetData(component);
+                componentList.Add(listComponentPresenter);
             }
         }
-    
-        private void Save()
-        {
-            ComponentList.ForEach(component =>
-            {
-                component.Save();
-            });
 
-            PlayerPrefs.SetInt(SaveHash, ComponentList.Count);
-
-            Debug.Log("Saved");
-        }
     }
 
 }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public abstract class ListPresenter<T, U> : MonoBehaviour where T : ListComponentPresenter<U> where U : ListComponentView
+    public abstract class ListPresenter<T, U, V> : MonoBehaviour where T : ListComponentPresenter<U, V> where U : ListComponentView<V>
     {
 
         [SerializeField] private ListView listView;
@@ -13,30 +14,24 @@ namespace ProjectBlue.RepulserEngine.Presentation
         [SerializeField] private T listComponentPrefab;
 
         [SerializeField, ReadOnly] public List<T> ComponentList = new List<T>();
-        
-        protected abstract string SaveHash { get; }
+        public IObservable<Unit> OnSaveButtonClickedAsObservable => listView.OnSaveButtonClickedAsObservable;
         
         private void Start()
         {
-            
-            Load();
-    
             listView.OnAddButtonClickedAsObservable.Subscribe(_ =>
             {
                 AddToList();
             }).AddTo(this);
-    
-            listView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
-            {
-                Save();
-            }).AddTo(this);
-    
+
             listView.OnRemoveAllButtonClickedAsObservable.Subscribe(_ =>
             {
                 ClearList();
             }).AddTo(this);
-    
+
+            StartInternal();
         }
+        
+        protected virtual void StartInternal() {}
 
         private void AddToList()
         {
@@ -56,34 +51,21 @@ namespace ProjectBlue.RepulserEngine.Presentation
             });
             ComponentList.Clear();
         }
-    
-        private void Load()
+        
+        public void SetData(IEnumerable<V> data)
         {
-            var componentNum = PlayerPrefs.GetInt(SaveHash, 0);
-            
-            for (var i = 0; i < componentNum; i++)
+            foreach (var component in data)
             {
                 var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
                 listComponentPresenter.Initialize(() =>
                 {
                     ComponentList.Remove(listComponentPresenter);
                 });
-                listComponentPresenter.Load(i);
+                listComponentPresenter.SetData(component);
                 ComponentList.Add(listComponentPresenter);
             }
         }
-    
-        private void Save()
-        {
-            for (var i = 0; i < ComponentList.Count; i++)
-            {
-                ComponentList[i].Save(i);
-            }
-            
-            PlayerPrefs.SetInt(SaveHash, ComponentList.Count);
-
-            Debug.Log("Saved");
-        }
+        
     }
 
 }

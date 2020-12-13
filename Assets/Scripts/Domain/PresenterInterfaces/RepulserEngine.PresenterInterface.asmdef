@@ -2,7 +2,8 @@
     "name": "RepulserEngine.PresenterInterface",
     "references": [
         "GUID:0e53b2bb75da5b9488eee3180595203d",
-        "GUID:db50f50b3962ccb4083db31bf9150d7f"
+        "GUID:db50f50b3962ccb4083db31bf9150d7f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
