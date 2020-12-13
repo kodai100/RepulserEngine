@@ -7,7 +7,7 @@ using UniRx;
 namespace ProjectBlue.RepulserEngine.View
 {
     
-    public class PulseSettingView : ReorderableListComponentView
+    public class PulseSettingView : ReorderableListComponentView<PulseSetting>
     {
 
         // TODO capsule
@@ -45,7 +45,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         private State state = State.Initialize;
 
-        public void SetData(PulseSetting pulseSetting)
+        public override void SetData(PulseSetting pulseSetting)
         {
             oscAddressField.text = pulseSetting.OscAddress;
             oscDataField.text = pulseSetting.OscData;
