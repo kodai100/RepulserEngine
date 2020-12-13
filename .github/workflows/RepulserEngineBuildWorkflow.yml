@@ -1,4 +1,4 @@
-name: master-deploy
+name: StandaloneWindows64
 
 on:
   push:
