@@ -39,13 +39,13 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             overlayPresenter.Trigger();
         }
 
-        public void Send(string oscAddress, string oscData, string ipAddress)
+        public void SendToSpecificIP(string oscAddress, string oscData, string ipAddress)
         {
 
             foreach (var setting in endpointListPresenter.EndpointSettingList)
             {
                 // TODO: Consider target port
-                if (setting.EndPoint.Address.ToString().Equals(ipAddress.ToString()))
+                if (setting.EndPoint.Address.ToString().Equals(ipAddress))
                     SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
             

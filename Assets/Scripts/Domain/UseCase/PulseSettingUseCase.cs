@@ -17,10 +17,9 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         private SendToEndpointUseCase sendToEndpointUseCase;
         
         private CompositeDisposable disposable = new CompositeDisposable();
-        private CompositeDisposable dispose = new CompositeDisposable();
+        private CompositeDisposable saveButtonRegistrationDisposable = new CompositeDisposable();
 
-        public PulseSettingUseCase(SendToEndpointUseCase sendToEndpointUseCase,
-            IPulseSettingListPresenter pulseSettingListPresenter, IPulseSettingRepository pulseSettingRepository)
+        public PulseSettingUseCase(SendToEndpointUseCase sendToEndpointUseCase, IPulseSettingListPresenter pulseSettingListPresenter, IPulseSettingRepository pulseSettingRepository)
         {
             this.pulseSettingListPresenter = pulseSettingListPresenter;
             this.sendToEndpointUseCase = sendToEndpointUseCase;
@@ -53,18 +52,25 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             disposable.Dispose();
         }
 
+        // Sendボタンを機能させる部分
         private void RegisterComponentPerSend()
         {
-            dispose.Dispose();
-            dispose = new CompositeDisposable();
+            // 永遠に残るのでセーブボタンが押されるたびに破棄して接続しなおす
+            saveButtonRegistrationDisposable.Dispose();
+            saveButtonRegistrationDisposable = new CompositeDisposable();
             
             foreach (var pulseSettingPresenter in pulseSettingListPresenter.PulseSettingPresenterList)
             {
                 pulseSettingPresenter.OnSendButtonClickedAsObservable.Subscribe(__ =>
                 {
-                    sendToEndpointUseCase.Send(pulseSettingPresenter.PulseSetting.OscAddress, pulseSettingPresenter.PulseSetting.OscData);
+                    var pulseSetting = pulseSettingPresenter.PulseSetting;
                     
-                }).AddTo(dispose);    // コンポーネント削除に対応できてないのでよくない -> IPulseSettingPresenterにDisposable持たせる
+                    if (String.IsNullOrEmpty(pulseSetting.OverrideIp))
+                        sendToEndpointUseCase.Send(pulseSetting.OscAddress, pulseSetting.OscData);
+                    else
+                        sendToEndpointUseCase.SendToSpecificIP(pulseSetting.OscAddress, pulseSetting.OscData, pulseSetting.OverrideIp);
+                    
+                }).AddTo(saveButtonRegistrationDisposable);    // コンポーネント削除に対応できてないのでよくない -> IPulseSettingPresenterにDisposable持たせるのがベターだけど変な実装になるのでこうしている
             }
             
         }
