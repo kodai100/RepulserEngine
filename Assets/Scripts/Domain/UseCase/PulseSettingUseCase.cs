@@ -3,6 +3,7 @@ using System;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Presentation;
 using UniRx;
+using UnityEngine;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
@@ -11,36 +12,63 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
     public class PulseSettingUseCase : IInitializable, IDisposable
     {
 
-        private IPulseSettingListPresenter _pulseSettingListPresenter;
-        private IPulseSettingRepository _pulseSettingRepository;
+        private IPulseSettingListPresenter pulseSettingListPresenter;
+        private IPulseSettingRepository pulseSettingRepository;
+        private SendToEndpointUseCase sendToEndpointUseCase;
         
-        private CompositeDisposable _disposable = new CompositeDisposable();
-        
-        public PulseSettingUseCase(IPulseSettingListPresenter pulseSettingListPresenter,
-            IPulseSettingRepository pulseSettingRepository)
-        {
-            _pulseSettingListPresenter = pulseSettingListPresenter;
+        private CompositeDisposable disposable = new CompositeDisposable();
+        private CompositeDisposable dispose = new CompositeDisposable();
 
-            _pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+        public PulseSettingUseCase(SendToEndpointUseCase sendToEndpointUseCase,
+            IPulseSettingListPresenter pulseSettingListPresenter, IPulseSettingRepository pulseSettingRepository)
+        {
+            this.pulseSettingListPresenter = pulseSettingListPresenter;
+            this.sendToEndpointUseCase = sendToEndpointUseCase;
+            this.pulseSettingRepository = pulseSettingRepository;
+
+            this.pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
             {
                 // _pulseSettingListPresenter.UpdateData();
-                _pulseSettingRepository.Save(_pulseSettingListPresenter.PulseSettingList);
+                this.pulseSettingRepository.Save(this.pulseSettingListPresenter.PulseSettingList);
 
-            }).AddTo(_disposable);
+            }).AddTo(disposable);
+
+            pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            {
+                RegisterComponentPerSend();
+            }).AddTo(disposable);
             
-            _pulseSettingRepository = pulseSettingRepository;
         }
-
+        
         public void Initialize()
         {
-            var data = _pulseSettingRepository.Load();
-            _pulseSettingListPresenter.SetData(data);
+            var data = pulseSettingRepository.Load();
+            pulseSettingListPresenter.SetData(data);
+            
+            RegisterComponentPerSend();
         }
 
         public void Dispose()
         {
-            _disposable.Dispose();
+            disposable.Dispose();
         }
+
+        private void RegisterComponentPerSend()
+        {
+            dispose.Dispose();
+            dispose = new CompositeDisposable();
+            
+            foreach (var pulseSettingPresenter in pulseSettingListPresenter.PulseSettingPresenterList)
+            {
+                pulseSettingPresenter.OnSendButtonClickedAsObservable.Subscribe(__ =>
+                {
+                    sendToEndpointUseCase.Send(pulseSettingPresenter.PulseSetting.OscAddress, pulseSettingPresenter.PulseSetting.OscData);
+                    
+                }).AddTo(dispose);    // コンポーネント削除に対応できてないのでよくない -> IPulseSettingPresenterにDisposable持たせる
+            }
+            
+        }
+        
     }
     
 }

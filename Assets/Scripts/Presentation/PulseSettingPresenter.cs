@@ -6,8 +6,10 @@ using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView, PulseSetting>
+    public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView, PulseSetting>, IPulseSettingPresenter
     {
+        public PulseSetting PulseSetting => Data;
+        public IObservable<Unit> OnSendButtonClickedAsObservable => reorderableListComponentView.OnSendButtonClickedAsObservable;
 
         private void Start()
         {

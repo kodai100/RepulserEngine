@@ -9,6 +9,8 @@ namespace ProjectBlue.RepulserEngine.View
     
     public class PulseSettingView : ReorderableListComponentView<PulseSetting>
     {
+        
+        [SerializeField] protected Button sendButton;
 
         // TODO capsule
         [SerializeField] public InputField oscAddressField;
@@ -34,6 +36,8 @@ namespace ProjectBlue.RepulserEngine.View
 
         public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
+
+        public IObservable<Unit> OnSendButtonClickedAsObservable => sendButton.OnClickAsObservable();
 
         // private Material mat;
 

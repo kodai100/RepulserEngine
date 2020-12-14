@@ -27,7 +27,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             {
                 OnTimecodeUpdated(timecode);
             }).AddTo(disposable);
-
+            
         }
 
         private void OnTimecodeUpdated(Timecode timecode)
