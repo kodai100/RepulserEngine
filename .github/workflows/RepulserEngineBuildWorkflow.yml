@@ -2,7 +2,8 @@ name: StandaloneWindows64
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -16,3 +17,29 @@ jobs:
     - name: Windows
       shell: cmd
       run: '"${{secrets.UNITY_EDITOR_PATH}}" -quit -batchmode -nographics -silent-crashes -logFile ${{secrets.BUILD_LOG_PATH}} -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}}'
+
+    - name: zip
+      shell: cmd
+      run: powershell compress-archive -Force -Path ${{secrets.BUILD_FOLDER_PATH}} -DestinationPath ${{secrets.ARTIFACT_ZIP_PATH}}
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{secrets.ARTIFACT_ZIP_PATH}}
+        asset_name: RepulserEngine.zip
+        asset_content_type: application/zip
