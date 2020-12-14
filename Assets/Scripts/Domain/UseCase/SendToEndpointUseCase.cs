@@ -24,6 +24,11 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             this.endpointListPresenter = endpointListPresenter;
             this.overlayPresenter = overlayPresenter;
             this.senderRepository = senderRepository;
+
+            endpointListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            {
+                Send("/Something", "Something");
+            }).AddTo(_disposable);
         }
         
         public void Send(string oscAddress, string oscData)
