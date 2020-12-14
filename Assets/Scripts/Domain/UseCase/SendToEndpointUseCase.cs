@@ -45,7 +45,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             foreach (var setting in endpointListPresenter.EndpointSettingList)
             {
                 // TODO: Consider target port
-                if (setting.EndPoint.Address.Equals(ipAddress))
+                if (setting.EndPoint.Address.ToString().Equals(ipAddress.ToString()))
                     SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
             
