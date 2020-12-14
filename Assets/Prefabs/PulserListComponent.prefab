@@ -3001,6 +3001,7 @@ MonoBehaviour:
   timecodeMinuteInputField: {fileID: 1010506098443451314}
   timecodeSecondInputField: {fileID: 5179277144796593469}
   timecodeFrameInputField: {fileID: 1668105739292226068}
+  overrideIpInputField: {fileID: 3645243287438642588}
   backgroundImage: {fileID: 7357284206791450833}
   beforeColor: {r: 0, g: 0.3, b: 0.3, a: 1}
   afterColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
@@ -3024,6 +3025,7 @@ MonoBehaviour:
     timecodeMinute: 0
     timecodeSecond: 0
     timecodeFrame: 0
+    overrideIp: 
 --- !u!1 &7357284206791450835
 GameObject:
   m_ObjectHideFlags: 0

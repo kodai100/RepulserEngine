@@ -19,7 +19,7 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public InputField timecodeSecondInputField;
         [SerializeField] public InputField timecodeFrameInputField;
 
-        [SerializeField] public InputField overrideIPInputField;
+        [SerializeField] public InputField overrideIpInputField;
 
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
@@ -30,7 +30,7 @@ namespace ProjectBlue.RepulserEngine.View
         public IObservable<string> SecondAsObservable => timecodeSecondInputField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> FrameAsObservable => timecodeFrameInputField.OnValueChangedAsObservable().Skip(1);
 
-        public IObservable<string> OverrideIPObservable => overrideIPInputField.OnValueChangedAsObservable().Skip(1);
+        public IObservable<string> OverrideIpObservable => overrideIpInputField.OnValueChangedAsObservable().Skip(1);
 
         public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
@@ -59,7 +59,7 @@ namespace ProjectBlue.RepulserEngine.View
             timecodeSecondInputField.text = pulseSetting.Timecode.second.ToString();
             timecodeFrameInputField.text = pulseSetting.Timecode.frame.ToString();
 
-            overrideIPInputField.text = pulseSetting.OverrideIP;
+            overrideIpInputField.text = pulseSetting.OverrideIp;
         }
 
         public void SetBefore()

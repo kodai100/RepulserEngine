@@ -60,7 +60,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
                     },
-                    reorderableListComponentView.overrideIPInputField.text
+                    reorderableListComponentView.overrideIpInputField.text
                 );
             }
             else
@@ -76,7 +76,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
                     },
-                    reorderableListComponentView.overrideIPInputField.text
+                    reorderableListComponentView.overrideIpInputField.text
                 );
             }
             
