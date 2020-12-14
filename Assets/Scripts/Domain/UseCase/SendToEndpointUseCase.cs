@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using UniRx;
 using ProjectBlue.RepulserEngine.Presentation;
@@ -37,6 +37,21 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             foreach (var setting in endpointListPresenter.EndpointSettingList)
             {
                 SendIntermediator(setting.EndPoint, oscAddress, oscData);
+            }
+            
+            Logger.Instance.Log($"{oscAddress} : {oscData}");
+            
+            overlayPresenter.Trigger();
+        }
+
+        public void SendToSpecificIP(string oscAddress, string oscData, string ipAddress)
+        {
+
+            foreach (var setting in endpointListPresenter.EndpointSettingList)
+            {
+                // TODO: Consider target port
+                if (setting.EndPoint.Address.ToString().Equals(ipAddress))
+                    SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
             
             Logger.Instance.Log($"{oscAddress} : {oscData}");

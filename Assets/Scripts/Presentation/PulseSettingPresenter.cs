@@ -6,8 +6,10 @@ using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView, PulseSetting>
+    public class PulseSettingPresenter : ReorderableListComponentPresenter<PulseSettingView, PulseSetting>, IPulseSettingPresenter
     {
+        public PulseSetting PulseSetting => Data;
+        public IObservable<Unit> OnSendButtonClickedAsObservable => reorderableListComponentView.OnSendButtonClickedAsObservable;
 
         private void Start()
         {
@@ -17,7 +19,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                 reorderableListComponentView.HourAsObservable,
                 reorderableListComponentView.MinuteAsObservable,
                 reorderableListComponentView.SecondAsObservable,
-                reorderableListComponentView.FrameAsObservable
+                reorderableListComponentView.FrameAsObservable,
+                reorderableListComponentView.OverrideIpAsObservable
             ).Subscribe(value =>
             {
                 reorderableListComponentView.SetEdited();
@@ -59,7 +62,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         hour = Validate(reorderableListComponentView.timecodeHourInputField.text),
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
-                    }
+                    },
+                    reorderableListComponentView.overrideIpInputField.text
                 );
             }
             else
@@ -74,7 +78,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         hour = Validate(reorderableListComponentView.timecodeHourInputField.text),
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
-                    }
+                    },
+                    reorderableListComponentView.overrideIpInputField.text
                 );
             }
             

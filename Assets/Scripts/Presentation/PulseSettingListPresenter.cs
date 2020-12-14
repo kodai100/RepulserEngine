@@ -10,6 +10,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
         
         public IEnumerable<PulseSetting> PulseSettingList => ReorderedComponentList.Select(presenter => presenter.Data);
+        public IEnumerable<IPulseSettingPresenter> PulseSettingPresenterList => ReorderedComponentList.Select(presenter => presenter as IPulseSettingPresenter);
         
         protected override void StartInternal()
         {

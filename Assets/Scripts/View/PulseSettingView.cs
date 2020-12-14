@@ -9,6 +9,8 @@ namespace ProjectBlue.RepulserEngine.View
     
     public class PulseSettingView : ReorderableListComponentView<PulseSetting>
     {
+        
+        [SerializeField] protected Button sendButton;
 
         // TODO capsule
         [SerializeField] public InputField oscAddressField;
@@ -19,6 +21,8 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public InputField timecodeSecondInputField;
         [SerializeField] public InputField timecodeFrameInputField;
 
+        [SerializeField] public InputField overrideIpInputField;
+
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
         [SerializeField] private Color afterColor = new Color(0.2f, 0.2f, 0.2f);
@@ -28,8 +32,12 @@ namespace ProjectBlue.RepulserEngine.View
         public IObservable<string> SecondAsObservable => timecodeSecondInputField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> FrameAsObservable => timecodeFrameInputField.OnValueChangedAsObservable().Skip(1);
 
+        public IObservable<string> OverrideIpAsObservable => overrideIpInputField.OnValueChangedAsObservable().Skip(1);
+
         public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
+
+        public IObservable<Unit> OnSendButtonClickedAsObservable => sendButton.OnClickAsObservable();
 
         // private Material mat;
 
@@ -54,6 +62,8 @@ namespace ProjectBlue.RepulserEngine.View
             timecodeMinuteInputField.text = pulseSetting.Timecode.minute.ToString();
             timecodeSecondInputField.text = pulseSetting.Timecode.second.ToString();
             timecodeFrameInputField.text = pulseSetting.Timecode.frame.ToString();
+
+            overrideIpInputField.text = pulseSetting.OverrideIp;
         }
 
         public void SetBefore()

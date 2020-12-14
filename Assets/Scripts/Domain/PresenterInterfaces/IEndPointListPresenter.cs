@@ -11,12 +11,4 @@ namespace ProjectBlue.RepulserEngine.Presentation
         IObservable<Unit> OnSaveButtonClickedAsObservable { get; }
         void SetData(IEnumerable<EndpointSetting> settingList);
     }
-
-    public interface IPulseSettingListPresenter
-    {
-        IEnumerable<PulseSetting> PulseSettingList { get; }
-        IObservable<Unit> OnSaveButtonClickedAsObservable { get; }
-
-        void SetData(IEnumerable<PulseSetting> settingList);
-    }
 }
