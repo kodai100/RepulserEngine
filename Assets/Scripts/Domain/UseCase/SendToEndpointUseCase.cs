@@ -27,7 +27,9 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
             endpointListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
             {
-                Send("/Something", "Something");
+                Send("/connection-test-string", "Connection test : Hello string!");
+                Send("/connection-test-string", "10");
+                Send("/connection-test-string", "3.14");
             }).AddTo(_disposable);
         }
         
