@@ -17,7 +17,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                 reorderableListComponentView.HourAsObservable,
                 reorderableListComponentView.MinuteAsObservable,
                 reorderableListComponentView.SecondAsObservable,
-                reorderableListComponentView.FrameAsObservable
+                reorderableListComponentView.FrameAsObservable,
+                reorderableListComponentView.OverrideIpAsObservable
             ).Subscribe(value =>
             {
                 reorderableListComponentView.SetEdited();

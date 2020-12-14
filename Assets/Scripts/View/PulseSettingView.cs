@@ -30,7 +30,7 @@ namespace ProjectBlue.RepulserEngine.View
         public IObservable<string> SecondAsObservable => timecodeSecondInputField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> FrameAsObservable => timecodeFrameInputField.OnValueChangedAsObservable().Skip(1);
 
-        public IObservable<string> OverrideIpObservable => overrideIpInputField.OnValueChangedAsObservable().Skip(1);
+        public IObservable<string> OverrideIpAsObservable => overrideIpInputField.OnValueChangedAsObservable().Skip(1);
 
         public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
         public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
