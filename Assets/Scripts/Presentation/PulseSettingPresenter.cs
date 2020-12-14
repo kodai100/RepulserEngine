@@ -59,7 +59,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         hour = Validate(reorderableListComponentView.timecodeHourInputField.text),
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
-                    }
+                    },
+                    reorderableListComponentView.overrideIPInputField.text
                 );
             }
             else
@@ -74,7 +75,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         hour = Validate(reorderableListComponentView.timecodeHourInputField.text),
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
-                    }
+                    },
+                    reorderableListComponentView.overrideIPInputField.text
                 );
             }
             
