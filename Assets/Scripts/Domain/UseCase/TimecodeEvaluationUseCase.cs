@@ -42,7 +42,10 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
                 if (state == PulseState.Pulse)
                 {
-                    sendToEndpointUseCase.Send(pulseSetting.OscAddress, pulseSetting.OscData);
+                    if (String.IsNullOrEmpty(pulseSetting.OverrideIp))
+                        sendToEndpointUseCase.Send(pulseSetting.OscAddress, pulseSetting.OscData);
+                    else
+                        sendToEndpointUseCase.Send(pulseSetting.OscAddress, pulseSetting.OscData, pulseSetting.OverrideIp);
                 }
                 
             }
