@@ -1,6 +1,7 @@
 ﻿
 using System;
 using ProjectBlue.RepulserEngine.DataStore;
+using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.Presentation;
 using UniRx;
 using UnityEngine;
@@ -14,15 +15,16 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         private IPulseSettingListPresenter pulseSettingListPresenter;
         private IPulseSettingRepository pulseSettingRepository;
-        private SendToEndpointUseCase sendToEndpointUseCase;
         
         private CompositeDisposable disposable = new CompositeDisposable();
         private CompositeDisposable saveButtonRegistrationDisposable = new CompositeDisposable();
+        
+        private Subject<OscMessage> onSendTriggeredSubject = new Subject<OscMessage>();
+        public IObservable<OscMessage> OnSendTriggeredAsObservable => onSendTriggeredSubject;
 
-        public PulseSettingUseCase(SendToEndpointUseCase sendToEndpointUseCase, IPulseSettingListPresenter pulseSettingListPresenter, IPulseSettingRepository pulseSettingRepository)
+        public PulseSettingUseCase(IPulseSettingListPresenter pulseSettingListPresenter, IPulseSettingRepository pulseSettingRepository)
         {
             this.pulseSettingListPresenter = pulseSettingListPresenter;
-            this.sendToEndpointUseCase = sendToEndpointUseCase;
             this.pulseSettingRepository = pulseSettingRepository;
 
             this.pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
@@ -50,6 +52,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public void Dispose()
         {
             disposable.Dispose();
+            onSendTriggeredSubject.Dispose();
         }
 
         // Sendボタンを機能させる部分
@@ -65,10 +68,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
                 {
                     var pulseSetting = pulseSettingPresenter.PulseSetting;
                     
-                    if (String.IsNullOrEmpty(pulseSetting.OverrideIp))
-                        sendToEndpointUseCase.Send(pulseSetting.OscAddress, pulseSetting.OscData);
-                    else
-                        sendToEndpointUseCase.SendToSpecificIP(pulseSetting.OscAddress, pulseSetting.OscData, pulseSetting.OverrideIp);
+                    onSendTriggeredSubject.OnNext(new OscMessage(pulseSetting.OverrideIp, pulseSetting.OscAddress, pulseSetting.OscData));
                     
                 }).AddTo(saveButtonRegistrationDisposable);    // コンポーネント削除に対応できてないのでよくない -> IPulseSettingPresenterにDisposable持たせるのがベターだけど変な実装になるのでこうしている
             }

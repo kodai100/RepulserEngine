@@ -22,6 +22,7 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
         [SerializeField] private int timecodeFrame;
 
         [SerializeField] private string overrideIp;
+        [SerializeField] private string sendkey;
 
         public PulseState PulseState { get; private set; } = PulseState.Predecessor;
         
@@ -31,8 +32,9 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
         public Timecode Timecode => new Timecode{dropFrame = false, hour = timecodeHour, minute = timecodeMinute, second = timecodeSecond,  frame = timecodeFrame};
 
         public string OverrideIp => overrideIp;
+        public string SendKey => sendkey;
         
-        public PulseSetting(string oscAddress, string oscData, Timecode timecode, string overrideIp)
+        public PulseSetting(string oscAddress, string oscData, Timecode timecode, string overrideIp, string sendkey)
         {
             this.oscAddress = oscAddress;
             this.oscData = oscData;
@@ -41,9 +43,10 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
             timecodeSecond = timecode.second;
             timecodeFrame = timecode.frame;
             this.overrideIp = overrideIp;
+            this.sendkey = sendkey;
         }
 
-        public void UpdateData(string oscAddress, string oscData, Timecode timecode, string overrideIp)
+        public void UpdateData(string oscAddress, string oscData, Timecode timecode, string overrideIp, string sendkey)
         {
             this.oscAddress = oscAddress;
             this.oscData = oscData;
@@ -52,6 +55,7 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
             timecodeSecond = timecode.second;
             timecodeFrame = timecode.frame;
             this.overrideIp = overrideIp;
+            this.sendkey = sendkey;
         }
         
         public PulseState Evaluate(Timecode timecode)

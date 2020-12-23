@@ -3,6 +3,8 @@ using Ltc;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
 using UniRx;
+using UnityEngine;
+using UniRx.Triggers;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
@@ -20,7 +22,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                 reorderableListComponentView.MinuteAsObservable,
                 reorderableListComponentView.SecondAsObservable,
                 reorderableListComponentView.FrameAsObservable,
-                reorderableListComponentView.OverrideIpAsObservable
+                reorderableListComponentView.OverrideIpAsObservable,
+                reorderableListComponentView.SendKeyAsObservable
             ).Subscribe(value =>
             {
                 reorderableListComponentView.SetEdited();
@@ -28,6 +31,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
                 UpdateData();
                 
             }).AddTo(this);
+            
         }
 
         private void Update()
@@ -63,7 +67,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
                     },
-                    reorderableListComponentView.overrideIpInputField.text
+                    reorderableListComponentView.overrideIpInputField.text,
+                    reorderableListComponentView.sendkeyInputField.text
                 );
             }
             else
@@ -79,7 +84,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
                         minute = Validate(reorderableListComponentView.timecodeMinuteInputField.text),
                         second = Validate(reorderableListComponentView.timecodeSecondInputField.text),
                     },
-                    reorderableListComponentView.overrideIpInputField.text
+                    reorderableListComponentView.overrideIpInputField.text,
+                    reorderableListComponentView.sendkeyInputField.text
                 );
             }
             

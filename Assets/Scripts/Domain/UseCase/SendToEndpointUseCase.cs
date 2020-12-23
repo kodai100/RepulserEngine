@@ -3,6 +3,7 @@ using System.Net;
 using UniRx;
 using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
@@ -16,10 +17,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         private ISenderRepository senderRepository;
         
-        public SendToEndpointUseCase(
-            IEndPointListPresenter endpointListPresenter,
-            IOverlayPresenter overlayPresenter,
-            ISenderRepository senderRepository)
+        public SendToEndpointUseCase(IEndPointListPresenter endpointListPresenter, IOverlayPresenter overlayPresenter, ISenderRepository senderRepository)
         {
             this.endpointListPresenter = endpointListPresenter;
             this.overlayPresenter = overlayPresenter;
@@ -40,20 +38,32 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             {
                 SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
-            
-            Logger.Instance.Log($"{oscAddress} : {oscData}");
-            
+
             overlayPresenter.Trigger();
         }
 
-        public void SendToSpecificIP(string oscAddress, string oscData, string ipAddress)
+        public void SendToSpecificIP(string ipAddress, string oscAddress, string oscData)
         {
-
+            var count = 0;
+            var arr =  ipAddress.Split(',');
+            
             foreach (var setting in endpointListPresenter.EndpointSettingList)
             {
                 // TODO: Consider target port
                 if (setting.EndPoint.Address.ToString().Equals(ipAddress))
+                {
                     SendIntermediator(setting.EndPoint, oscAddress, oscData);
+                }
+                    
+                foreach (var k in arr)
+                {
+                    if (!k.Equals(count.ToString())) continue;
+                    
+                    Debug.Log($"Specific ip: {setting.EndPoint.Address}");
+                    SendIntermediator(setting.EndPoint, oscAddress, oscData);
+                }
+                
+                count++;
             }
             
             Logger.Instance.Log($"{oscAddress} : {oscData}");
@@ -61,9 +71,16 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             overlayPresenter.Trigger();
         }
 
+
         private void SendIntermediator(IPEndPoint endPoint, string oscAddress, string oscData)
         {
 
+            if (string.IsNullOrEmpty(oscData))
+            {
+                senderRepository.Send(endPoint, oscAddress, "null");
+                return;
+            }
+            
             // float detection
             if (oscData.Contains("."))
             {

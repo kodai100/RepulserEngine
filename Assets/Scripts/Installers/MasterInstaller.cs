@@ -1,5 +1,6 @@
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
+using ProjectBlue.RepulserEngine.Entity;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 
@@ -11,6 +12,9 @@ namespace ProjectBlue.RepulserEngine.Installer
         {
             // presenters is registered via zenject binding component
 
+            Container.BindInterfacesAndSelfTo<KeyboardInputDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<KeyboardInputRepository>().AsSingle();
+            
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
 
@@ -19,15 +23,23 @@ namespace ProjectBlue.RepulserEngine.Installer
 
             Container.BindInterfacesAndSelfTo<PulseSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<PulseSettingRepository>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandSettingRepository>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<EndpointSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingRepository>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<PulseSettingUseCase>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<EndpointSettingUseCase>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
+            
+            Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PulseSettingUseCase>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandSettingUseCase>().AsSingle();
+            
+
+            Container.BindInterfacesAndSelfTo<Main>().AsSingle().NonLazy();
 
         }
     }

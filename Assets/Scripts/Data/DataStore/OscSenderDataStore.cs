@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.DataStore
 {
@@ -16,16 +17,19 @@ namespace ProjectBlue.RepulserEngine.DataStore
         public void Send(IPEndPoint endpoint, string oscAddress, string oscData)
         {
             oscSender.Send(endpoint, oscAddress, oscData);
+            Debug.Log($"[DataStore] Send : {endpoint}, {oscAddress}, {oscData}");
         }
 
         public void Send(IPEndPoint endpoint, string oscAddress, float oscData)
         {
             oscSender.Send(endpoint, oscAddress, oscData);
+            Debug.Log($"[DataStore] Send : {endpoint}, {oscAddress}, {oscData}");
         }
 
         public void Send(IPEndPoint endpoint, string oscAddress, int oscData)
         {
             oscSender.Send(endpoint, oscAddress, oscData);
+            Debug.Log($"[DataStore] Send : {endpoint}, {oscAddress}, {oscData}");
         }
     }
 

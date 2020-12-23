@@ -51,7 +51,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
                 }
                 else
                 {
-                    Debug.Log($"Frame skipped : {currentTimecode} - Last Effective : {lastEffectiveTimecode}");
+                    // Debug.Log($"Frame skipped : {currentTimecode} - Last Effective : {lastEffectiveTimecode}");
                 }
 
                 lastTwoTimecode = lastTimecode;
