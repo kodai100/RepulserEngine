@@ -13,14 +13,14 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         private IEndPointListPresenter endpointListPresenter;
-        private IOverlayPresenter overlayPresenter;
+        private IPulseDisplayPresenter pulseDisplayPresenter;
 
         private ISenderRepository senderRepository;
         
-        public SendToEndpointUseCase(IEndPointListPresenter endpointListPresenter, IOverlayPresenter overlayPresenter, ISenderRepository senderRepository)
+        public SendToEndpointUseCase(IEndPointListPresenter endpointListPresenter, IPulseDisplayPresenter pulseDisplayPresenter, ISenderRepository senderRepository)
         {
             this.endpointListPresenter = endpointListPresenter;
-            this.overlayPresenter = overlayPresenter;
+            this.pulseDisplayPresenter = pulseDisplayPresenter;
             this.senderRepository = senderRepository;
 
             endpointListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
@@ -39,7 +39,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
                 SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
 
-            overlayPresenter.Trigger();
+            pulseDisplayPresenter.Trigger();
         }
 
         public void SendToSpecificIP(string ipAddress, string oscAddress, string oscData)
@@ -68,7 +68,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             
             Logger.Instance.Log($"{oscAddress} : {oscData}");
             
-            overlayPresenter.Trigger();
+            pulseDisplayPresenter.Trigger();
         }
 
 

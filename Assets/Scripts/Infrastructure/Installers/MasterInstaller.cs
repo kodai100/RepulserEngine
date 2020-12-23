@@ -1,6 +1,7 @@
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.Entity;
+using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 
@@ -11,6 +12,8 @@ namespace ProjectBlue.RepulserEngine.Installer
         public override void InstallBindings()
         {
             // presenters is registered via zenject binding component
+
+            Container.BindInterfacesAndSelfTo<PulseDisplayPresenter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<KeyboardInputDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<KeyboardInputRepository>().AsSingle();

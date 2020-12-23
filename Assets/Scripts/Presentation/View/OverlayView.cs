@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectBlue.RepulserEngine.Presentation
+namespace ProjectBlue.RepulserEngine.View
 {
-    public class Overlay : MonoBehaviour, IOverlayPresenter
+    public class OverlayView : MonoBehaviour, IOverlayView
     {
 
         [SerializeField] private Image overlayImage;
@@ -54,4 +54,3 @@ namespace ProjectBlue.RepulserEngine.Presentation
     }
 
 }
-

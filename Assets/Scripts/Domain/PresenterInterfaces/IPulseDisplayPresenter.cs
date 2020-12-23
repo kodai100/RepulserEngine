@@ -1,6 +1,6 @@
 ﻿namespace ProjectBlue.RepulserEngine
 {
-    public interface IOverlayPresenter
+    public interface IPulseDisplayPresenter
     {
         void Trigger();
     }
