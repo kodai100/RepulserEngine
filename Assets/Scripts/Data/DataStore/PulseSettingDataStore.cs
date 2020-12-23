@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using UnityEngine;
 
@@ -32,8 +33,9 @@ namespace ProjectBlue.RepulserEngine.DataStore
 
         private static readonly string JsonFilePath =
             Path.Combine(UnityEngine.Application.streamingAssetsPath, "PulseSetting.json");
-        
-        public PulseSettingDataStore() { }
+
+        private List<PulseSetting> pulseSettingList;
+        public IEnumerable<PulseSetting> PulseSettingList => pulseSettingList;
 
         public void Save(IEnumerable<PulseSetting> pulseSettings)
         {
@@ -53,6 +55,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
                     Debug.Log (e);
                 }
             }
+            
+            pulseSettingList = pulseSettings.ToList();
             
             Debug.Log($"Saved : {JsonFilePath}");
         }
@@ -77,6 +81,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
             {
                 Debug.Log (e);
             }
+            
+            pulseSettingList = jsonDeserializedData.Data.ToList();
             
             return jsonDeserializedData.Data;
         }

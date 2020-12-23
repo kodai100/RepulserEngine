@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using UnityEngine;
 
@@ -33,7 +34,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
         private static readonly string JsonFilePath =
             Path.Combine(UnityEngine.Application.streamingAssetsPath, "EndpointSetting.json");
         
-        public EndpointSettingDataStore() { }
+        private List<EndpointSetting> endpointList;
+        public IEnumerable<EndpointSetting> EndPointList => endpointList;
 
         public void Save(IEnumerable<EndpointSetting> endpointSettings)
         {
@@ -53,6 +55,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
                     Debug.Log (e);
                 }
             }
+
+            endpointList = endpointSettings.ToList();
             
             Debug.Log($"Saved : {JsonFilePath}");
         }
@@ -77,6 +81,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
             {
                 Debug.Log (e);
             }
+            
+            endpointList = jsonDeserializedData.Data.ToList();
             
             return jsonDeserializedData.Data;
         }

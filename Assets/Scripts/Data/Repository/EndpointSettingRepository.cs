@@ -8,7 +8,8 @@ namespace ProjectBlue.RepulserEngine.Repository
     {
 
         private IEndpointSettingDataStore endpointSettingDataStore;
-        
+        public IEnumerable<EndpointSetting> EndPointList => endpointSettingDataStore.EndPointList;
+
         public EndpointSettingRepository(IEndpointSettingDataStore endpointSettingDataStore)
         {
             this.endpointSettingDataStore = endpointSettingDataStore;

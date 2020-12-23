@@ -27,26 +27,19 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             this.pulseSettingListPresenter = pulseSettingListPresenter;
             this.pulseSettingRepository = pulseSettingRepository;
 
-            this.pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            this.pulseSettingListPresenter.OnSaveAsObservable.Subscribe(list =>
             {
                 // _pulseSettingListPresenter.UpdateData();
-                this.pulseSettingRepository.Save(this.pulseSettingListPresenter.PulseSettingList);
+                this.pulseSettingRepository.Save(list);
 
             }).AddTo(disposable);
 
-            pulseSettingListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
-            {
-                RegisterComponentPerSend();
-            }).AddTo(disposable);
-            
         }
         
         public void Initialize()
         {
             var data = pulseSettingRepository.Load();
             pulseSettingListPresenter.SetData(data);
-            
-            RegisterComponentPerSend();
         }
 
         public void Dispose()
@@ -55,26 +48,6 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             onSendTriggeredSubject.Dispose();
         }
 
-        // Sendボタンを機能させる部分
-        private void RegisterComponentPerSend()
-        {
-            // 永遠に残るのでセーブボタンが押されるたびに破棄して接続しなおす
-            saveButtonRegistrationDisposable.Dispose();
-            saveButtonRegistrationDisposable = new CompositeDisposable();
-            
-            foreach (var pulseSettingPresenter in pulseSettingListPresenter.PulseSettingPresenterList)
-            {
-                pulseSettingPresenter.OnSendButtonClickedAsObservable.Subscribe(__ =>
-                {
-                    var pulseSetting = pulseSettingPresenter.PulseSetting;
-                    
-                    onSendTriggeredSubject.OnNext(new OscMessage(pulseSetting.OverrideIp, pulseSetting.OscAddress, pulseSetting.OscData));
-                    
-                }).AddTo(saveButtonRegistrationDisposable);    // コンポーネント削除に対応できてないのでよくない -> IPulseSettingPresenterにDisposable持たせるのがベターだけど変な実装になるのでこうしている
-            }
-            
-        }
-        
     }
     
 }

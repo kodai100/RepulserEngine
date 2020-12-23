@@ -1,18 +1,17 @@
 ﻿using System;
 using Ltc;
+using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
 using UniRx;
-using UnityEngine;
-using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     public class TimecodeEvaluationUseCase : IDisposable
     {
-        private IPulseSettingListPresenter pulseSettingListPresenter;
         private IKeyboardInputRepository keyboardInputRepository;
+        private IPulseSettingRepository pulseSettingRepository;
         
         private CompositeDisposable disposable = new CompositeDisposable();
         
@@ -22,15 +21,17 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public TimecodeEvaluationUseCase(
             IPulseSettingListPresenter pulseSettingListPresenter,
             ITimecodeDecoderRepository timecodeDecoderRepository,
-            IKeyboardInputRepository keyboardInputRepository)
+            IKeyboardInputRepository keyboardInputRepository, 
+            IPulseSettingRepository pulseSettingRepository
+            )
         {
             
-            this.pulseSettingListPresenter = pulseSettingListPresenter;
             this.keyboardInputRepository = keyboardInputRepository;
+            this.pulseSettingRepository = pulseSettingRepository;
 
             keyboardInputRepository.OnInputAsObservable.Subscribe(key =>
             {
-                foreach (var pulseSetting in pulseSettingListPresenter.PulseSettingList)
+                foreach (var pulseSetting in pulseSettingRepository.PulseSettingList)
                 {
                     if(pulseSetting == null) continue;
                     if(pulseSetting.SendKey == null) continue;
@@ -50,7 +51,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         private void OnTimecodeUpdated(Timecode timecode)
         {
 
-            foreach (var pulseSetting in pulseSettingListPresenter.PulseSettingList)
+            foreach (var pulseSetting in pulseSettingRepository.PulseSettingList)
             {
                 
                 if(pulseSetting == null) continue;

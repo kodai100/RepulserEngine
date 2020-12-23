@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using ProjectBlue.RepulserEngine.DataStore;
 using UniRx;
 using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
@@ -11,19 +12,20 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
     {
 
         private CompositeDisposable _disposable = new CompositeDisposable();
-
-        private IEndPointListPresenter endpointListPresenter;
+        
         private IPulseDisplayPresenter pulseDisplayPresenter;
 
         private ISenderRepository senderRepository;
+        private IEndpointSettingRepository endpointSettingRepository;
         
-        public SendToEndpointUseCase(IEndPointListPresenter endpointListPresenter, IPulseDisplayPresenter pulseDisplayPresenter, ISenderRepository senderRepository)
+        public SendToEndpointUseCase(IEndPointListPresenter endpointListPresenter, IPulseDisplayPresenter pulseDisplayPresenter,
+            ISenderRepository senderRepository, IEndpointSettingRepository endpointSettingRepository)
         {
-            this.endpointListPresenter = endpointListPresenter;
             this.pulseDisplayPresenter = pulseDisplayPresenter;
             this.senderRepository = senderRepository;
-
-            endpointListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            this.endpointSettingRepository = endpointSettingRepository;
+            
+            endpointListPresenter.OnSaveAsObservable.Subscribe(_ =>
             {
                 Send("/connection-test-string", "Connection test : Hello string!");
                 Send("/connection-test-string", "10");
@@ -34,7 +36,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public void Send(string oscAddress, string oscData)
         {
 
-            foreach (var setting in endpointListPresenter.EndpointSettingList)
+            foreach (var setting in endpointSettingRepository.EndPointList)
             {
                 SendIntermediator(setting.EndPoint, oscAddress, oscData);
             }
@@ -47,7 +49,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             var count = 0;
             var arr =  ipAddress.Split(',');
             
-            foreach (var setting in endpointListPresenter.EndpointSettingList)
+            foreach (var setting in endpointSettingRepository.EndPointList)
             {
                 // TODO: Consider target port
                 if (setting.EndPoint.Address.ToString().Equals(ipAddress))

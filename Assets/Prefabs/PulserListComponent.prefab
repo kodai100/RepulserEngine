@@ -3088,7 +3088,6 @@ GameObject:
   - component: {fileID: 7357284205982446440}
   - component: {fileID: 7357284205982446442}
   - component: {fileID: 2988372729696343218}
-  - component: {fileID: 8989888627331514664}
   m_Layer: 5
   m_Name: PulserListComponent
   m_TagString: Untagged
@@ -3192,6 +3191,8 @@ MonoBehaviour:
   upButton: {fileID: 7867676364547637457}
   deleteButton: {fileID: 6853426344528776634}
   downButton: {fileID: 6260605079562920019}
+  backgroundImage: {fileID: 7357284206791450833}
+  defaultBackground: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   sendButton: {fileID: 9016948042352906555}
   oscAddressField: {fileID: 7527181410059886164}
   oscDataField: {fileID: 5587403325941207180}
@@ -3204,28 +3205,6 @@ MonoBehaviour:
   backgroundImage: {fileID: 7357284206791450833}
   beforeColor: {r: 0, g: 0.3, b: 0.3, a: 1}
   afterColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
---- !u!114 &8989888627331514664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7357284205982446444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84bc9687c6b3f847bc6014e09fa840b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reorderableListComponentView: {fileID: 2988372729696343218}
-  Data:
-    oscAddress: 
-    oscData: 
-    timecodeHour: 0
-    timecodeMinute: 0
-    timecodeSecond: 0
-    timecodeFrame: 0
-    overrideIp: 
-    sendkey: 
 --- !u!1 &7357284206791450835
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using System;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Presentation;
 using UniRx;
-using UnityEngine;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
@@ -17,15 +16,14 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         
         private CompositeDisposable _disposable = new CompositeDisposable();
         
-        public EndpointSettingUseCase(IEndPointListPresenter endPointListPresenter,
-            IEndpointSettingRepository endpointSettingRepository)
+        public EndpointSettingUseCase(IEndPointListPresenter endPointListPresenter, IEndpointSettingRepository endpointSettingRepository)
         {
             this.endPointListPresenter = endPointListPresenter;
 
-            endPointListPresenter.OnSaveButtonClickedAsObservable.Subscribe(_ =>
+            endPointListPresenter.OnSaveAsObservable.Subscribe(list =>
             {
                 
-                endpointSettingRepository.Save(endPointListPresenter.EndpointSettingList);
+                endpointSettingRepository.Save(list);
 
             }).AddTo(_disposable);
             

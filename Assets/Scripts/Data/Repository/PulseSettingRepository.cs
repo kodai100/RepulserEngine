@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.Model;
 
@@ -8,7 +9,9 @@ namespace ProjectBlue.RepulserEngine.Repository
     {
 
         private IPulseSettingDataStore pulseSettingDataStore;
-        
+
+        public IEnumerable<PulseSetting> PulseSettingList => pulseSettingDataStore.PulseSettingList;
+
         public PulseSettingRepository(IPulseSettingDataStore pulseSettingDataStore)
         {
             this.pulseSettingDataStore = pulseSettingDataStore;

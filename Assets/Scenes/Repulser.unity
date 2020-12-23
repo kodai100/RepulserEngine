@@ -5242,7 +5242,6 @@ GameObject:
   - component: {fileID: 1385318368}
   - component: {fileID: 1385318367}
   - component: {fileID: 1385318366}
-  - component: {fileID: 1385318369}
   - component: {fileID: 1385318370}
   m_Layer: 5
   m_Name: SenderAssembly
@@ -5283,13 +5282,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385318364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b4e76578313b284fbb7c92052b6ebb8, type: 3}
+  m_Script: {fileID: 11500000, guid: e4b669702d750b94287d0da1fca78ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 2059492263}
   saveButton: {fileID: 1767292151}
   removeAllButton: {fileID: 578118150}
   scrollViewParentTransform: {fileID: 335099933}
+  listComponentPrefab: {fileID: 1243732157714130587, guid: 1e875e6cfc72f1c44bcf5ffe18c76dc3,
+    type: 3}
+  ComponentList: []
 --- !u!114 &1385318367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5327,22 +5329,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385318364}
   m_CullTransparentMesh: 0
---- !u!114 &1385318369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385318364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eef149fdd6772847a7499b75adbc39b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listView: {fileID: 1385318366}
-  listComponentPrefab: {fileID: 4214786714952703429, guid: 1e875e6cfc72f1c44bcf5ffe18c76dc3,
-    type: 3}
-  ComponentList: []
 --- !u!114 &1385318370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5356,7 +5342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 1385318369}
+  - {fileID: 1385318366}
   _identifier: 
   _useSceneContext: 1
   _context: {fileID: 0}
@@ -7355,7 +7341,6 @@ GameObject:
   - component: {fileID: 1867577833}
   - component: {fileID: 1867577838}
   - component: {fileID: 1867577837}
-  - component: {fileID: 1867577836}
   - component: {fileID: 1867577835}
   - component: {fileID: 1867577834}
   m_Layer: 5
@@ -7415,29 +7400,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1867577832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61484f62f9fc4bd409d4cb0965139b7f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a2a1b0f9a95224459525263b6a9dbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listView: {fileID: 1867577836}
-  listComponentPrefab: {fileID: 8252802275025090122, guid: f1261148a09041b41bc96289a3eb5926,
+  listComponentPrefab: {fileID: 731157435060003736, guid: f1261148a09041b41bc96289a3eb5926,
     type: 3}
-  componentList: []
---- !u!114 &1867577836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867577832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b4e76578313b284fbb7c92052b6ebb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   addButton: {fileID: 1904726050}
   saveButton: {fileID: 651857871}
   removeAllButton: {fileID: 1305846377}
   scrollViewParentTransform: {fileID: 1106245816}
+  componentList: []
 --- !u!114 &1867577837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7996,7 +7968,6 @@ GameObject:
   - component: {fileID: 1985310634}
   - component: {fileID: 1985310633}
   - component: {fileID: 1985310635}
-  - component: {fileID: 1985310636}
   - component: {fileID: 1985310637}
   m_Layer: 5
   m_Name: SignalPulser
@@ -8074,28 +8045,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1985310631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b4e76578313b284fbb7c92052b6ebb8, type: 3}
+  m_Script: {fileID: 11500000, guid: ffb309ed1a0697e4eb11fc7faa3f0392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listComponentPrefab: {fileID: 2988372729696343218, guid: 914bf5bab9b699543857cdcb9c61c9fa,
+    type: 3}
   addButton: {fileID: 130864208}
   saveButton: {fileID: 1422090689}
   removeAllButton: {fileID: 1112898341}
   scrollViewParentTransform: {fileID: 1691175700}
---- !u!114 &1985310636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985310631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6314cb1daf3c85e43b89ee2be2528696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listView: {fileID: 1985310635}
-  listComponentPrefab: {fileID: 8989888627331514664, guid: 914bf5bab9b699543857cdcb9c61c9fa,
-    type: 3}
   componentList: []
 --- !u!114 &1985310637
 MonoBehaviour:
@@ -8110,7 +8068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 1985310636}
+  - {fileID: 1985310635}
   _identifier: 
   _useSceneContext: 1
   _context: {fileID: 0}

@@ -1,3 +1,16 @@
-﻿{
-	"name": "RepulserEngine.ViewInterface"
+{
+    "name": "RepulserEngine.ViewInterface",
+    "references": [
+        "GUID:0e53b2bb75da5b9488eee3180595203d",
+        "GUID:db50f50b3962ccb4083db31bf9150d7f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

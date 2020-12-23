@@ -14,6 +14,8 @@ namespace ProjectBlue.RepulserEngine.Installer
             // presenters is registered via zenject binding component
 
             Container.BindInterfacesAndSelfTo<PulseDisplayPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PulseSettingListPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EndpointListPresenter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<KeyboardInputDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<KeyboardInputRepository>().AsSingle();
@@ -27,6 +29,7 @@ namespace ProjectBlue.RepulserEngine.Installer
             Container.BindInterfacesAndSelfTo<PulseSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<PulseSettingRepository>().AsSingle();
 
+            Container.BindInterfacesAndSelfTo<CommandSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingRepository>().AsSingle();
             

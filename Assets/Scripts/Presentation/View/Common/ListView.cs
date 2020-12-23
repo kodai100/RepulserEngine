@@ -1,29 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectBlue.RepulserEngine.View;
 using UnityEngine;
 using UniRx;
+using UnityEngine.UI;
 
-namespace ProjectBlue.RepulserEngine.Presentation
+namespace ProjectBlue.RepulserEngine.View
 {
-    public abstract class ListPresenter<T, U, V> : MonoBehaviour where T : ListComponentPresenter<U, V> where U : ListComponentView<V>
+    public abstract class ListView<T, U> : MonoBehaviour where T : ListComponentView<U>
     {
 
-        [SerializeField] private ListView listView;
-    
+        [SerializeField] private Button addButton;
+        [SerializeField] protected Button saveButton;
+        [SerializeField] private Button removeAllButton;
+        [SerializeField] protected RectTransform scrollViewParentTransform;
+        
         [SerializeField] private T listComponentPrefab;
 
         [SerializeField, ReadOnly] public List<T> ComponentList = new List<T>();
-        public IObservable<Unit> OnSaveButtonClickedAsObservable => listView.OnSaveButtonClickedAsObservable;
-        
+
         private void Start()
         {
-            listView.OnAddButtonClickedAsObservable.Subscribe(_ =>
+            addButton.OnClickAsObservable().Subscribe(_ =>
             {
                 AddToList();
             }).AddTo(this);
 
-            listView.OnRemoveAllButtonClickedAsObservable.Subscribe(_ =>
+            removeAllButton.OnClickAsObservable().Subscribe(_ =>
             {
                 ClearList();
             }).AddTo(this);
@@ -35,7 +37,8 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
         private void AddToList()
         {
-            var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
+            var listComponentPresenter = Instantiate(listComponentPrefab, scrollViewParentTransform);
+            
             listComponentPresenter.Initialize(() =>
             {
                 ComponentList.Remove(listComponentPresenter);
@@ -52,18 +55,20 @@ namespace ProjectBlue.RepulserEngine.Presentation
             ComponentList.Clear();
         }
         
-        public void SetData(IEnumerable<V> data)
+        public void SetData(IEnumerable<U> data)
         {
+            
             foreach (var component in data)
             {
-                var listComponentPresenter = Instantiate(listComponentPrefab, listView.ScrollViewParentTransform);
+                var listComponentPresenter = Instantiate(listComponentPrefab, scrollViewParentTransform);
                 listComponentPresenter.Initialize(() =>
                 {
                     ComponentList.Remove(listComponentPresenter);
                 });
-                listComponentPresenter.SetData(component);
+                listComponentPresenter.UpdateView(component);
                 ComponentList.Add(listComponentPresenter);
             }
+            
         }
         
     }

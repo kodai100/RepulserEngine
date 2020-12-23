@@ -17,9 +17,7 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
         public IPEndPoint EndPoint => new IPEndPoint(IPAddress.Parse(ip), port);
         public string EndPointName => endpointName;
         public int OffsetFrame => offsetFrame;
-        
-        
-    
+
         public EndpointSetting(IPEndPoint endPoint, string endPointName, int offsetFrame)
         {
             this.endpointName = endPointName;
@@ -28,15 +26,7 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
             ip = endPoint.Address.ToString();
             port = endPoint.Port;
         }
-
-        public void UpdateData(IPEndPoint endPoint, string endPointName, int offsetFrame)
-        {
-            this.endpointName = endPointName;
-            this.offsetFrame = offsetFrame;
-            
-            ip = endPoint.Address.ToString();
-            port = endPoint.Port;
-        }
+        
     }
 
 }

@@ -1,29 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
-using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class PulseSettingListPresenter : ReorderableListPresenter<PulseSettingPresenter, PulseSettingView, PulseSetting>, IPulseSettingListPresenter
+    public class PulseSettingListPresenter : IPulseSettingListPresenter
     {
+        private IPulseSettingListView<PulseSetting> pulseSettingListView;
+
+        public IObservable<IEnumerable<PulseSetting>> OnSaveAsObservable => pulseSettingListView.OnSaveAsObservable;
+        public IObservable<int> OnSendAsObservable { get; }
         
-        public IEnumerable<PulseSetting> PulseSettingList => ReorderedComponentList.Select(presenter => presenter.Data);
-        public IEnumerable<IPulseSettingPresenter> PulseSettingPresenterList => ReorderedComponentList.Select(presenter => presenter as IPulseSettingPresenter);
-        
-        protected override void StartInternal()
+        public PulseSettingListPresenter(IPulseSettingListView<PulseSetting> pulseSettingListView)
         {
-            
-            listView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
-            {
-                foreach (var component in ReorderedComponentList)
-                {
-                    component.SetBackgroundSaved();
-                }
-                
-            }).AddTo(this);
-            
+            this.pulseSettingListView = pulseSettingListView;
+        }
+        
+        public void SetData(IEnumerable<PulseSetting> settingList)
+        {
+            pulseSettingListView.SetData(settingList);
         }
     }
 

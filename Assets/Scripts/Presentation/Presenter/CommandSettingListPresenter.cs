@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
-using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class CommandSettingListPresenter : ReorderableListPresenter<CommandSettingPresenter, CommandSettingView, CommandSetting>, ICommandSettingListPresenter
+    public class CommandSettingListPresenter : ICommandSettingListPresenter
     {
         
-        public IEnumerable<CommandSetting> CommandSettingList => ReorderedComponentList.Select(presenter => presenter.Data);
-        public IEnumerable<ICommandSettingPresenter> CommandSettingPresenterList => ReorderedComponentList.Select(presenter => presenter as ICommandSettingPresenter);
+        private ICommandSettingListView<CommandSetting> commandSettingListView;
+        public IObservable<IEnumerable<CommandSetting>> OnSaveAsObservable => commandSettingListView.OnSaveAsObservable;
         
-        protected override void StartInternal()
+        // public IObservable<int> OnSendAsObservable { get; }
+        
+        public CommandSettingListPresenter(ICommandSettingListView<CommandSetting> commandSettingListView)
         {
-            
-            listView.OnSaveButtonClickedAsObservable.Subscribe(_ =>
-            {
-                foreach (var component in ReorderedComponentList)
-                {
-                    component.SetBackgroundSaved();
-                }
-                
-            }).AddTo(this);
-            
+            this.commandSettingListView = commandSettingListView;
+        }
+        
+        public void SetData(IEnumerable<CommandSetting> settingList)
+        {
+            commandSettingListView.SetData(settingList);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Ltc;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,27 +25,13 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public InputField overrideIpInputField;
         [SerializeField] public InputField sendkeyInputField;
         
-
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
         [SerializeField] private Color afterColor = new Color(0.2f, 0.2f, 0.2f);
 
-        public IObservable<string> HourAsObservable => timecodeHourInputField.OnValueChangedAsObservable().Skip(1);
-        public IObservable<string> MinuteAsObservable => timecodeMinuteInputField.OnValueChangedAsObservable().Skip(1);
-        public IObservable<string> SecondAsObservable => timecodeSecondInputField.OnValueChangedAsObservable().Skip(1);
-        public IObservable<string> FrameAsObservable => timecodeFrameInputField.OnValueChangedAsObservable().Skip(1);
-
-        public IObservable<string> OverrideIpAsObservable => overrideIpInputField.OnValueChangedAsObservable().Skip(1);
-        public IObservable<string> SendKeyAsObservable => sendkeyInputField.OnValueChangedAsObservable().Skip(1);
-
-        public IObservable<string> OscAddressAsObservable => oscAddressField.OnValueChangedAsObservable().Skip(1);
-        public IObservable<string> OscDataAsObservable => oscDataField.OnValueChangedAsObservable().Skip(1);
-
         public IObservable<Unit> OnSendButtonClickedAsObservable => sendButton.OnClickAsObservable();
 
-        // private Material mat;
-
-        public enum State
+        private enum State
         {
             Initialize,
             Before,
@@ -55,6 +42,50 @@ namespace ProjectBlue.RepulserEngine.View
         }
 
         private State state = State.Initialize;
+        
+        private void Start()
+        {
+            Observable.Merge(
+                timecodeHourInputField.OnValueChangedAsObservable().Skip(1),
+                timecodeMinuteInputField.OnValueChangedAsObservable().Skip(1),
+                timecodeSecondInputField.OnValueChangedAsObservable().Skip(1),
+                timecodeFrameInputField.OnValueChangedAsObservable().Skip(1),
+                overrideIpInputField.OnValueChangedAsObservable().Skip(1),
+                sendkeyInputField.OnValueChangedAsObservable().Skip(1),
+                oscAddressField.OnValueChangedAsObservable().Skip(1),
+                oscDataField.OnValueChangedAsObservable().Skip(1)
+            ).Subscribe(value =>
+            {
+                SetEdited();
+            }).AddTo(this);
+            
+        }
+
+        // Validate input and create data
+        public PulseSetting CreateData()
+        {
+
+            try
+            {
+                var hour = int.Parse(timecodeHourInputField.text);
+                var minute = int.Parse(timecodeMinuteInputField.text);
+                var second = int.Parse(timecodeSecondInputField.text);
+                var frame = int.Parse(timecodeFrameInputField.text);
+
+                var timecode = new Timecode{dropFrame = false, hour = hour, minute = minute, second = second, frame = frame};
+                return new PulseSetting(oscAddressField.text, oscDataField.text, timecode, overrideIpInputField.text, sendkeyInputField.text);
+            }
+            catch
+            {
+                return null;
+            }
+            
+        }
+
+        public void UpdateTimecode(Timecode timecode)
+        {
+            
+        }
 
         public override void SetData(PulseSetting pulseSetting)
         {

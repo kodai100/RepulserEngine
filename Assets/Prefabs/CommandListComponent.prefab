@@ -1326,7 +1326,6 @@ GameObject:
   - component: {fileID: 7357284205982446440}
   - component: {fileID: 7357284205982446442}
   - component: {fileID: 731157435060003736}
-  - component: {fileID: 8252802275025090122}
   m_Layer: 5
   m_Name: CommandListComponent
   m_TagString: Untagged
@@ -1433,29 +1432,13 @@ MonoBehaviour:
   upButton: {fileID: 5036722879478174130}
   deleteButton: {fileID: 6853426344528776634}
   downButton: {fileID: 7539894961279050349}
+  backgroundImage: {fileID: 7357284206791450833}
+  defaultBackground: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   pauseButton: {fileID: 9016948042352906555}
   stopButton: {fileID: 1491759008893993049}
   backButton: {fileID: 1920485377728089670}
   skipButton: {fileID: 3609199018082507739}
   oscAddressField: {fileID: 7527181410059886164}
-  backgroundImage: {fileID: 7357284206791450833}
-  beforeColor: {r: 0, g: 0.5, b: 0.5, a: 1}
-  afterColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
---- !u!114 &8252802275025090122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7357284205982446444}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74589b9432995ef4d8b5ea82e8560737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reorderableListComponentView: {fileID: 731157435060003736}
-  Data:
-    oscAddress: 
 --- !u!1 &7357284206791450835
 GameObject:
   m_ObjectHideFlags: 0
