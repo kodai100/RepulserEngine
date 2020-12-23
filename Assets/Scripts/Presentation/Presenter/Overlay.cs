@@ -16,8 +16,6 @@ namespace ProjectBlue.RepulserEngine.Presentation
     
         private float time = 0;
 
-        private bool running = false;
-
         private float fraction = 0;
 
         private void Start()
@@ -27,24 +25,18 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
         public void Trigger()
         {
-            if (running) return;
-        
             currentColor = new Color(warningColor.r, warningColor.g, warningColor.b, defaultAlpha);
             overlayImage.enabled = true;
-            running = true;
             time = 0;
         }
 
         private void Finish()
         {
-            running = false;
             overlayImage.enabled = false;
         }
 
         private void Update()
         {
-            if (!running) return;
-        
             time += Time.deltaTime;
 
             fraction = time / fadeTime;
