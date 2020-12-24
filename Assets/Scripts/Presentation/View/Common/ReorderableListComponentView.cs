@@ -12,7 +12,7 @@ namespace ProjectBlue.RepulserEngine
         [SerializeField] protected Button deleteButton;
         [SerializeField] protected Button downButton;
 
-        [SerializeField] private Image backgroundImage;
+        [SerializeField] protected Image backgroundImage;
         [SerializeField] private Color defaultBackground = Color.gray;
 
         public int Index => transform.GetSiblingIndex();

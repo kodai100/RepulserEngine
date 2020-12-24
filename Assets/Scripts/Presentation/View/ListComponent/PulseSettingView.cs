@@ -25,7 +25,6 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public InputField overrideIpInputField;
         [SerializeField] public InputField sendkeyInputField;
         
-        [SerializeField] private Image backgroundImage;
         [SerializeField] private Color beforeColor = new Color(0, 0.5f, 0.5f);
         [SerializeField] private Color afterColor = new Color(0.2f, 0.2f, 0.2f);
 
