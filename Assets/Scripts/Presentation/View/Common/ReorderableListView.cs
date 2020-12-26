@@ -55,16 +55,18 @@ namespace ProjectBlue.RepulserEngine.View
             componentList.Add(listComponentPresenter);
         }
 
-        private void ReorderUp(T listComponentPresenter)
+        private void ReorderUp(T listComponentView)
         {
-            var currentIndex = listComponentPresenter.transform.GetSiblingIndex();
-            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex-1, 0, componentList.Count));
+            var currentIndex = listComponentView.transform.GetSiblingIndex();
+            listComponentView.transform.SetSiblingIndex(Mathf.Clamp(currentIndex-1, 0, componentList.Count));
+            listComponentView.UpdateIndex();
         }
         
-        private void ReorderDown(T listComponentPresenter)
+        private void ReorderDown(T listComponentView)
         {
-            var currentIndex = listComponentPresenter.transform.GetSiblingIndex();
-            listComponentPresenter.transform.SetSiblingIndex(Mathf.Clamp(currentIndex+1, 0, componentList.Count));
+            var currentIndex = listComponentView.transform.GetSiblingIndex();
+            listComponentView.transform.SetSiblingIndex(Mathf.Clamp(currentIndex+1, 0, componentList.Count));
+            listComponentView.UpdateIndex();
         }
 
         private void ClearList()
@@ -91,7 +93,7 @@ namespace ProjectBlue.RepulserEngine.View
                 {
                     ReorderDown(listComponentPresenter);
                 });
-                listComponentPresenter.SetData(component);
+                listComponentPresenter.UpdateView(component);
                 componentList.Add(listComponentPresenter);
             }
         }

@@ -86,7 +86,7 @@ namespace ProjectBlue.RepulserEngine.View
             
         }
 
-        public override void SetData(PulseSetting pulseSetting)
+        public override void UpdateView(PulseSetting pulseSetting)
         {
             oscAddressField.text = pulseSetting.OscAddress;
             oscDataField.text = pulseSetting.OscData;

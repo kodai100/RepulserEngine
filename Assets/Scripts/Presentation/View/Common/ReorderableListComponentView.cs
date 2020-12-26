@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace ProjectBlue.RepulserEngine
     public abstract class ReorderableListComponentView<T> : MonoBehaviour
     {
 
+        [SerializeField] protected TMP_Text indexText;
         [SerializeField] protected Button upButton;
         [SerializeField] protected Button deleteButton;
         [SerializeField] protected Button downButton;
@@ -36,6 +38,11 @@ namespace ProjectBlue.RepulserEngine
             }).AddTo(this);
         }
 
+        public void UpdateIndex()
+        {
+            indexText.text = $"{Index:D2}";
+        }
+
         protected void SetDirty()
         {
             ChangeBackgroundColor(Color.red);
@@ -51,8 +58,8 @@ namespace ProjectBlue.RepulserEngine
             backgroundImage.color = color;
         }
 
-        public abstract void SetData(T data);
-
+        public abstract void UpdateView(T data);
+        
     }
 
 }

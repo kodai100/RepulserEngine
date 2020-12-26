@@ -16,10 +16,7 @@ namespace ProjectBlue.RepulserEngine.View
         protected override void StartInternal()
         {
             
-            onSaveSubject.OnNext(ReorderedComponentList.Select(component =>
-            {
-                return new CommandSetting(component.oscAddressField.text);
-            }));
+            onSaveSubject.OnNext(ReorderedComponentList.Select(component => new CommandSetting(component.oscAddressField.text)));
             
             saveButton.OnClickAsObservable().Subscribe(_ =>
             {

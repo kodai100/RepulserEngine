@@ -33,7 +33,7 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
         }
 
-        public override void SetData(CommandSetting commandsetting)
+        public override void UpdateView(CommandSetting commandsetting)
         {
             oscAddressField.text = commandsetting.OscAddress;
         }

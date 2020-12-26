@@ -1,5 +1,4 @@
-﻿using System;
-using Ltc;
+﻿using Ltc;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {

@@ -6,7 +6,7 @@ using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View;
 using UniRx;
 
-public class EndPointSettingListView : ListView<EndpointSettingView, EndpointSetting>, IEndPointSettingListView<EndpointSetting>
+public class EndPointSettingListView : ReorderableListView<EndpointSettingView, EndpointSetting>, IEndPointSettingListView<EndpointSetting>
 {
     public IObservable<IEnumerable<EndpointSetting>> OnSaveAsObservable => onSaveSubject;
     
@@ -20,13 +20,13 @@ public class EndPointSettingListView : ListView<EndpointSettingView, EndpointSet
             // TODO validate
             // if(validate == false) return;
 
-            onSaveSubject.OnNext(ComponentList.Select(component =>
+            onSaveSubject.OnNext(ReorderedComponentList.Select(component =>
             {
                 var endPoint = new IPEndPoint(IPAddress.Parse(component.ipTextField.text), int.Parse(component.portTextField.text));
                 return new EndpointSetting(endPoint, "",0);
             }));
             
-            foreach (var component in ComponentList)
+            foreach (var component in ReorderedComponentList)
             {
                 component.SetBackgroundSaved();
             }
