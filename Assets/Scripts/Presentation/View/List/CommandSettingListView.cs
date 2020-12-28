@@ -9,9 +9,6 @@ namespace ProjectBlue.RepulserEngine.View
 
     public class CommandSettingListView : ReorderableListView<CommandSettingView, CommandSetting>, ICommandSettingListView<CommandSetting>
     {
-        public IObservable<IEnumerable<CommandSetting>> OnSaveAsObservable => onSaveSubject;
-    
-        private Subject<IEnumerable<CommandSetting>> onSaveSubject = new Subject<IEnumerable<CommandSetting>>();
         
     }
     

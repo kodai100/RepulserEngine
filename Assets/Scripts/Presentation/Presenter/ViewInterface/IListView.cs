@@ -5,7 +5,7 @@ namespace ProjectBlue.RepulserEngine.View
 {
     public interface IListView<T>
     {
-        IObservable<IEnumerable<T>> OnSaveAsObservable { get; }
+        IObservable<IEnumerable<T>> OnSavedAsObservable { get; }
         void SetData(IEnumerable<T> settingList);
     }
 }

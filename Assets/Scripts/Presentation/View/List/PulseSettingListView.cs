@@ -12,7 +12,7 @@ namespace ProjectBlue.RepulserEngine.View
     {
         
         public IObservable<int> OnSendAsObservable { get; }
-        public IObservable<IEnumerable<PulseSetting>> OnSaveAsObservable => onSaveSubject;
+        public IObservable<IEnumerable<PulseSetting>> OnSavedAsObservable => onSaveSubject;
     
         private Subject<IEnumerable<PulseSetting>> onSaveSubject = new Subject<IEnumerable<PulseSetting>>();
 

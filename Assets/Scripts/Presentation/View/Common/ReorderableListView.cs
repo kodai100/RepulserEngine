@@ -22,8 +22,8 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField, ReadOnly] private List<T> componentList = new List<T>();
         private int prevComponentCount = 0;
         
-        private Subject<IEnumerable<U>> onSaveSubject = new Subject<IEnumerable<U>>();
-        public IObservable<IEnumerable<U>> OnSaveAsObservable => onSaveSubject;
+        private Subject<IEnumerable<U>> onSavedSubject = new Subject<IEnumerable<U>>();
+        public IObservable<IEnumerable<U>> OnSavedAsObservable => onSavedSubject;
 
         private void Start()
         {
@@ -40,7 +40,7 @@ namespace ProjectBlue.RepulserEngine.View
             
             saveButton.OnClickAsObservable().Subscribe(_ =>
             {
-                onSaveSubject.OnNext(componentList.Select(componentView => componentView.GetData()));
+                onSavedSubject.OnNext(componentList.Select(componentView => componentView.GetData()));
                 foreach (var component in componentList)
                 {
                     component.SetBackgroundSaved();
@@ -61,7 +61,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void OnDestroy()
         {
-            onSaveSubject.Dispose();
+            onSavedSubject.Dispose();
         }
 
         protected virtual void StartInternal() {}

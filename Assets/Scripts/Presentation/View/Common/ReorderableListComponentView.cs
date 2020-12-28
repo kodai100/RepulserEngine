@@ -54,7 +54,7 @@ namespace ProjectBlue.RepulserEngine
 
         private void OnUpdateIndex()
         {
-            indexText.text = $"{Index:D2}";
+            indexText.text = $"{Index+1:D2}";
         }
 
         protected void SetDirty()

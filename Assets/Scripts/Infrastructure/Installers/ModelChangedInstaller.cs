@@ -10,21 +10,25 @@ namespace ProjectBlue.RepulserEngine.Installer
     {
         public override void InstallBindings()
         {
-            // presenters is registered via zenject binding component
-
+            // Timecode decode and display process
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDisplayPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle().NonLazy();
 
+            // Endpoint Setting Save and Load
             Container.BindInterfacesAndSelfTo<EndpointSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingUseCase>().AsSingle().NonLazy();
+
+            // Command Setting Save and Load
+            Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandSettingRepository>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandSettingListPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandSettingUseCase>().AsSingle().NonLazy();
             
             
-
-
             // Container.BindInterfacesAndSelfTo<Main>().AsSingle().NonLazy();
 
         }

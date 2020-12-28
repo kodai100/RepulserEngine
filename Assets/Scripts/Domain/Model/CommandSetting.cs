@@ -5,31 +5,34 @@ using UnityEngine;
 namespace ProjectBlue.RepulserEngine.Domain.Model
 {
 
-    public enum CommandState
+    public enum CommandType
     {
-        Predecessor, Pulse, Successor
+        Raw, Osc
     }
     
     [Serializable]
     public class CommandSetting
     {
-        [SerializeField] private string oscAddress;
-      
 
-        public CommandState CommandState { get; private set; } = CommandState.Predecessor;
+        [SerializeField] private int commandType;
+        [SerializeField] private string eventName;
+        [SerializeField] private string command;
+        [SerializeField] private string memo;
+
+        public int CommandType => commandType;
+        public string EventName => eventName;
+        public string Command => command;
+        public string Memo => memo;
         
-        public string OscAddress => oscAddress;
-        public CommandSetting(string oscAddress)
+        
+        public CommandSetting(int commandType, string eventName, string command, string memo)
         {
-            this.oscAddress = oscAddress;
+            this.commandType = commandType;
+            this.eventName = eventName;
+            this.command = command;
+            this.memo = memo;
         }
 
-        public void UpdateData(string oscAddress)
-        {
-            this.oscAddress = oscAddress;
-        }
-        
-        
     }
 
 }

@@ -10,7 +10,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
 
         private IEndPointSettingListView<EndpointSetting> _endPointSettingListView;
 
-        public IObservable<IEnumerable<EndpointSetting>> OnSaveAsObservable => _endPointSettingListView.OnSaveAsObservable;
+        public IObservable<IEnumerable<EndpointSetting>> OnSaveAsObservable => _endPointSettingListView.OnSavedAsObservable;
 
         public EndpointListPresenter(IEndPointSettingListView<EndpointSetting> endPointSettingListView)
         {

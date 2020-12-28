@@ -9,7 +9,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
         
         private ICommandSettingListView<CommandSetting> commandSettingListView;
-        public IObservable<IEnumerable<CommandSetting>> OnSaveAsObservable => commandSettingListView.OnSaveAsObservable;
+        public IObservable<IEnumerable<CommandSetting>> OnSaveAsObservable => commandSettingListView.OnSavedAsObservable;
         
         // public IObservable<int> OnSendAsObservable { get; }
         

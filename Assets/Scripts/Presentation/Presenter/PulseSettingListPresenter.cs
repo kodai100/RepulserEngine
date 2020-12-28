@@ -9,7 +9,7 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
         private IPulseSettingListView<PulseSetting> pulseSettingListView;
 
-        public IObservable<IEnumerable<PulseSetting>> OnSaveAsObservable => pulseSettingListView.OnSaveAsObservable;
+        public IObservable<IEnumerable<PulseSetting>> OnSaveAsObservable => pulseSettingListView.OnSavedAsObservable;
         public IObservable<int> OnSendAsObservable { get; }
         
         public PulseSettingListPresenter(IPulseSettingListView<PulseSetting> pulseSettingListView)
