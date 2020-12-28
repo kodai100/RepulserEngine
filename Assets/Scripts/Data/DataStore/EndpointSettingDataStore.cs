@@ -22,6 +22,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
             
             foreach (var component in data)
             {
+                if(component == null) continue;
                 Data.Add(component);
             }
         }

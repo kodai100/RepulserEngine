@@ -13,21 +13,6 @@ namespace ProjectBlue.RepulserEngine.View
     
         private Subject<IEnumerable<CommandSetting>> onSaveSubject = new Subject<IEnumerable<CommandSetting>>();
         
-        protected override void StartInternal()
-        {
-            
-            onSaveSubject.OnNext(ReorderedComponentList.Select(component => new CommandSetting(component.oscAddressField.text)));
-            
-            saveButton.OnClickAsObservable().Subscribe(_ =>
-            {
-                foreach (var component in ReorderedComponentList)
-                {
-                    component.SetBackgroundSaved();
-                }
-                
-            }).AddTo(this);
-            
-        }
     }
     
 }

@@ -14,23 +14,6 @@ public class EndPointSettingListView : ReorderableListView<EndpointSettingView, 
     
     protected override void StartInternal()
     {
-        // Saveボタンが押されたときに、すべてのリスト要素の内容をバリデーションして、通ったらセーブするために上流に流す。
-        saveButton.OnClickAsObservable().Subscribe(_ =>
-        {
-            // TODO validate
-            // if(validate == false) return;
-
-            onSaveSubject.OnNext(ReorderedComponentList.Select(component =>
-            {
-                var endPoint = new IPEndPoint(IPAddress.Parse(component.ipTextField.text), int.Parse(component.portTextField.text));
-                return new EndpointSetting(endPoint, "",0);
-            }));
-            
-            foreach (var component in ReorderedComponentList)
-            {
-                component.SetBackgroundSaved();
-            }
-
-        }).AddTo(this);
+        
     }
 }

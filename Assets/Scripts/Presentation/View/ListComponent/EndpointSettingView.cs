@@ -37,6 +37,13 @@ namespace ProjectBlue.RepulserEngine.View
 
         public override void UpdateView(EndpointSetting data)
         {
+            if (data == null)
+            {
+                ipTextField.text = "";
+                portTextField.text = "";
+                return;
+            }
+            
             this.data = data;
             ipTextField.text = data.EndPoint.Address.ToString();
             portTextField.text = data.EndPoint.Port.ToString();

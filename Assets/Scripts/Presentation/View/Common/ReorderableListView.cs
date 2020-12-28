@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -19,8 +21,9 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField, ReadOnly] private List<T> componentList = new List<T>();
         private int prevComponentCount = 0;
-
-        protected IEnumerable<T> ReorderedComponentList => componentList.OrderBy(component => component.Index);
+        
+        private Subject<IEnumerable<U>> onSaveSubject = new Subject<IEnumerable<U>>();
+        public IObservable<IEnumerable<U>> OnSaveAsObservable => onSaveSubject;
 
         private void Start()
         {
@@ -34,6 +37,15 @@ namespace ProjectBlue.RepulserEngine.View
             {
                 ClearList();
             }).AddTo(this);
+            
+            saveButton.OnClickAsObservable().Subscribe(_ =>
+            {
+                onSaveSubject.OnNext(componentList.Select(componentView => componentView.GetData()));
+                foreach (var component in componentList)
+                {
+                    component.SetBackgroundSaved();
+                }
+            }).AddTo(this);
 
             this.UpdateAsObservable().Subscribe(_ =>
             {
@@ -45,6 +57,11 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
             
             StartInternal();
+        }
+
+        private void OnDestroy()
+        {
+            onSaveSubject.Dispose();
         }
 
         protected virtual void StartInternal() {}
