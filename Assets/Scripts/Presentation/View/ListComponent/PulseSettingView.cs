@@ -60,6 +60,11 @@ namespace ProjectBlue.RepulserEngine.View
             
         }
 
+        public override PulseSetting GetData()
+        {
+            throw new NotImplementedException();
+        }
+
         // Validate input and create data
         public PulseSetting CreateData()
         {

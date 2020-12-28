@@ -38,6 +38,10 @@ namespace ProjectBlue.RepulserEngine.View
             oscAddressField.text = commandsetting.OscAddress;
         }
 
+        public override CommandSetting GetData()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

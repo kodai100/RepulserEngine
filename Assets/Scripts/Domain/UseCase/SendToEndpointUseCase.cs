@@ -68,7 +68,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
                 count++;
             }
             
-            Logger.Instance.Log($"{oscAddress} : {oscData}");
+            Debug.Log($"{oscAddress} : {oscData}");
             
             pulseDisplayPresenter.Trigger();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.View.UniRx;
 using TMPro;
@@ -13,6 +14,8 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public TMP_InputField ipTextField;
         [SerializeField] public TMP_InputField portTextField;
 
+        private EndpointSetting data;
+
         private void Start()
         {
             Observable.Merge(
@@ -22,13 +25,37 @@ namespace ProjectBlue.RepulserEngine.View
             .Subscribe(value =>
             {
                 SetDirty();
+
+                data = ParseData(ipTextField.text, portTextField.text);
+                if (data == null)
+                {
+                    Invalid();
+                }
+
             }).AddTo(this);
         }
 
         public override void UpdateView(EndpointSetting data)
         {
+            this.data = data;
             ipTextField.text = data.EndPoint.Address.ToString();
             portTextField.text = data.EndPoint.Port.ToString();
+        }
+
+        private EndpointSetting ParseData(string ip, string port)
+        {
+
+            if (IPAddress.TryParse(ip, out var ipParsed) && int.TryParse(port, out var portParsed))
+            {
+                return new EndpointSetting(new IPEndPoint(ipParsed, portParsed), "", 0);
+            }
+
+            return null;
+        }
+
+        public override EndpointSetting GetData()
+        {
+            return data;
         }
     }
     

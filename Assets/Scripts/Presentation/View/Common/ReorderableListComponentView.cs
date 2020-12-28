@@ -15,16 +15,30 @@ namespace ProjectBlue.RepulserEngine
         [SerializeField] protected Button downButton;
 
         [SerializeField] protected Image backgroundImage;
-        [SerializeField] private Color defaultBackground = Color.gray;
 
-        public int Index => transform.GetSiblingIndex();
-        
+        private int index = 0;
+        private Color defaultBackground;
+
+        private void Awake()
+        {
+            defaultBackground = backgroundImage.color;
+        }
+
+        public int Index
+        {
+            get => index;
+            set
+            {
+                index = value;
+                OnUpdateIndex();
+            }
+        }
+
         public void Initialize(Action onDeleteAction, Action onUpAction, Action onDownAction)
         {
             deleteButton.OnClickAsObservable().Subscribe(_ =>
             {
                 onDeleteAction?.Invoke();
-                Destroy(gameObject);
             }).AddTo(this);
 
             upButton.OnClickAsObservable().Subscribe(_ =>
@@ -38,12 +52,17 @@ namespace ProjectBlue.RepulserEngine
             }).AddTo(this);
         }
 
-        public void UpdateIndex()
+        private void OnUpdateIndex()
         {
             indexText.text = $"{Index:D2}";
         }
 
         protected void SetDirty()
+        {
+            ChangeBackgroundColor(Color.yellow);
+        }
+        
+        protected void Invalid()
         {
             ChangeBackgroundColor(Color.red);
         }
@@ -59,7 +78,8 @@ namespace ProjectBlue.RepulserEngine
         }
 
         public abstract void UpdateView(T data);
-        
+        public abstract T GetData();
+
     }
 
 }
