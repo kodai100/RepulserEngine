@@ -17,10 +17,10 @@ using #NAME_SPACE#.Domain.Model;
 namespace #NAME_SPACE#.Presentation.Presenter
 {
 
-    I#CLASS_NAME#View view;
-
     public class #CLASS_NAME#Presenter : I#CLASS_NAME#Presenter 
     {
+
+        I#CLASS_NAME#View view;
 
         public #CLASS_NAME#Presenter(I#CLASS_NAME#View view)
         {
