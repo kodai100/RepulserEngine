@@ -11,6 +11,7 @@
 
         protected override string Template =>  @"
 
+using UnityEngine;
 using #NAME_SPACE#.Domain.Model;
 
 namespace #NAME_SPACE#.Presentation.View
