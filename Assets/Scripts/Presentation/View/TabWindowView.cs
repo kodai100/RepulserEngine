@@ -28,7 +28,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         public List<TabButtonAndWindowPair> tabButtons;
 
-        private Color defaultColor;
+        private Color defaultColor = new Color(0.4f, 0.4f, 0.4f);
         
         private void Start()
         {
@@ -36,7 +36,7 @@ namespace ProjectBlue.RepulserEngine.View
             foreach (var buttons in tabButtons)
             {
 
-                defaultColor = buttons.button.image.color;
+                // defaultColor = buttons.button.image.color;
                 
                 buttons.button.OnClickAsObservable().Subscribe(_ =>
                 {
