@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.Model;
 
@@ -8,6 +9,9 @@ namespace ProjectBlue.RepulserEngine.Repository
     {
 
         private ICommandSettingDataStore commandSettingDataStore;
+
+        public IObservable<IEnumerable<CommandSetting>> OnDataChangedAsObservable =>
+            commandSettingDataStore.OnDataChangedAsObservable;
         
         public CommandSettingRepository(ICommandSettingDataStore commandSettingDataStore)
         {

@@ -21,6 +21,12 @@ namespace ProjectBlue.RepulserEngine.Installer
             Container.BindInterfacesAndSelfTo<EndpointSettingRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingUseCase>().AsSingle().NonLazy();
+            
+            // Timecode Setting Save and Load
+            Container.BindInterfacesAndSelfTo<TimecodeSettingDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TimecodeSettingRepository>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TimecodeListPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TimecodeSettingUseCase>().AsSingle().NonLazy();
 
             // Command Setting Save and Load
             Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();

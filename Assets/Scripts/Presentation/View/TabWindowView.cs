@@ -28,21 +28,25 @@ namespace ProjectBlue.RepulserEngine.View
 
         public List<TabButtonAndWindowPair> tabButtons;
 
+        private Color defaultColor;
+        
         private void Start()
         {
 
             foreach (var buttons in tabButtons)
             {
+
+                defaultColor = buttons.button.image.color;
                 
                 buttons.button.OnClickAsObservable().Subscribe(_ =>
                 {
-                    Display(buttons.canvasGroup);
+                    Display(buttons);
                 }).AddTo(this);
             }
             
             if (tabButtons.Count > 0)
             {
-                Display(tabButtons[0].canvasGroup); // initial active
+                Display(tabButtons[0]); // initial active
             }
             
         }
@@ -61,6 +65,8 @@ namespace ProjectBlue.RepulserEngine.View
         {
             foreach (var buttons in tabButtons)
             {
+                buttons.button.image.color = defaultColor;
+                
                 buttons.canvasGroup.interactable = false;
                 buttons.canvasGroup.alpha = 0;
                 buttons.canvasGroup.blocksRaycasts = false;
@@ -70,16 +76,18 @@ namespace ProjectBlue.RepulserEngine.View
             }
         }
 
-        public void Display(CanvasGroup canvasGroup)
+        public void Display(TabButtonAndWindowPair buttons)
         {
             HideAll();
             
-            canvasGroup.interactable = true;
-            canvasGroup.alpha = 1;
-            canvasGroup.blocksRaycasts = true;
+            buttons.button.image.color = new Color(0.2f, 0.2f, 0.2f);
             
-            var position = canvasGroup.transform.position;
-            canvasGroup.transform.position = new Vector3(position.x, position.y, 1);
+            buttons.canvasGroup.interactable = true;
+            buttons.canvasGroup.alpha = 1;
+            buttons.canvasGroup.blocksRaycasts = true;
+            
+            var position = buttons.canvasGroup.transform.position;
+            buttons.canvasGroup.transform.position = new Vector3(position.x, position.y, 1);
         }
     }
 

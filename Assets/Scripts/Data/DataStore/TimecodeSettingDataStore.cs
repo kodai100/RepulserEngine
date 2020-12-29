@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using UniRx;
 using UnityEngine;
@@ -9,45 +10,43 @@ namespace ProjectBlue.RepulserEngine.DataStore
 {
 
     [Serializable]
-    public class CommandSettingListForSerialize
+    public class TimecodeSettingListForSerialize
     {
-        public List<CommandSetting> Data = new List<CommandSetting>();
+        public List<TimecodeSetting> Data = new List<TimecodeSetting>();
 
-        public CommandSettingListForSerialize(){}
+        public TimecodeSettingListForSerialize(){}
         
-        public CommandSettingListForSerialize(IEnumerable<CommandSetting> data)
+        public TimecodeSettingListForSerialize(IEnumerable<TimecodeSetting> data)
         {
             
             Data.Clear();
             
             foreach (var component in data)
             {
+                if(component == null) continue;
                 Data.Add(component);
             }
         }
     }
     
 
-    public class CommandSettingDataStore : ICommandSettingDataStore, IDisposable
+    public class TimecodeSettingDataStore : ITimecodeSettingDataStore
     {
 
         private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "CommandSetting.json");
+            Path.Combine(UnityEngine.Application.streamingAssetsPath, "TimecodeSetting.json");
         
-        private Subject<IEnumerable<CommandSetting>> onDataChangedSubject = new Subject<IEnumerable<CommandSetting>>();
-        public IObservable<IEnumerable<CommandSetting>> OnDataChangedAsObservable => onDataChangedSubject;
+        private List<TimecodeSetting> endpointList;
+        public IEnumerable<TimecodeSetting> EndPointList => endpointList;
 
-        public void Dispose()
+        private Subject<IEnumerable<TimecodeSetting>> onDataChangedSubject = new Subject<IEnumerable<TimecodeSetting>>();
+        public IObservable<IEnumerable<TimecodeSetting>> OnDataChangedAsObservable => onDataChangedSubject;
+
+        
+        public void Save(IEnumerable<TimecodeSetting> endpointSettings)
         {
-            onDataChangedSubject.Dispose();
-        }
 
-        public void Save(IEnumerable<CommandSetting> commandSettings)
-        {
-
-            onDataChangedSubject.OnNext(commandSettings);
-            
-            var target = new CommandSettingListForSerialize(commandSettings);
+            var target = new TimecodeSettingListForSerialize(endpointSettings);
 
             var json = JsonUtility.ToJson(target);
             
@@ -62,15 +61,17 @@ namespace ProjectBlue.RepulserEngine.DataStore
                     Debug.Log (e);
                 }
             }
+
+            endpointList = endpointSettings.ToList();
             
             Debug.Log($"Saved : {JsonFilePath}");
         }
         
         
-        public IEnumerable<CommandSetting> Load()
+        public IEnumerable<TimecodeSetting> Load()
         {
 
-            var jsonDeserializedData = new CommandSettingListForSerialize();
+            var jsonDeserializedData = new TimecodeSettingListForSerialize();
 
             try 
             {
@@ -79,13 +80,15 @@ namespace ProjectBlue.RepulserEngine.DataStore
                 {
                     var result = sr.ReadToEnd ();
                     
-                    jsonDeserializedData =  JsonUtility.FromJson<CommandSettingListForSerialize>(result);
+                    jsonDeserializedData =  JsonUtility.FromJson<TimecodeSettingListForSerialize>(result);
                 }
             }
             catch (Exception e)
             {
                 Debug.Log (e);
             }
+            
+            endpointList = jsonDeserializedData.Data.ToList();
             
             return jsonDeserializedData.Data;
         }

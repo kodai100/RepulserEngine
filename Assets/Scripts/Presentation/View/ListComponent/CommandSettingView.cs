@@ -1,6 +1,5 @@
 ﻿using System;
 using ProjectBlue.RepulserEngine.Domain.Model;
-using ProjectBlue.RepulserEngine.View.UniRx;
 using TMPro;
 using UnityEngine;
 using UniRx;
@@ -12,7 +11,7 @@ namespace ProjectBlue.RepulserEngine.View
     public class CommandSettingView : ReorderableListComponentView<CommandSetting>
     {
 
-        [SerializeField] private TMP_InputField eventText;
+        [SerializeField] private TMP_InputField commandIdText;
 
         [SerializeField] private TMP_InputField commandText;
 
@@ -33,7 +32,7 @@ namespace ProjectBlue.RepulserEngine.View
         private void Start()
         {
             Observable.Merge(
-                eventText.OnValueChangedAsObservable().Skip(1),
+                commandIdText.OnValueChangedAsObservable().Skip(1),
                 commandText.OnValueChangedAsObservable().Skip(1),
                 memoText.OnValueChangedAsObservable().Skip(1),
                 modeDropdown.OnValueChangedAsObservable().Select(value => value.ToString()).Skip(1)
@@ -42,7 +41,7 @@ namespace ProjectBlue.RepulserEngine.View
             {
                 SetDirty();
 
-                data = ParseData(modeDropdown.value, eventText.text, commandText.text, memoText.text);
+                data = ParseData(modeDropdown.value, commandIdText.text, commandText.text, memoText.text);
 
             }).AddTo(this);
             
@@ -60,14 +59,14 @@ namespace ProjectBlue.RepulserEngine.View
             if (commandsetting == null)
             {
                 modeDropdown.value = 0;
-                eventText.text = "";
+                commandIdText.text = "";
                 commandText.text = "";
                 memoText.text = "";
                 return;
             }
             
             modeDropdown.value = commandsetting.CommandType;
-            eventText.text = commandsetting.EventName;
+            commandIdText.text = commandsetting.CommandId;
             commandText.text = commandsetting.Command;
             memoText.text = commandsetting.Memo;
         }

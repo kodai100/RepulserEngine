@@ -18,6 +18,9 @@ namespace ProjectBlue.RepulserEngine
 
         private int index = 0;
         private Color defaultBackground;
+        
+        private Color editedBackgroundColor = new Color(0.5f, 0.5f, 0f);
+        private Color invalidBackgroundColor = new Color(0.5f, 0f, 0f);
 
         private void Awake()
         {
@@ -59,12 +62,12 @@ namespace ProjectBlue.RepulserEngine
 
         protected void SetDirty()
         {
-            ChangeBackgroundColor(Color.yellow);
+            ChangeBackgroundColor(editedBackgroundColor);
         }
         
         protected void Invalid()
         {
-            ChangeBackgroundColor(Color.red);
+            ChangeBackgroundColor(invalidBackgroundColor);
         }
         
         public void SetBackgroundSaved()

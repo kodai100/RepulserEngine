@@ -23,7 +23,7 @@ namespace ProjectBlue.RepulserEngine.View
                 {
                     if (tab.canvasGroup)
                     {
-                        script.Display(tab.canvasGroup);
+                        script.Display(tab);
                     }
                 }
             }

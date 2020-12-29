@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ProjectBlue.RepulserEngine.Domain.Model;
+using UniRx;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.DataStore
@@ -38,6 +39,10 @@ namespace ProjectBlue.RepulserEngine.DataStore
         private List<EndpointSetting> endpointList;
         public IEnumerable<EndpointSetting> EndPointList => endpointList;
 
+        private Subject<IEnumerable<EndpointSetting>> onDataChangedSubject = new Subject<IEnumerable<EndpointSetting>>();
+        public IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable => onDataChangedSubject;
+
+        
         public void Save(IEnumerable<EndpointSetting> endpointSettings)
         {
 

@@ -1369,7 +1369,7 @@ MonoBehaviour:
   deleteButton: {fileID: 265156588307132635}
   downButton: {fileID: 265156588043852576}
   backgroundImage: {fileID: 265156588838363752}
-  eventText: {fileID: 2601961882879176821}
+  commandIdText: {fileID: 2601961882879176821}
   commandText: {fileID: 265156588138150646}
   memoText: {fileID: 265156589123038629}
   modeDropdown: {fileID: 584039028673759166}
@@ -2559,7 +2559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4018,7 +4018,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 150
+  m_PreferredWidth: 95
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

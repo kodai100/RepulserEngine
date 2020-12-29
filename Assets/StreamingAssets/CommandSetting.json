@@ -1,1 +1,1 @@
-{"Data":[{"commandType":1,"eventName":"0","command":"ssss","memo":""},{"commandType":0,"eventName":"1","command":"fdsafs","memo":""},{"commandType":0,"eventName":"2","command":"kdsaf","memo":""}]}
+{"Data":[{"commandType":1,"commandId":"a","command":"ssss","memo":""},{"commandType":0,"commandId":"b","command":"fdsafs","memo":""},{"commandType":0,"commandId":"c","command":"kdsaf","memo":""},{"commandType":1,"commandId":"d","command":"sd","memo":"ddddddddddddddddd"},{"commandType":0,"commandId":"","command":"","memo":""}]}
