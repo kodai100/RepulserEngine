@@ -34,10 +34,13 @@ namespace Editor
 
         }
 
+        private int step = 0;
+        
         private void GenerateCodes()
         {
-            
+
             // View
+            step = 0;
             Generate(new ViewTemplate(nameSpace, className));
             
             // Presenter
@@ -55,15 +58,21 @@ namespace Editor
             Generate(new RepositoryInterfaceTemplate(nameSpace, className));
             Generate(new PresenterInterfaceTemplate(nameSpace, className));
             Generate(new UseCaseTemplate(nameSpace, className));
+            
+            EditorUtility.ClearProgressBar();
         }
 
         private void Generate(CodeTemplateBase codeTemplate)
         {
+            EditorUtility.DisplayProgressBar ("Generating CA codes...", codeTemplate.FileName, step/9f);//プログレスバー表示
+            
             var folderPath = Path.GetDirectoryName(Path.Combine(baseScriptPath, codeTemplate.FolderPath));
             CreateFolder(folderPath);
             var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(folderPath, codeTemplate.FileName));
             File.WriteAllText(assetPath, codeTemplate.GetCode());
             AssetDatabase.Refresh();
+            
+            step++;
         }
 
         private static void CreateFolder(string path)
