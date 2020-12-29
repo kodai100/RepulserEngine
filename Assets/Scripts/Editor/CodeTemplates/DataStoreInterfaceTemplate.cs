@@ -2,14 +2,16 @@
 {
     public class DataStoreInterfaceTemplate : CodeTemplateBase
     {
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(DATASTORE_INTERFACE_CODE_TEMPLATE, nameSpace, className);
-        }
 
         public override string FolderPath => "Data/Repository/DataStoreInterfaces";
-        
-        private string DATASTORE_INTERFACE_CODE_TEMPLATE = @"
+
+        public override string FileName => $"I{className}DataStore.cs";
+
+        public DataStoreInterfaceTemplate(string nameSpaceName, string className) : base(nameSpaceName, className)
+        {
+        }
+
+        protected override string Template =>  @"
 
 using #NAME_SPACE#.Domain.Model;
 

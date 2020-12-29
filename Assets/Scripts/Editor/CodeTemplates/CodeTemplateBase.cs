@@ -2,14 +2,31 @@
 {
     public abstract class CodeTemplateBase
     {
-        public abstract string GetCode(string nameSpace, string className);
-        public abstract string FolderPath { get; }
-        
-        protected static string Replace(string source, string nameSpace, string className)
+
+        protected string nameSpaceName;
+        protected string className;
+
+        public CodeTemplateBase(string nameSpaceName, string className)
         {
-            return source
-                .Replace("NAME_SPACE", nameSpace)
-                .Replace("#CLASS_NAME", className);
+            this.nameSpaceName = nameSpaceName;
+            this.className = className;
+        }
+
+        public string GetCode()
+        {
+            return Replace();
+        }
+        
+        public abstract string FolderPath { get; }
+        public abstract string FileName { get; }
+        
+        protected abstract string Template { get; }
+        
+        private string Replace()
+        {
+            return Template
+                .Replace("#NAME_SPACE#", nameSpaceName)
+                .Replace("#CLASS_NAME#", className);
         }
     }
     

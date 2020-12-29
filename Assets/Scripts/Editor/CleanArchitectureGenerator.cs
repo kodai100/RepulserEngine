@@ -38,31 +38,31 @@ namespace Editor
         {
             
             // View
-            Generate(new ViewTemplate());
+            Generate(new ViewTemplate(nameSpace, className));
             
             // Presenter
-            Generate(new ViewInterfaceTemplate());
-            Generate(new PresenterTemplate());
+            Generate(new ViewInterfaceTemplate(nameSpace, className));
+            Generate(new PresenterTemplate(nameSpace, className));
             
             // DataStore
-            Generate(new DataStoreTemplate());
+            Generate(new DataStoreTemplate(nameSpace, className));
             
             // Repository
-            Generate(new DataStoreInterfaceTemplate());
-            Generate(new RepositoryTemplate());
+            Generate(new DataStoreInterfaceTemplate(nameSpace, className));
+            Generate(new RepositoryTemplate(nameSpace, className));
             
             // UseCase
-            Generate(new RepositoryInterfaceTemplate());
-            Generate(new PresenterInterfaceTemplate());
-            Generate(new UseCaseTemplate());
+            Generate(new RepositoryInterfaceTemplate(nameSpace, className));
+            Generate(new PresenterInterfaceTemplate(nameSpace, className));
+            Generate(new UseCaseTemplate(nameSpace, className));
         }
 
         private void Generate(CodeTemplateBase codeTemplate)
         {
             var folderPath = Path.GetDirectoryName(Path.Combine(baseScriptPath, codeTemplate.FolderPath));
             CreateFolder(folderPath);
-            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(folderPath, className+".cs"));
-            File.WriteAllText(assetPath, codeTemplate.GetCode(nameSpace, className));
+            var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(folderPath, codeTemplate.FileName));
+            File.WriteAllText(assetPath, codeTemplate.GetCode());
             AssetDatabase.Refresh();
         }
 

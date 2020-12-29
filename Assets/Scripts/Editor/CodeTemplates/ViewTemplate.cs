@@ -5,13 +5,11 @@
     {
 
         public override string FolderPath => "Presentation/View";
+        public override string FileName => $"{className}View.cs";
         
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(VIEW_CODE_TEMPLATE, nameSpace, className);
-        }
+        public ViewTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
 
-        public static string VIEW_CODE_TEMPLATE = @"
+        protected override string Template =>  @"
 
 using #NAME_SPACE#.Domain.Model;
 

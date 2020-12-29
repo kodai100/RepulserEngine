@@ -2,14 +2,14 @@
 {
     public class ViewInterfaceTemplate: CodeTemplateBase
     {
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(VIEW_INTERFACE_CODE_TEMPLATE, nameSpace, className);
-        }
 
         public override string FolderPath => "Presentation/Presenter/ViewInterfaces";
+
+        public override string FileName => $"I{className}View.cs";
         
-        public static string VIEW_INTERFACE_CODE_TEMPLATE = @"
+        public ViewInterfaceTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
+
+        protected override string Template =>  @"
 
 using #NAME_SPACE#.Domain.Model;
 

@@ -2,14 +2,13 @@
 {
     public class RepositoryInterfaceTemplate : CodeTemplateBase
     {
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(REPOSITORY_INTERFACE_CODE_TEMPLATE, nameSpace, className);
-        }
 
         public override string FolderPath => "Domain/RepositoryInterfaces";
+        public override string FileName => $"I{className}Repository.cs";
         
-        public static string REPOSITORY_INTERFACE_CODE_TEMPLATE = @"
+        public RepositoryInterfaceTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
+
+        protected override string Template => @"
 
 using #NAME_SPACE#.Domain.Model;
 

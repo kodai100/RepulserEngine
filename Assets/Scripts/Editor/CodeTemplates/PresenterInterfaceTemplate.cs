@@ -2,14 +2,16 @@
 {
     public class PresenterInterfaceTemplate : CodeTemplateBase
     {
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(PRESENTER_INTERFACE_CODE_TEMPLATE, nameSpace, className);
-        }
 
         public override string FolderPath => "Domain/PresenterInterfaces";
-        
-        public static string PRESENTER_INTERFACE_CODE_TEMPLATE = @"
+
+        public override string FileName => $"I{className}Presenter.cs";
+
+        public PresenterInterfaceTemplate(string nameSpaceName, string className) : base(nameSpaceName, className)
+        {
+        }
+
+        protected override string Template =>  @"
 
 using #NAME_SPACE#.Domain.Model;
 

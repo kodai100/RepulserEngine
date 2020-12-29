@@ -5,13 +5,12 @@
     {
 
         public override string FolderPath => "Domain/UseCase";
-        
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(USE_CASE_CODE_TEMPLATE, nameSpace, className);
-        }
+        public override string FileName => $"{className}UseCase.cs";
 
-        public static string USE_CASE_CODE_TEMPLATE = @"
+        public UseCaseTemplate(string className, string nameSpaceName)
+            : base(className, nameSpaceName) {}
+        
+        protected override string Template => @"
 
 using #NAME_SPACE#.Presentation.Presenter;
 using #NAME_SPACE#.Data.Repository;

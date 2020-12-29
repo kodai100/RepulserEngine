@@ -3,15 +3,12 @@
 
     public class RepositoryTemplate : CodeTemplateBase
     {
-        
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(REPOSITORY_CODE_TEMPLATE, nameSpace, className);
-        }
-
         public override string FolderPath => "Data/Repository";
+        public override string FileName => $"{className}Repository.cs";
 
-        private string REPOSITORY_CODE_TEMPLATE = @"
+        public RepositoryTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
+        
+        protected override string Template =>  @"
 
 using #NAME_SPACE#.Data.DataStore;
 using #NAME_SPACE#.Domain.Model;

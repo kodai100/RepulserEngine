@@ -4,14 +4,13 @@
     public class DataStoreTemplate : CodeTemplateBase
     {
         public override string FolderPath => "Data/DataStore";
+        public override string FileName => $"{className}DataStore.cs";
 
-        public override string GetCode(string nameSpace, string className)
+        public DataStoreTemplate(string nameSpaceName, string className) : base(nameSpaceName, className)
         {
-            return Replace(DATASTORE_CODE_TEMPLATE, nameSpace, className);
         }
 
-        
-        private string DATASTORE_CODE_TEMPLATE = @"
+        protected override string Template => @"
 
 using #NAME_SPACE#.Domain.Model;
 

@@ -5,13 +5,11 @@
     {
 
         public override string FolderPath => "Presentation/Presenter";
+        public override string FileName => $"{className}Presenter.cs";
+
+        public PresenterTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
         
-        public override string GetCode(string nameSpace, string className)
-        {
-            return Replace(PRESENTER_CODE_TEMPLATE, nameSpace, className);
-        }
-        
-        public static string PRESENTER_CODE_TEMPLATE = @"
+        protected override string Template => @"
 
 using #NAME_SPACE#.Presentation.View;
 using #NAME_SPACE#.Domain.Model;
