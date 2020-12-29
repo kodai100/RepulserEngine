@@ -4,7 +4,7 @@
     public class PresenterTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Presentation/Presenter";
+        public override string FolderPath => "Presentation/Presenter/";
         public override string FileName => $"{className}Presenter.cs";
 
         public PresenterTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}

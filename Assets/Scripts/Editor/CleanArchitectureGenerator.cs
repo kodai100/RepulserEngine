@@ -66,8 +66,11 @@ namespace Editor
         {
             EditorUtility.DisplayProgressBar ("Generating CA codes...", codeTemplate.FileName, step/9f);//プログレスバー表示
             
-            var folderPath = Path.GetDirectoryName(Path.Combine(baseScriptPath, codeTemplate.FolderPath));
+            var folderPath = Path.GetDirectoryName(Path.Combine(baseScriptPath+"/", codeTemplate.FolderPath));
             CreateFolder(folderPath);
+            
+            Debug.Log(Path.Combine(folderPath, codeTemplate.FileName));
+            
             var assetPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(folderPath, codeTemplate.FileName));
             File.WriteAllText(assetPath, codeTemplate.GetCode());
             AssetDatabase.Refresh();

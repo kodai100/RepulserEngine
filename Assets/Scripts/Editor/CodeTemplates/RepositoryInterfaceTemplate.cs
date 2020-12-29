@@ -3,7 +3,7 @@
     public class RepositoryInterfaceTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Domain/RepositoryInterfaces";
+        public override string FolderPath => "Domain/RepositoryInterfaces/";
         public override string FileName => $"I{className}Repository.cs";
         
         public RepositoryInterfaceTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}

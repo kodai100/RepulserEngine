@@ -3,7 +3,7 @@
 
     public class RepositoryTemplate : CodeTemplateBase
     {
-        public override string FolderPath => "Data/Repository";
+        public override string FolderPath => "Data/Repository/";
         public override string FileName => $"{className}Repository.cs";
 
         public RepositoryTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}
@@ -16,10 +16,10 @@ using #NAME_SPACE#.Domain.Model;
 namespace #NAME_SPACE#.Data.Repository
 {
 
-    I#CLASS_NAME#DataStore dataStore;
-
     public class #CLASS_NAME#Repository : I#CLASS_NAME#Repository 
     {
+
+        I#CLASS_NAME#DataStore dataStore;
 
         public #CLASS_NAME#Repository(I#CLASS_NAME#DataStore dataStore)
         {

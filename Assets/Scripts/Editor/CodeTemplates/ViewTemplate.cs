@@ -4,7 +4,7 @@
     public class ViewTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Presentation/View";
+        public override string FolderPath => "Presentation/View/";
         public override string FileName => $"{className}View.cs";
         
         public ViewTemplate(string nameSpaceName, string className) : base(nameSpaceName, className){}

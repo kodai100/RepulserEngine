@@ -3,7 +3,7 @@
     public class DataStoreInterfaceTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Data/Repository/DataStoreInterfaces";
+        public override string FolderPath => "Data/Repository/DataStoreInterfaces/";
 
         public override string FileName => $"I{className}DataStore.cs";
 

@@ -3,7 +3,7 @@
     public class ViewInterfaceTemplate: CodeTemplateBase
     {
 
-        public override string FolderPath => "Presentation/Presenter/ViewInterfaces";
+        public override string FolderPath => "Presentation/Presenter/ViewInterfaces/";
 
         public override string FileName => $"I{className}View.cs";
         

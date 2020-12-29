@@ -3,7 +3,7 @@
     public class PresenterInterfaceTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Domain/PresenterInterfaces";
+        public override string FolderPath => "Domain/PresenterInterfaces/";
 
         public override string FileName => $"I{className}Presenter.cs";
 

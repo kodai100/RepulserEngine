@@ -3,7 +3,7 @@
 
     public class DataStoreTemplate : CodeTemplateBase
     {
-        public override string FolderPath => "Data/DataStore";
+        public override string FolderPath => "Data/DataStore/";
         public override string FileName => $"{className}DataStore.cs";
 
         public DataStoreTemplate(string nameSpaceName, string className) : base(nameSpaceName, className)

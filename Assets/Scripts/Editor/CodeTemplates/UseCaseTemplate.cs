@@ -4,7 +4,7 @@
     public class UseCaseTemplate : CodeTemplateBase
     {
 
-        public override string FolderPath => "Domain/UseCase";
+        public override string FolderPath => "Domain/UseCase/";
         public override string FileName => $"{className}UseCase.cs";
 
         public UseCaseTemplate(string className, string nameSpaceName)
