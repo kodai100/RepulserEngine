@@ -1,11 +1,16 @@
-﻿using ProjectBlue.RepulserEngine.ViewInterfaces;
+﻿using ProjectBlue.RepulserEngine.Presentation;
+using ProjectBlue.RepulserEngine.ViewInterfaces;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
     public class OverlayView : MonoBehaviour, IOverlayView
     {
+
+        [Inject] private IOverlayPresenter overlayPresenter;
 
         [SerializeField] private Image overlayImage;
         [SerializeField] private float fadeTime = 1;
@@ -22,6 +27,11 @@ namespace ProjectBlue.RepulserEngine.View
         private void Start()
         {
             Finish();
+
+            overlayPresenter.OnTriggerAsObservable.Subscribe(color =>
+            {
+                Trigger();
+            }).AddTo(this);
         }
 
         public void Trigger()

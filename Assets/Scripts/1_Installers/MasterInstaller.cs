@@ -20,8 +20,6 @@ namespace ProjectBlue.RepulserEngine.Installer
             Container.BindInterfacesAndSelfTo<OscSenderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<SenderRepository>().AsSingle();
             
-            Container.BindInterfacesAndSelfTo<PulseSettingDataStore>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PulseSettingRepository>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingRepository>().AsSingle();
@@ -33,16 +31,16 @@ namespace ProjectBlue.RepulserEngine.Installer
             Container.BindInterfacesAndSelfTo<TimecodeSettingRepository>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PulseSettingUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<SendToEndpointUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeSettingUseCase>().AsSingle();
             
+            // こいつは独立して動く
+            Container.BindInterfacesAndSelfTo<OverlayPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<TimecodeDisplayPresenter>().AsSingle();
-            Container.BindInterfacesAndSelfTo<PulseSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeSettingListPresenter>().AsSingle();

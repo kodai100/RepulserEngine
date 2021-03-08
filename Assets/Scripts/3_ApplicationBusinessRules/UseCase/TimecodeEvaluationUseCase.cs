@@ -1,15 +1,20 @@
 ﻿using System;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
+using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     public class TimecodeEvaluationUseCase : IDisposable
     {
         private IKeyboardInputRepository keyboardInputRepository;
-        private IPulseSettingRepository pulseSettingRepository;
+        private ITimecodeSettingRepository timecodeSettingRepository;
+
+        private IOverlayPresenter overlayPresenter;
         
         private CompositeDisposable disposable = new CompositeDisposable();
         
@@ -18,27 +23,28 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public TimecodeEvaluationUseCase(
             ITimecodeDecoderRepository timecodeDecoderRepository,
             IKeyboardInputRepository keyboardInputRepository, 
-            IPulseSettingRepository pulseSettingRepository
+            ITimecodeSettingRepository timecodeSettingRepository,
+            IOverlayPresenter overlayPresenter
             )
         {
             
             this.keyboardInputRepository = keyboardInputRepository;
-            this.pulseSettingRepository = pulseSettingRepository;
+            this.timecodeSettingRepository = timecodeSettingRepository;
 
-            keyboardInputRepository.OnInputAsObservable.Subscribe(key =>
-            {
-                foreach (var pulseSetting in pulseSettingRepository.PulseSettingList)
-                {
-                    if(pulseSetting == null) continue;
-                    if(pulseSetting.SendKey == null) continue;
-                    
-                    if (key == pulseSetting.SendKey)
-                    {
-                        onSendMessageSubject.OnNext(new OscMessage(pulseSetting.OverrideIp, pulseSetting.OscAddress, pulseSetting.OscData));
-                    }
-                
-                }
-            }).AddTo(disposable);
+            this.overlayPresenter = overlayPresenter;
+            // // キータイプでの送信
+            // keyboardInputRepository.OnInputAsObservable.Subscribe(key =>
+            // {
+            //     foreach (var timecodeSetting in timecodeSettingRepository.Load())
+            //     {
+            //         if(timecodeSetting == null) continue;
+            //         // if (key == pulseSetting.SendKey)
+            //         // {
+            //         //     // onSendMessageSubject.OnNext(new OscMessage(pulseSetting.OverrideIp, pulseSetting.OscAddress, pulseSetting.OscData));
+            //         // }
+            //     
+            //     }
+            // }).AddTo(disposable);
             
             timecodeDecoderRepository.OnTimecodeUpdatedAsObservable.Subscribe(OnTimecodeUpdated).AddTo(disposable);
             
@@ -47,16 +53,17 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         private void OnTimecodeUpdated(TimecodeData timecode)
         {
 
-            foreach (var pulseSetting in pulseSettingRepository.PulseSettingList)
+            foreach (var timecodeSetting in timecodeSettingRepository.Load())
             {
                 
-                if(pulseSetting == null) continue;
+                if(timecodeSetting == null) continue;
 
-                var state = pulseSetting.Evaluate(timecode);
+                var state = timecodeSetting.Evaluate(timecode);
 
                 if (state == PulseState.Pulse)
                 {
-                    onSendMessageSubject.OnNext(new OscMessage(pulseSetting.OverrideIp, pulseSetting.OscAddress, pulseSetting.OscData));
+                    overlayPresenter.Trigger(Color.red);
+                    // onSendMessageSubject.OnNext(new OscMessage(timecodeSetting.OverrideIp, timecodeSetting.OscAddress, timecodeSetting.OscData));
                 }
                 
             }
