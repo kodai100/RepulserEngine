@@ -1,1 +1,1 @@
-{"Data":[{"commandType":1,"commandId":"4","command":"START","memo":"Start Play"},{"commandType":1,"commandId":"1","command":"STOP","memo":"Stop Play"},{"commandType":1,"commandId":"4","command":"a","memo":"fffff"}]}
+{"Data":[{"commandType":1,"commandName":"START","commandArguments":"","memo":"Start Play"},{"commandType":1,"commandName":"STOP","commandArguments":"","memo":"Stop Play"},{"commandType":1,"commandName":"PAUSE","commandArguments":"","memo":"fffff"}]}

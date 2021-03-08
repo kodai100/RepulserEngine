@@ -12,7 +12,7 @@ namespace ProjectBlue.RepulserEngine.View
     public class TimecodeSettingView : ReorderableListComponentView<TimecodeSetting>
     {
 
-        [Inject] private ICommandSettingListPresenter commandSettingListPresenter;
+        [Inject] private ICommandSettingListPresenter commandSettingPresenter;
 
         [SerializeField] private TMP_InputField hourField;
         [SerializeField] private TMP_InputField minuteField;
@@ -44,12 +44,12 @@ namespace ProjectBlue.RepulserEngine.View
 
             }).AddTo(this);
 
-            commandSettingListPresenter.OnListChangedAsObservable.Subscribe(list =>
+            commandSettingPresenter.OnListChangedAsObservable.Subscribe(list =>
             {
                UpdateOptionList(list);
             }).AddTo(this);
 
-            UpdateOptionList(commandSettingListPresenter.Load());
+            UpdateOptionList(commandSettingPresenter.Load());
         }
 
         private void UpdateOptionList(IEnumerable<CommandSetting> list)
@@ -60,7 +60,7 @@ namespace ProjectBlue.RepulserEngine.View
             optionList.Add(new TMP_Dropdown.OptionData("None"));
             
             optionList.AddRange(list
-                .Select(commandSetting => new TMP_Dropdown.OptionData(commandSetting.Command))
+                .Select(commandSetting => new TMP_Dropdown.OptionData(commandSetting.CommandName))
                 .ToList());
                 
             dropdown.options = optionList;
@@ -85,13 +85,12 @@ namespace ProjectBlue.RepulserEngine.View
 
             Debug.Log(data.ConnectedCommandName);
             
-            UpdateOptionList(commandSettingListPresenter.Load());
+            UpdateOptionList(commandSettingPresenter.Load());
             
             dropdown.value = 0;
             for (var i = 0; i < dropdown.options.Count; i++)
             {
                 var optionText = dropdown.options[i].text;
-                Debug.Log(optionText);
                 if (data.ConnectedCommandName == optionText)
                 {
                     dropdown.value = i;

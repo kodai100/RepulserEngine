@@ -66,8 +66,8 @@ namespace ProjectBlue.RepulserEngine.View
             }
             
             modeDropdown.value = commandsetting.CommandType;
-            commandIdText.text = commandsetting.CommandId;
-            commandText.text = commandsetting.Command;
+            commandIdText.text = commandsetting.CommandName;
+            commandText.text = commandsetting.CommandArguments;
             memoText.text = commandsetting.Memo;
         }
 

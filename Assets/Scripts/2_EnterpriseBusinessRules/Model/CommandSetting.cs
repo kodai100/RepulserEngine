@@ -16,21 +16,21 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
     {
 
         [SerializeField] private int commandType;
-        [SerializeField] private string commandId;
-        [SerializeField] private string command;
+        [SerializeField] private string commandName;
+        [SerializeField] private string commandArguments;
         [SerializeField] private string memo;
 
         public int CommandType => commandType;
-        public string CommandId => commandId;
-        public string Command => command;
+        public string CommandName => commandName;
+        public string CommandArguments => commandArguments;
         public string Memo => memo;
         
         
-        public CommandSetting(int commandType, string commandId, string command, string memo)
+        public CommandSetting(int commandType, string commandName, string commandArguments, string memo)
         {
             this.commandType = commandType;
-            this.commandId = commandId;
-            this.command = command;
+            this.commandName = commandName;
+            this.commandArguments = commandArguments;
             this.memo = memo;
         }
 

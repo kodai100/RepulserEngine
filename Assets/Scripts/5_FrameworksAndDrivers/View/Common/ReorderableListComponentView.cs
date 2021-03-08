@@ -17,7 +17,7 @@ namespace ProjectBlue.RepulserEngine
         [SerializeField] protected Image backgroundImage;
 
         private int index = 0;
-        private Color defaultBackground;
+        private Color defaultBackground = new Color(0.145098f, 0.145098f, 0.145098f);
         
         private Color editedBackgroundColor = new Color(0.5f, 0.5f, 0f);
         private Color invalidBackgroundColor = new Color(0.5f, 0f, 0f);

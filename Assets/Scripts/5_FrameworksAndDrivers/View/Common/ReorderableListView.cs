@@ -116,7 +116,9 @@ namespace ProjectBlue.RepulserEngine.View
             
             foreach (var (item, index) in items.Select((item, index) => (item, index)))
             {
-                var listComponentPresenter = Instantiate(listComponentPrefab, scrollViewParentTransform);
+                var obj = container.InstantiatePrefab(listComponentPrefab, scrollViewParentTransform);
+                var listComponentPresenter = obj.GetComponent<T>();
+                
                 listComponentPresenter.Initialize(() =>
                 {
                     componentList.Remove(listComponentPresenter);
