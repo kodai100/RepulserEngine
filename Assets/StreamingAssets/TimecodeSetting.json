@@ -1,1 +1,1 @@
-{"Data":[{"timecodeData":{"hour":10,"minute":2,"second":3,"frame":4},"connectedCommandId":"Option B"}]}
+{"Data":[{"timecodeData":{"hour":0,"minute":1,"second":0,"frame":29,"dropFrame":false},"connectedCommandId":"Option A"},{"timecodeData":{"hour":0,"minute":0,"second":0,"frame":0,"dropFrame":false},"connectedCommandId":"Option A"},{"timecodeData":{"hour":0,"minute":0,"second":0,"frame":0,"dropFrame":false},"connectedCommandId":"NULL"}]}

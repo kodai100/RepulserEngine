@@ -1,0 +1,17 @@
+{
+    "name": "RepulserEngine.View.Editor",
+    "references": [
+        "GUID:26f26f4d3c1f2374cac452acc20fdc1f"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

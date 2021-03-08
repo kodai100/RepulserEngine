@@ -3715,6 +3715,12 @@ MonoBehaviour:
   runningColor: {r: 1, g: 0, b: 0, a: 1}
   stayingColor: {r: 0, g: 0.7058824, b: 1, a: 1}
   stayThresholdSeconds: 0.1
+  currentTimecode:
+    hour: 0
+    minute: 0
+    second: 0
+    frame: 0
+    dropFrame: 0
 --- !u!1 &246380486
 GameObject:
   m_ObjectHideFlags: 0
@@ -9412,6 +9418,12 @@ MonoBehaviour:
   runningColor: {r: 1, g: 0, b: 0, a: 1}
   stayingColor: {r: 0, g: 0.7058824, b: 1, a: 1}
   stayThresholdSeconds: 0.1
+  currentTimecode:
+    hour: 0
+    minute: 0
+    second: 0
+    frame: 0
+    dropFrame: 0
 --- !u!114 &717334753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19166,7 +19178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1460004940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7957206d3d5be9d4991982b7e7a87cd8, type: 3}
+  m_Script: {fileID: 11500000, guid: a7698e59a37e7e341b3e7519a0477a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1465198458
@@ -22359,8 +22371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a488aaa16f707479c065ca1ca3c37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_color1: {r: 1, g: 0, b: 0, a: 1}
-  m_color2: {r: 0, g: 1, b: 0.3102684, a: 1}
+  m_color1: {r: 1, g: 1, b: 1, a: 1}
+  m_color2: {r: 1, g: 1, b: 1, a: 1}
   m_angle: 0
   m_ignoreRatio: 1
 --- !u!114 &1663984945

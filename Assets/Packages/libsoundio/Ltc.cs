@@ -32,66 +32,6 @@ namespace Ltc
                 dropFrame = (s1 & 0x400) != 0
             };
         }
-
-        public override string ToString()
-        {
-            return $"{hour:D2}:{minute:D2}:{second:D2};{frame:D2}";
-        }
-        
-        public override bool Equals(object obj)
-        {
-            if (obj is Timecode)
-            {
-                return this.Equals((Timecode)obj);
-            }
-            return false;
-        }
-
-        private bool LargerThan(Timecode t)
-        {
-            if (hour > t.hour) return true;
-            if (hour < t.hour) return false;
-
-            if (minute > t.minute) return true;
-            if (minute < t.minute) return false;
-
-            if (second > t.second) return true;
-            if (second < t.second) return false;
-
-            if (frame > t.frame) return true;
-            
-            return false;
-        }
-
-        private bool Equals(Timecode t)
-        {
-            return hour == t.hour && minute == t.minute && second == t.second && frame == t.frame;
-        }
-
-        public static bool operator ==(Timecode lhs, Timecode rhs)
-        {
-            return lhs.Equals(rhs);
-        }
-
-        public static bool operator !=(Timecode lhs, Timecode rhs)
-        {
-            return !lhs.Equals(rhs);
-        }
-        
-        public static bool operator >(Timecode lhs, Timecode rhs)
-        {
-            return lhs.LargerThan(rhs);
-        }
-
-        public static bool operator <(Timecode lhs, Timecode rhs)
-        {
-            return !lhs.LargerThan(rhs);
-        }
-
-        public int ToFrame(int framerate)
-        {
-            return framerate * 60 * 60 * hour + framerate * 60 * minute + framerate * second + frame;
-        }
     }
 
     // Timecode decoder class that analyzes audio signals to extract LTC data
