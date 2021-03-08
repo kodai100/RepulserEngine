@@ -8,5 +8,6 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
         void Save(IEnumerable<CommandSetting> settingList);
         IEnumerable<CommandSetting> Load();
+        IObservable<IEnumerable<CommandSetting>> OnListChangedAsObservable { get; }
     }
 }

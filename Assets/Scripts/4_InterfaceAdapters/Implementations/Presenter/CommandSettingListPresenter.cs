@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ProjectBlue.RepulserEngine.Domain.Model;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
+using UniRx;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public class CommandSettingListPresenter : ICommandSettingListPresenter
+    public class CommandSettingListPresenter : ICommandSettingListPresenter, IDisposable
     {
         
         private ICommandSettingUseCase commandSettingUseCase;
+
+        public IObservable<IEnumerable<CommandSetting>> OnListChangedAsObservable => onListChangedSubject;
+        
+        private Subject<IEnumerable<CommandSetting>> onListChangedSubject = new Subject<IEnumerable<CommandSetting>>();
         
         public CommandSettingListPresenter(ICommandSettingUseCase commandSettingUseCase)
         {
@@ -16,12 +24,21 @@ namespace ProjectBlue.RepulserEngine.Presentation
         
         public void Save(IEnumerable<CommandSetting> settingList)
         {
-            commandSettingUseCase.Save(settingList);
+            var commandSettings = settingList as CommandSetting[] ?? settingList.ToArray();
+            commandSettingUseCase.Save(commandSettings);
+            onListChangedSubject.OnNext(commandSettings);
         }
 
         public IEnumerable<CommandSetting> Load()
         {
-            return commandSettingUseCase.Load();
+            var list = commandSettingUseCase.Load().ToList();
+            onListChangedSubject.OnNext(list);
+            return list;
+        }
+
+        public void Dispose()
+        {
+            onListChangedSubject.Dispose();
         }
     }
 

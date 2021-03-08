@@ -9,15 +9,15 @@ namespace ProjectBlue.RepulserEngine.Domain.Model
     {
 
         [SerializeField] private TimecodeData timecodeData;
-        [SerializeField] private string connectedCommandId;
+        [SerializeField] private string connectedCommandName;
 
         public TimecodeData TimecodeData => timecodeData;
-        public string ConnectedCommandId => connectedCommandId;
+        public string ConnectedCommandName => connectedCommandName;
 
-        public TimecodeSetting(TimecodeData timecodeData, string connectedCommandId)
+        public TimecodeSetting(TimecodeData timecodeData, string connectedCommandName)
         {
             this.timecodeData = timecodeData;
-            this.connectedCommandId = connectedCommandId;
+            this.connectedCommandName = connectedCommandName;
         }
 
         public TimecodeSetting() : this(new TimecodeData(), "NULL")

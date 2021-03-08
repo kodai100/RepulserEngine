@@ -49,10 +49,11 @@ namespace ProjectBlue.RepulserEngine.DataStore
 
         public void Save(IEnumerable<CommandSetting> commandSettings)
         {
-
-            onDataChangedSubject.OnNext(commandSettings);
+            var enumerable = commandSettings as CommandSetting[] ?? commandSettings.ToArray();
             
-            var target = new CommandSettingListForSerialize(commandSettings);
+            onDataChangedSubject.OnNext(enumerable);
+            
+            var target = new CommandSettingListForSerialize(enumerable);
 
             var json = JsonUtility.ToJson(target);
             
@@ -68,7 +69,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
                 }
             }
 
-            commandList = commandSettings.ToList();
+            commandList = enumerable.ToList();
             
             Debug.Log($"Saved : {JsonFilePath}");
         }
@@ -96,6 +97,8 @@ namespace ProjectBlue.RepulserEngine.DataStore
                 Debug.Log (e);
             }
 
+            commandList = jsonDeserializedData.Data.ToList();
+            
             loaded = true;
             
             return jsonDeserializedData.Data;

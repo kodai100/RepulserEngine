@@ -1,12 +1,18 @@
-﻿using ProjectBlue.RepulserEngine.Domain.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Presentation;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
     public class TimecodeSettingView : ReorderableListComponentView<TimecodeSetting>
     {
+
+        [Inject] private ICommandSettingListPresenter commandSettingListPresenter;
 
         [SerializeField] private TMP_InputField hourField;
         [SerializeField] private TMP_InputField minuteField;
@@ -37,6 +43,27 @@ namespace ProjectBlue.RepulserEngine.View
                 }
 
             }).AddTo(this);
+
+            commandSettingListPresenter.OnListChangedAsObservable.Subscribe(list =>
+            {
+               UpdateOptionList(list);
+            }).AddTo(this);
+
+            UpdateOptionList(commandSettingListPresenter.Load());
+        }
+
+        private void UpdateOptionList(IEnumerable<CommandSetting> list)
+        {
+            
+            var optionList = new List<TMP_Dropdown.OptionData>();
+                
+            optionList.Add(new TMP_Dropdown.OptionData("None"));
+            
+            optionList.AddRange(list
+                .Select(commandSetting => new TMP_Dropdown.OptionData(commandSetting.Command))
+                .ToList());
+                
+            dropdown.options = optionList;
         }
 
         public override void UpdateView(TimecodeSetting data)
@@ -55,7 +82,21 @@ namespace ProjectBlue.RepulserEngine.View
             minuteField.text = data.TimecodeData.minute.ToString();
             secondField.text = data.TimecodeData.second.ToString();
             frameField.text = data.TimecodeData.frame.ToString();
-            // dropdown.value = data.ConnectedCommandId
+
+            Debug.Log(data.ConnectedCommandName);
+            
+            UpdateOptionList(commandSettingListPresenter.Load());
+            
+            dropdown.value = 0;
+            for (var i = 0; i < dropdown.options.Count; i++)
+            {
+                var optionText = dropdown.options[i].text;
+                Debug.Log(optionText);
+                if (data.ConnectedCommandName == optionText)
+                {
+                    dropdown.value = i;
+                }
+            }
         }
 
         private TimecodeSetting ParseData(string hour, string minute, string second, string frame, string command)

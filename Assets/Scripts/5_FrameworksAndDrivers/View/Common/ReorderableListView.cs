@@ -4,11 +4,15 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
     public abstract class ReorderableListView<T, U> : MonoBehaviour where T : ReorderableListComponentView<U>
     {
+
+        [Inject] private DiContainer container;
+        
         [SerializeField] private T listComponentPrefab;
         
         [SerializeField] private Button addButton;
@@ -59,7 +63,9 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void AddToList()
         {
-            var listComponentPresenter = Instantiate(listComponentPrefab, scrollViewParentTransform);
+            var obj = container.InstantiatePrefab(listComponentPrefab, scrollViewParentTransform);
+            var listComponentPresenter = obj.GetComponent<T>();
+            
             listComponentPresenter.Initialize(() =>
             {
                 componentList.Remove(listComponentPresenter);

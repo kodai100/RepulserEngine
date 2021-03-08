@@ -1,1 +1,1 @@
-{"Data":[{"commandType":0,"commandId":"","command":"","memo":""},{"commandType":0,"commandId":"","command":"","memo":""}]}
+{"Data":[{"commandType":1,"commandId":"4","command":"START","memo":"Start Play"},{"commandType":1,"commandId":"1","command":"STOP","memo":"Stop Play"},{"commandType":1,"commandId":"4","command":"a","memo":"fffff"}]}
