@@ -4,7 +4,7 @@ using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 
-namespace ProjectBlue.RepulserEngine.Installer
+namespace ProjectBlue.RepulserEngine.Installers
 {
     public class MasterInstaller : MonoInstaller
     {
@@ -13,6 +13,8 @@ namespace ProjectBlue.RepulserEngine.Installer
 
             Container.BindInterfacesAndSelfTo<KeyboardInputDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<KeyboardInputRepository>().AsSingle();
+
+            ConnectionCheckInstaller.Install(Container);
             
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();

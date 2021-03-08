@@ -1,12 +1,14 @@
 using System;
 using System.Net;
 using ProjectBlue.RepulserEngine.DataStore;
+using ProjectBlue.RepulserEngine.Domain.Model;
 using UniRx;
 using ProjectBlue.RepulserEngine.Repository;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
+    
     public class SendToEndpointUseCase : IDisposable
     {
 
@@ -19,6 +21,13 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         {
             this.senderRepository = senderRepository;
             this.endpointSettingRepository = endpointSettingRepository;
+        }
+
+        public void SendCommand(CommandSetting command)
+        {
+            
+            // var commandSendType = command.
+            
         }
         
         public void Send(string oscAddress, string oscData)

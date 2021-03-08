@@ -40,16 +40,19 @@ namespace ProjectBlue.RepulserEngine.View
             .Subscribe(value =>
             {
                 SetDirty();
-
+                
                 data = ParseData(modeDropdown.value, commandIdText.text, commandText.text, memoText.text);
 
             }).AddTo(this);
             
         }
         
-        private CommandSetting ParseData(int mode, string eventText, string commandText, string memoText)
+        private CommandSetting ParseData(int commandType, string eventText, string commandText, string memoText)
         {
-            return new CommandSetting(mode, eventText, commandText, memoText);
+
+            var t = commandType >= 1 ? CommandType.Raw : CommandType.Osc;
+            
+            return new CommandSetting(t, eventText, commandText, memoText);
         }
 
         public override void UpdateView(CommandSetting commandsetting)
@@ -65,7 +68,9 @@ namespace ProjectBlue.RepulserEngine.View
                 return;
             }
             
-            modeDropdown.value = commandsetting.CommandType;
+            var t = commandsetting.CommandType == CommandType.Osc ? 0 : 1;
+            
+            modeDropdown.value = t;
             commandIdText.text = commandsetting.CommandName;
             commandText.text = commandsetting.CommandArguments;
             memoText.text = commandsetting.Memo;

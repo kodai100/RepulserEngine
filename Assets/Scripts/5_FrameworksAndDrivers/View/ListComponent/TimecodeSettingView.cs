@@ -83,8 +83,6 @@ namespace ProjectBlue.RepulserEngine.View
             secondField.text = data.TimecodeData.second.ToString();
             frameField.text = data.TimecodeData.frame.ToString();
 
-            Debug.Log(data.ConnectedCommandName);
-            
             UpdateOptionList(commandSettingPresenter.Load());
             
             dropdown.value = 0;
