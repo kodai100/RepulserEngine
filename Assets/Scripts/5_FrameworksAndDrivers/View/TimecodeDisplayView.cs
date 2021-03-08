@@ -57,8 +57,8 @@ namespace ProjectBlue.RepulserEngine.View
             }
             else
             {
-                dropFrameText?.gameObject.SetActive(true);
-                nonDropFrameText?.gameObject.SetActive(false);
+                dropFrameText?.gameObject.SetActive(false);
+                nonDropFrameText?.gameObject.SetActive(true);
             }
             
             label.text = $"{currentTimecode.ToString()}";
