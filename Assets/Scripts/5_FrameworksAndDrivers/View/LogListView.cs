@@ -21,7 +21,7 @@ namespace ProjectBlue.RepulserEngine.View
         private void OnLog(string logText, string stackTrace, LogType logType)
         {
             var obj = Instantiate(logComponentViewPrefab, listComponentParentTransform);
-            obj.Log(logText);
+            obj.Log(logText, logType);
         }
     }
     
