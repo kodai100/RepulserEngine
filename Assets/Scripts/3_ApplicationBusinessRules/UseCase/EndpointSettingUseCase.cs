@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectBlue.RepulserEngine.DataStore;
-using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.Translators;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
 
-    public class EndpointSettingUseCase : IEndPointSettingUseCase, IDisposable
+    public class EndpointSettingUseCase : IEndPointSettingUseCase
     {
         
         private IEndpointSettingRepository endpointSettingRepository;
 
         private IEnumerable<EndpointSettingViewModel> viewModelList;
+
+        public IObservable<IEnumerable<EndpointSettingViewModel>> OnListRecreatedAsObservable => subj;
+        private Subject<IEnumerable<EndpointSettingViewModel>> subj = new Subject<IEnumerable<EndpointSettingViewModel>>();
         
         public EndpointSettingUseCase(IEndpointSettingRepository endpointSettingRepository)
         {
@@ -26,21 +29,27 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public IEnumerable<EndpointSettingViewModel> Load()
         {
             var list = endpointSettingRepository.Load();
-            viewModelList = list.Select(element => EndpointSettingTranslator.Translate(element));
+            viewModelList = list.Select(EndpointSettingTranslator.Translate);
+            subj.OnNext(viewModelList);
             return viewModelList;
         }
-        
-        public void Save(IEnumerable<EndpointSettingViewModel> settings)
-        {
-            viewModelList = settings;
-            onDataChangedSubject.OnNext(settingList);
-            endpointSettingRepository.Save(settingList);
-        }
 
-        public void Dispose()
+        public void Update(IEnumerable<EndpointSettingViewModel> list)
         {
-            onDataChangedSubject.Dispose();
+            viewModelList = list;
+            Debug.Log("Updated");
+            foreach (var endpointSettingViewModel in list)
+            {
+                Debug.Log(endpointSettingViewModel.ip.Value);
+            }
+            subj.OnNext(viewModelList);
         }
+        
+        public void Save()
+        {
+            endpointSettingRepository.Save(viewModelList.Select(EndpointSettingTranslator.Translate));
+        }
+        
     }
     
 }

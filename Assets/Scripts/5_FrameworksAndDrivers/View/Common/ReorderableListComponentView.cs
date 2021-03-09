@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectBlue.RepulserEngine
+namespace ProjectBlue.RepulserEngine.View
 {
     public abstract class ReorderableListComponentView<T> : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace ProjectBlue.RepulserEngine
             set
             {
                 index = value;
-                OnUpdateIndex();
+                OnChangeIndex();
             }
         }
 
@@ -55,7 +55,7 @@ namespace ProjectBlue.RepulserEngine
             }).AddTo(this);
         }
 
-        private void OnUpdateIndex()
+        private void OnChangeIndex()
         {
             indexText.text = $"{Index+1:D2}";
             OnUpdateIndex(Index);

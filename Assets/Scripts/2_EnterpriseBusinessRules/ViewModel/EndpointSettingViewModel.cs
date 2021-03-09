@@ -9,14 +9,14 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
     public class EndpointSettingViewModel
     {
 
-        public string hash = Guid.NewGuid().ToString();
+        public int Index { get; set; } = -1;
 
-        public ReactiveProperty<string> ip;
-        public ReactiveProperty<int> port;
-        public ReactiveProperty<string> endpointName;
-        public ReactiveProperty<int> offsetFrame;
+        public ReactiveProperty<string> ip = new ReactiveProperty<string>();
+        public ReactiveProperty<int> port = new ReactiveProperty<int>();
+        public ReactiveProperty<string> endpointName = new ReactiveProperty<string>();
+        public ReactiveProperty<int> offsetFrame = new ReactiveProperty<int>();
 
-        public ReactiveProperty<bool> connected;
+        public ReactiveProperty<bool> connected = new ReactiveProperty<bool>();
 
         public IPEndPoint EndPoint => new IPEndPoint(IPAddress.Parse(ip.Value), port.Value);
         public string EndPointName => endpointName.Value;

@@ -16,9 +16,14 @@ namespace ProjectBlue.RepulserEngine.View
             commandSettingListPresenter.Save(items);
         }
 
+        protected override void OnUpdateList(IEnumerable<CommandSetting> items)
+        {
+            // TODO: 上流に変更伝える
+        }
+
         protected override void StartInternal()
         {
-            SetData(commandSettingListPresenter.Load());
+            RecreateAllItem(commandSettingListPresenter.Load());
         }
     }
     

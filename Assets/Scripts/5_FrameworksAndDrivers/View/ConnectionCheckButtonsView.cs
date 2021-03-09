@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
-using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.Infrastructure;
 using ProjectBlue.RepulserEngine.Presentation;
-using UniRx;
 using UnityEngine;
 using Zenject;
+using UniRx;
 
 namespace ProjectBlue.RepulserEngine.View
 {
@@ -21,13 +20,13 @@ namespace ProjectBlue.RepulserEngine.View
         
         private void Start()
         {
-            endPointListPresenter.OnDataChangedAsObservable.Subscribe(list =>
+            endPointListPresenter.OnListRecreatedAsObservable.Subscribe(list =>
             {
                 GenerateButtons(list);
             }).AddTo(this);
         }
 
-        private void GenerateButtons(IEnumerable<EndpointSettingDataModel> list)
+        private void GenerateButtons(IEnumerable<EndpointSettingViewModel> list)
         {
             ClearButtons();
             

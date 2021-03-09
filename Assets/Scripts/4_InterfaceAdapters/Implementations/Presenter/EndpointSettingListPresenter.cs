@@ -9,6 +9,9 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
 
         private IEndPointSettingUseCase endPointSettingUseCase;
+        
+        public IObservable<IEnumerable<EndpointSettingViewModel>> OnListRecreatedAsObservable =>
+            endPointSettingUseCase.OnListRecreatedAsObservable;
 
         public EndpointSettingListPresenter(IEndPointSettingUseCase endPointSettingUseCase)
         {
@@ -19,10 +22,16 @@ namespace ProjectBlue.RepulserEngine.Presentation
         {
             return endPointSettingUseCase.Load();
         }
-        
-        public void Save(IEnumerable<EndpointSettingViewModel> settingList)
+
+
+        public void Update(IEnumerable<EndpointSettingViewModel> settingList)
         {
-            endPointSettingUseCase.Save(settingList);
+            endPointSettingUseCase.Update(settingList);
+        }
+
+        public void Save()
+        {
+            endPointSettingUseCase.Save();
         }
     }
 }

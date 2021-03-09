@@ -1,12 +1,12 @@
 ﻿using System.Net;
-using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using TMPro;
 using UniRx;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class EndpointSettingView : ReorderableListComponentView<EndpointSettingDataModel>
+    public class EndpointSettingView : ReorderableListComponentView<EndpointSettingViewModel>
     {
 
         [SerializeField] public TMP_InputField ipTextField;
@@ -14,7 +14,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] private ConnectionCheckButton connectionCheckButton;
 
-        private EndpointSettingDataModel data;
+        private EndpointSettingViewModel data = new EndpointSettingViewModel();
 
         private void Start()
         {
@@ -40,7 +40,7 @@ namespace ProjectBlue.RepulserEngine.View
             connectionCheckButton.SetIndex(Index);
         }
 
-        public override void UpdateView(EndpointSettingDataModel data)
+        public override void UpdateView(EndpointSettingViewModel data)
         {
             if (data == null)
             {
@@ -54,18 +54,18 @@ namespace ProjectBlue.RepulserEngine.View
             portTextField.text = data.EndPoint.Port.ToString();
         }
 
-        private EndpointSettingDataModel ParseData(string ip, string port)
+        private EndpointSettingViewModel ParseData(string ip, string port)
         {
 
             if (IPAddress.TryParse(ip, out var ipParsed) && int.TryParse(port, out var portParsed))
             {
-                return new EndpointSettingDataModel(new IPEndPoint(ipParsed, portParsed), "", 0);
+                return new EndpointSettingViewModel(new IPEndPoint(ipParsed, portParsed), "", 0);
             }
 
             return null;
         }
 
-        public override EndpointSettingDataModel GetData()
+        public override EndpointSettingViewModel GetData()
         {
             return data;
         }

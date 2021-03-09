@@ -17,9 +17,14 @@ namespace ProjectBlue.RepulserEngine.View
             Debug.Log("Clicked");
         }
 
+        protected override void OnUpdateList(IEnumerable<TimecodeSetting> items)
+        {
+            // TODO: 上流に変更伝える
+        }
+
         protected override void StartInternal()
         {
-            SetData(timecodeSettingListPresenter.Load());
+            RecreateAllItem(timecodeSettingListPresenter.Load());
         }
     }
 }
