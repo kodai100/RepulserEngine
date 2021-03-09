@@ -1,6 +1,6 @@
 ﻿using System;
 using Ltc;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 
 namespace ProjectBlue.RepulserEngine.DataStore
 {

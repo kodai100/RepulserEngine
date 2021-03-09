@@ -1,5 +1,5 @@
 ﻿
-namespace ProjectBlue.RepulserEngine.Domain.Model
+namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
     public class OscMessage
     {

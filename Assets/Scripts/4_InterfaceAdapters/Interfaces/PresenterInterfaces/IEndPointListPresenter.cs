@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
@@ -8,5 +8,6 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
         void Save(IEnumerable<EndpointSetting> settingList);
         IEnumerable<EndpointSetting> Load();
+        IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable { get; }
     }
 }

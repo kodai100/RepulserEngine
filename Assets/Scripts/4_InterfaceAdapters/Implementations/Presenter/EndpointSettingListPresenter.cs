@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using ProjectBlue.RepulserEngine.Domain.Model;
+﻿using System;
+using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 
 namespace ProjectBlue.RepulserEngine.Presentation
@@ -8,6 +9,9 @@ namespace ProjectBlue.RepulserEngine.Presentation
     {
 
         private IEndPointSettingUseCase endPointSettingUseCase;
+
+        public IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable =>
+            endPointSettingUseCase.OnDataChangedAsObservable;
 
         public EndpointSettingListPresenter(IEndPointSettingUseCase endPointSettingUseCase)
         {

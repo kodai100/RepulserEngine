@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using UniRx;
 using UnityEngine;
 

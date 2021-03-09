@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -52,8 +52,6 @@ namespace ProjectBlue.RepulserEngine.View
             this.data = data;
             ipTextField.text = data.EndPoint.Address.ToString();
             portTextField.text = data.EndPoint.Port.ToString();
-            
-            Debug.Log(Index);
         }
 
         private EndpointSetting ParseData(string ip, string port)

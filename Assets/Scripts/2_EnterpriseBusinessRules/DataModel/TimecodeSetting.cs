@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ProjectBlue.RepulserEngine.Domain.Model
+namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
 
     public enum PulseState

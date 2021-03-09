@@ -1,9 +1,7 @@
 ﻿using System;
-using Ltc;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace ProjectBlue.RepulserEngine.Domain.Model
+namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
     
     public enum CommandType

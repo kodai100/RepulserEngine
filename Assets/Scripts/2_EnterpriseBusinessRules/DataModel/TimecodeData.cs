@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjectBlue.RepulserEngine.Domain.Model
+namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
     
     [Serializable]

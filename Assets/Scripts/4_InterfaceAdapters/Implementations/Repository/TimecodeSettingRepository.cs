@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.DataStore;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 
 namespace ProjectBlue.RepulserEngine.Repository
 {
-    public class EndpointSettingRepository : IEndpointSettingRepository
+    
+    public class TimecodeSettingRepository : ITimecodeSettingRepository
     {
 
-        private IEndpointSettingDataStore endpointSettingDataStore;
-        public IEnumerable<EndpointSetting> EndPointList => endpointSettingDataStore.Load();
+        private ITimecodeSettingDataStore timecodeSettingDataStore;
+        public IEnumerable<TimecodeSetting> TimecodeSettingList => timecodeSettingDataStore.Load();
 
-        public IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable =>
-            endpointSettingDataStore.OnDataChangedAsObservable;
+        public IObservable<IEnumerable<TimecodeSetting>> OnDataChangedAsObservable =>
+            timecodeSettingDataStore.OnDataChangedAsObservable;
         
-        public EndpointSettingRepository(IEndpointSettingDataStore endpointSettingDataStore)
+        public TimecodeSettingRepository(ITimecodeSettingDataStore timecodeSettingDataStore)
         {
-            this.endpointSettingDataStore = endpointSettingDataStore;
+            this.timecodeSettingDataStore = timecodeSettingDataStore;
         }
 
-        public void Save(IEnumerable<EndpointSetting> endpointSettingList)
+        public void Save(IEnumerable<TimecodeSetting> timecodeSettingList)
         {
-            endpointSettingDataStore.Save(endpointSettingList);
+            timecodeSettingDataStore.Save(timecodeSettingList);
         }
 
-        public IEnumerable<EndpointSetting> Load()
+        public IEnumerable<TimecodeSetting> Load()
         {
-            return endpointSettingDataStore.Load();
+            return timecodeSettingDataStore.Load();
         }
     }
-
 }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using ProjectBlue.RepulserEngine.DataStore;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using UniRx;
 using ProjectBlue.RepulserEngine.Repository;
 using UnityEngine;

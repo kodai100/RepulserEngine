@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 
 namespace ProjectBlue.RepulserEngine.DataStore
 {
@@ -10,7 +10,6 @@ namespace ProjectBlue.RepulserEngine.DataStore
     {
         void Save(IEnumerable<EndpointSetting> pulseSettingList);
         IEnumerable<EndpointSetting> Load();
-        IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable { get; }
     }
     
 }

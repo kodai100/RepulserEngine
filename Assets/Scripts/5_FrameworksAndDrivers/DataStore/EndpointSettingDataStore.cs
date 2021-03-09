@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using UniRx;
 using UnityEngine;
 
@@ -19,10 +19,6 @@ namespace ProjectBlue.RepulserEngine.DataStore
 
         private bool loaded;
 
-        private Subject<IEnumerable<EndpointSetting>> onDataChangedSubject = new Subject<IEnumerable<EndpointSetting>>();
-        public IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable => onDataChangedSubject;
-
-        
         public void Save(IEnumerable<EndpointSetting> endpointSettings)
         {
 

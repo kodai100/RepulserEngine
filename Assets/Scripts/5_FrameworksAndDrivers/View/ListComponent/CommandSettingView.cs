@@ -1,5 +1,5 @@
 ﻿using System;
-using ProjectBlue.RepulserEngine.Domain.Model;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using TMPro;
 using UnityEngine;
 using UniRx;
