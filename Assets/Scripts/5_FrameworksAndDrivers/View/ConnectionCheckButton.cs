@@ -8,19 +8,29 @@ using Zenject;
 namespace ProjectBlue.RepulserEngine.View
 {
 
-    public class ConnectionCheckView : MonoBehaviour
+    public class ConnectionCheckButton : MonoBehaviour
     {
 
         [Inject] private IConnectionCheckPresenter connectionCheckPresenter;
 
+        private int index = -1;
+        
         [SerializeField] private Button button;
-        [SerializeField] private EndpointSettingView endpointSettingView;
         [SerializeField] private Image image;
         
         [SerializeField] private Color successColor = new Color(0f, 0.7f, 0.3f);
+        [SerializeField] private Color checkingColor = new Color(0.7f, 0.7f, 0f);
         [SerializeField] private Color failColor = new Color(0.7f, 0f, 0f);
 
         [SerializeField] private TextFade textFade;
+
+        private bool running;
+
+        public void SetIndex(int index)
+        {
+            this.index = index;
+            image.color = failColor;
+        }
         
         private void Start()
         {
@@ -37,30 +47,28 @@ namespace ProjectBlue.RepulserEngine.View
         private async Task Check()
         {
 
-            if (endpointSettingView.GetData() == null)
-            {
-                image.color = failColor;
-                return;
-            }
+            if (running || index == -1) return;
             
-            textFade.gameObject.SetActive(true);
+            running = true;
+
+            image.color = checkingColor;
             
-            var address = endpointSettingView.GetData().EndPoint.Address;
-            Debug.Log($"Check : {address}");
+            textFade?.gameObject.SetActive(true);
             
-            var result = await connectionCheckPresenter.Check(address);
+            var result = await connectionCheckPresenter.Check(index);
 
             if (result)
             {
                 image.color = successColor;
-                Debug.Log($"Success : {address}");
             }
             else
             {
                 image.color = failColor;
-                Debug.Log($"Fail : {address}");
             }
-            textFade.gameObject.SetActive(false);
+            
+            textFade?.gameObject.SetActive(false);
+
+            running = false;
         }
 
     }

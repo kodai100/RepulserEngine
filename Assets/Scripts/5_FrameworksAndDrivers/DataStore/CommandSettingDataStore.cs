@@ -8,27 +8,7 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.DataStore
 {
-
-    [Serializable]
-    public class CommandSettingListForSerialize
-    {
-        public List<CommandSetting> Data = new List<CommandSetting>();
-
-        public CommandSettingListForSerialize(){}
-        
-        public CommandSettingListForSerialize(IEnumerable<CommandSetting> data)
-        {
-            
-            Data.Clear();
-            
-            foreach (var component in data)
-            {
-                Data.Add(component);
-            }
-        }
-    }
     
-
     public class CommandSettingDataStore : ICommandSettingDataStore, IDisposable
     {
 

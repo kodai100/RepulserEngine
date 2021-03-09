@@ -14,9 +14,9 @@ namespace ProjectBlue.RepulserEngine.Presentation
             this.connectionCheckUseCase = connectionCheckUseCase;
         }
         
-        public Task<bool> Check(IPAddress address)
+        public Task<bool> Check(int endpointId)
         {
-            return connectionCheckUseCase.Check(address);
+            return connectionCheckUseCase.Check(endpointId);
         }
     }
 

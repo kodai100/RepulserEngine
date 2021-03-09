@@ -196,9 +196,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 39916070219269364}
-  endpointSettingView: {fileID: 133484915115891432}
   image: {fileID: 39916070219269365}
   successColor: {r: 0, g: 0.7, b: 0.3, a: 1}
+  checkingColor: {r: 0.7, g: 0.7, b: 0, a: 1}
   failColor: {r: 0.7, g: 0, b: 0, a: 1}
   textFade: {fileID: 1165362057768105796}
 --- !u!1 &39916070937096715
@@ -1750,6 +1750,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 226246470970535395}
   ipTextField: {fileID: 2635109357237075966}
   portTextField: {fileID: 226246470597539197}
+  connectionCheckButton: {fileID: 5018044367066786792}
 --- !u!1 &226246471025250157
 GameObject:
   m_ObjectHideFlags: 0

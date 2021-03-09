@@ -20,30 +20,29 @@ namespace ProjectBlue.RepulserEngine.DataStore
         public async Task<bool> Check(IPAddress address)
         {
             
-            var sender = new Ping();
-            var checkSum = 0;
+            Debug.Log($"Check : {address}");
             
+            var checkSum = 0;
+
             for(var i = 0; i < checkNum; i++)
             {
-                var reply = sender.Send(address);
-                if(reply.Status == IPStatus.Success)
+
+                var result = await PingUtility.Ping(address);
+                
+                if(result)
                 {
-                    Debug.Log(
-                        $"Reply from {reply.Address}: bytes={reply.Buffer.Length} time={reply.RoundtripTime}ms TTL={reply.Options.Ttl}");
                     checkSum++;
                 }
                 else
                 {
+                    Debug.Log($"Failed : {address}");
                     return false;
                 }
-                
-                if(i < checkNum-1)
-                {
-                    await Task.Delay(300);
-                }
             }
-
-            return checkSum == checkNum;
+            
+            Debug.Log($"Success : {address}");
+            return true;
+            
         }
     }
 

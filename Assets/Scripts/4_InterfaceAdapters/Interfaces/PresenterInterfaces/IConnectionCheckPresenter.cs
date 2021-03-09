@@ -1,11 +1,10 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
     public interface IConnectionCheckPresenter
     {
-        Task<bool> Check(IPAddress address);
+        Task<bool> Check(int endpointId);
     }
 
 }

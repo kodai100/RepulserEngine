@@ -12,6 +12,8 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public TMP_InputField ipTextField;
         [SerializeField] public TMP_InputField portTextField;
 
+        [SerializeField] private ConnectionCheckButton connectionCheckButton;
+
         private EndpointSetting data;
 
         private void Start()
@@ -33,6 +35,11 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
         }
 
+        protected override void OnUpdateIndex(int index)
+        {
+            connectionCheckButton.SetIndex(Index);
+        }
+
         public override void UpdateView(EndpointSetting data)
         {
             if (data == null)
@@ -45,6 +52,8 @@ namespace ProjectBlue.RepulserEngine.View
             this.data = data;
             ipTextField.text = data.EndPoint.Address.ToString();
             portTextField.text = data.EndPoint.Port.ToString();
+            
+            Debug.Log(Index);
         }
 
         private EndpointSetting ParseData(string ip, string port)
