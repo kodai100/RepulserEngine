@@ -1,30 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjectBlue.RepulserEngine.DataStore;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
+using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
+using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
 
-    public class ConnectionCheckUseCase : IConnectionCheckUseCase
+    public class ConnectionCheckUseCase : IConnectionCheckUseCase, IDisposable
     {
         private IConnectionCheckRepository connectionCheckRepository;
-        private IEndpointSettingRepository endpointSettingRepository;
 
+        private CompositeDisposable disposable = new CompositeDisposable();
+
+        private IEnumerable<EndpointSettingViewModel> endpointSettingList;
+        
         public ConnectionCheckUseCase(
             IConnectionCheckRepository connectionCheckRepository,
-            IEndpointSettingRepository endpointSettingRepository)
+            IEndPointListPresenter endPointListPresenter)
         {
             this.connectionCheckRepository = connectionCheckRepository;
-            this.endpointSettingRepository = endpointSettingRepository;
+
+            endPointListPresenter.OnListRecreatedAsObservable.Subscribe(list =>
+            {
+                endpointSettingList = list;
+            }).AddTo(disposable);
         }
         
         public Task<bool> Check(int endpointId)
         {
 
-            var list = endpointSettingRepository.Load().ToList();
+            var list = endpointSettingList.ToList();
 
             if (endpointId < list.Count)
             {
@@ -33,6 +43,11 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             
             throw new IndexOutOfRangeException($"Invalid index was specified {endpointId}");
             
+        }
+
+        public void Dispose()
+        {
+            disposable.Dispose();
         }
     }
 
