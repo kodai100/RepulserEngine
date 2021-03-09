@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ProjectBlue.RepulserEngine.Presentation;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] private Color failColor = new Color(0.7f, 0f, 0f);
 
         [SerializeField] private TextFade textFade;
+        [SerializeField] private TMP_Text indexText;
 
         private bool running;
 
@@ -30,12 +32,17 @@ namespace ProjectBlue.RepulserEngine.View
         {
             this.index = index;
             image.color = failColor;
+
+            if (indexText)
+            {
+                indexText.text = (index+1).ToString();
+            }
         }
         
         private void Start()
         {
             
-            textFade.gameObject.SetActive(false);
+            textFade?.gameObject.SetActive(false);
             
             button.OnClickAsObservable().Subscribe(_ =>
             {
