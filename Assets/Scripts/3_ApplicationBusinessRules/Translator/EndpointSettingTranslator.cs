@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
 
-public class EndpointSettingTranslator : MonoBehaviour
+namespace ProjectBlue.RepulserEngine.Translators
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public class EndpointSettingTranslator
     {
+
+        public static EndpointSettingDataModel Translate(EndpointSettingViewModel viewModel)
+        {
+            var dataModel = new EndpointSettingDataModel(viewModel.EndPoint, viewModel.EndPointName, viewModel.OffsetFrame);
+            return dataModel;
+        }
+        
+        public static EndpointSettingViewModel Translate(EndpointSettingDataModel dataModel)
+        {
+            var viewModel = new EndpointSettingViewModel(dataModel.EndPoint, dataModel.EndPointName, dataModel.OffsetFrame);
+            return viewModel;
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class EndpointSettingView : ReorderableListComponentView<EndpointSetting>
+    public class EndpointSettingView : ReorderableListComponentView<EndpointSettingDataModel>
     {
 
         [SerializeField] public TMP_InputField ipTextField;
@@ -14,7 +14,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] private ConnectionCheckButton connectionCheckButton;
 
-        private EndpointSetting data;
+        private EndpointSettingDataModel data;
 
         private void Start()
         {
@@ -40,7 +40,7 @@ namespace ProjectBlue.RepulserEngine.View
             connectionCheckButton.SetIndex(Index);
         }
 
-        public override void UpdateView(EndpointSetting data)
+        public override void UpdateView(EndpointSettingDataModel data)
         {
             if (data == null)
             {
@@ -54,18 +54,18 @@ namespace ProjectBlue.RepulserEngine.View
             portTextField.text = data.EndPoint.Port.ToString();
         }
 
-        private EndpointSetting ParseData(string ip, string port)
+        private EndpointSettingDataModel ParseData(string ip, string port)
         {
 
             if (IPAddress.TryParse(ip, out var ipParsed) && int.TryParse(port, out var portParsed))
             {
-                return new EndpointSetting(new IPEndPoint(ipParsed, portParsed), "", 0);
+                return new EndpointSettingDataModel(new IPEndPoint(ipParsed, portParsed), "", 0);
             }
 
             return null;
         }
 
-        public override EndpointSetting GetData()
+        public override EndpointSettingDataModel GetData()
         {
             return data;
         }

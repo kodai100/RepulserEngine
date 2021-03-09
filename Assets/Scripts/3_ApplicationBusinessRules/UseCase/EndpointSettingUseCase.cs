@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
+using ProjectBlue.RepulserEngine.Translators;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
 
@@ -14,26 +16,23 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         
         private IEndpointSettingRepository endpointSettingRepository;
 
-        public IObservable<IEnumerable<EndpointSetting>> OnDataChangedAsObservable => onDataChangedSubject;
-        
-        private Subject<IEnumerable<EndpointSetting>> onDataChangedSubject = new Subject<IEnumerable<EndpointSetting>>();
+        private IEnumerable<EndpointSettingViewModel> viewModelList;
         
         public EndpointSettingUseCase(IEndpointSettingRepository endpointSettingRepository)
         {
             this.endpointSettingRepository = endpointSettingRepository;
         }
 
-        public IEnumerable<EndpointSetting> Load()
+        public IEnumerable<EndpointSettingViewModel> Load()
         {
             var list = endpointSettingRepository.Load();
-            var endpointSettings = list as EndpointSetting[] ?? list.ToArray();
-            onDataChangedSubject.OnNext(endpointSettings);
-            return endpointSettings;
+            viewModelList = list.Select(element => EndpointSettingTranslator.Translate(element));
+            return viewModelList;
         }
         
-        public void Save(IEnumerable<EndpointSetting> settings)
+        public void Save(IEnumerable<EndpointSettingViewModel> settings)
         {
-            var settingList = settings as EndpointSetting[] ?? settings.ToArray();
+            viewModelList = settings;
             onDataChangedSubject.OnNext(settingList);
             endpointSettingRepository.Save(settingList);
         }

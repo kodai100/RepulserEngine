@@ -15,11 +15,11 @@ namespace ProjectBlue.RepulserEngine.DataStore
         private static readonly string JsonFilePath =
             Path.Combine(UnityEngine.Application.streamingAssetsPath, "EndpointSetting.json");
         
-        private List<EndpointSetting> endpointList = new List<EndpointSetting>();
+        private List<EndpointSettingDataModel> endpointList = new List<EndpointSettingDataModel>();
 
         private bool loaded;
 
-        public void Save(IEnumerable<EndpointSetting> endpointSettings)
+        public void Save(IEnumerable<EndpointSettingDataModel> endpointSettings)
         {
 
             var target = new EndpointSettingListForSerialize(endpointSettings);
@@ -44,7 +44,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
         }
         
         
-        public IEnumerable<EndpointSetting> Load()
+        public IEnumerable<EndpointSettingDataModel> Load()
         {
 
             if (loaded) return endpointList;

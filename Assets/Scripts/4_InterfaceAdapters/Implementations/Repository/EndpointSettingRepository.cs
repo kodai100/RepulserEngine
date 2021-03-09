@@ -10,19 +10,19 @@ namespace ProjectBlue.RepulserEngine.Repository
     {
 
         private IEndpointSettingDataStore endpointSettingDataStore;
-        public IEnumerable<EndpointSetting> EndPointList => endpointSettingDataStore.Load();
+        public IEnumerable<EndpointSettingDataModel> EndPointList => endpointSettingDataStore.Load();
 
         public EndpointSettingRepository(IEndpointSettingDataStore endpointSettingDataStore)
         {
             this.endpointSettingDataStore = endpointSettingDataStore;
         }
 
-        public void Save(IEnumerable<EndpointSetting> endpointSettingList)
+        public void Save(IEnumerable<EndpointSettingDataModel> endpointSettingList)
         {
             endpointSettingDataStore.Save(endpointSettingList);
         }
 
-        public IEnumerable<EndpointSetting> Load()
+        public IEnumerable<EndpointSettingDataModel> Load()
         {
             return endpointSettingDataStore.Load();
         }

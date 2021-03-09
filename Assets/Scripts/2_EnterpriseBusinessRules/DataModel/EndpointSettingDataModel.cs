@@ -6,7 +6,7 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
     
     [Serializable]
-    public class EndpointSetting
+    public class EndpointSettingDataModel
     {
 
         [SerializeField] private string ip;
@@ -18,7 +18,7 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
         public string EndPointName => endpointName;
         public int OffsetFrame => offsetFrame;
 
-        public EndpointSetting(IPEndPoint endPoint, string endPointName, int offsetFrame)
+        public EndpointSettingDataModel(IPEndPoint endPoint, string endPointName, int offsetFrame)
         {
             this.endpointName = endPointName;
             this.offsetFrame = offsetFrame;
@@ -27,7 +27,7 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
             port = endPoint.Port;
         }
 
-        public EndpointSetting() : this(new IPEndPoint(IPAddress.None, 2974), "NULL", 0)
+        public EndpointSettingDataModel() : this(new IPEndPoint(IPAddress.None, 2974), "NULL", 0)
         {
             
         }

@@ -26,11 +26,11 @@ namespace ProjectBlue.RepulserEngine.DataStore
     [Serializable]
     public class EndpointSettingListForSerialize
     {
-        public List<EndpointSetting> Data = new List<EndpointSetting>();
+        public List<EndpointSettingDataModel> Data = new List<EndpointSettingDataModel>();
 
         public EndpointSettingListForSerialize(){}
         
-        public EndpointSettingListForSerialize(IEnumerable<EndpointSetting> data)
+        public EndpointSettingListForSerialize(IEnumerable<EndpointSettingDataModel> data)
         {
             
             Data.Clear();

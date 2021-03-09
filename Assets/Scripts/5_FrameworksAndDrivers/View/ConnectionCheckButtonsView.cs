@@ -27,7 +27,7 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
         }
 
-        private void GenerateButtons(IEnumerable<EndpointSetting> list)
+        private void GenerateButtons(IEnumerable<EndpointSettingDataModel> list)
         {
             ClearButtons();
             

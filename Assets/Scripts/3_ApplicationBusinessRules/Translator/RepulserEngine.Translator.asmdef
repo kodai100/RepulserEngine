@@ -1,7 +1,11 @@
 {
     "name": "RepulserEngine.Translator",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:244f5c9ed6f601746b3386dd4cf68b8e",
+        "GUID:0e53b2bb75da5b9488eee3180595203d"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
