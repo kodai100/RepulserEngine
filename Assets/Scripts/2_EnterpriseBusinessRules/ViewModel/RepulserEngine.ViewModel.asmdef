@@ -1,0 +1,16 @@
+{
+    "name": "RepulserEngine.ViewModel",
+    "rootNamespace": "",
+    "references": [
+        "UniRx"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

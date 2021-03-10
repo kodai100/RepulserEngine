@@ -2,6 +2,7 @@ using SoundIO.SimpleDriver;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,8 @@ public sealed class DeviceSelector : MonoBehaviour
 {
     #region Editable attributes
 
-    [SerializeField] Dropdown _deviceList = null;
-    [SerializeField] Dropdown _channelList = null;
+    [SerializeField] TMP_Dropdown _deviceList = null;
+    [SerializeField] TMP_Dropdown _channelList = null;
     [SerializeField] Text _statusText = null;
 
     #endregion
@@ -58,13 +59,13 @@ public sealed class DeviceSelector : MonoBehaviour
         _statusText.text = "";
 
         // Null device option
-        _deviceList.options.Add(new Dropdown.OptionData() { text = "--" });
+        _deviceList.options.Add(new TMP_Dropdown.OptionData() { text = "--" });
 
         // Device list initialization
         _deviceList.options.AddRange(
             Enumerable.Range(0, DeviceDriver.DeviceCount).
                 Select(i => DeviceDriver.GetDeviceName(i)).
-                Select(name => new Dropdown.OptionData() { text = name }));
+                Select(name => new TMP_Dropdown.OptionData() { text = name }));
 
         _deviceList.RefreshShownValue();
     }
@@ -136,7 +137,7 @@ public sealed class DeviceSelector : MonoBehaviour
         _channelList.options =
             Enumerable.Range(0, _stream.ChannelCount).
             Select(i => $"Channel {i + 1}").
-            Select(text => new Dropdown.OptionData() { text = text }).
+            Select(text => new TMP_Dropdown.OptionData() { text = text }).
             ToList();
 
         _channelList.RefreshShownValue();

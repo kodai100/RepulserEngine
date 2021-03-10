@@ -1,1 +1,1 @@
-{"Data":[{"oscAddress":"/M21"}]}
+{"Data":[{"commandType":0,"commandName":"START","commandArguments":"0","memo":"Start Play"},{"commandType":0,"commandName":"PAUSE","commandArguments":"1","memo":"fffff"},{"commandType":0,"commandName":"RESUME","commandArguments":"12.3","memo":""},{"commandType":0,"commandName":"HOGE","commandArguments":"sss","memo":""}]}

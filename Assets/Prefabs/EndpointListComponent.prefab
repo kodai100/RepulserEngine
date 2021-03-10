@@ -682,10 +682,9 @@ GameObject:
   - component: {fileID: 5611969265263359931}
   - component: {fileID: 5611969265263359929}
   - component: {fileID: 5611969265263359930}
-  - component: {fileID: 4214786714952703429}
   - component: {fileID: 1243732157714130587}
   m_Layer: 5
-  m_Name: DestinationIP
+  m_Name: EndpointListComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -772,19 +771,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4214786714952703429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5611969265263359909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62abaa9593b6d424f954fc2b28646948, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listComponentView: {fileID: 1243732157714130587}
 --- !u!114 &1243732157714130587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,6 +784,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deleteButton: {fileID: 5611969265791954046}
+  backgroundImage: {fileID: 5611969265263359930}
+  defaultColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   ipTextField: {fileID: 5611969264602617321}
   portTextField: {fileID: 5611969264878033253}
 --- !u!1 &5611969265791954040

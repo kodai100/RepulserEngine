@@ -1,0 +1,24 @@
+{
+    "name": "RepulserEngine.Installer",
+    "rootNamespace": "",
+    "references": [
+        "GUID:331ada456fc917c45946e40dd115abff",
+        "GUID:d2c0aa680bd17bf478610e82c624be8b",
+        "GUID:265a7828fb3f6714f85dc67676eb336a",
+        "GUID:7fa7afa0bec8edd45b5c89e28f71e06c",
+        "GUID:50ab4f80eb039e24a86fdac98ede0ce3",
+        "GUID:4eb0f9545c2200b4da5800f91cbcd660",
+        "GUID:895f3418477d9c644a82ce57699b21ad",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:becb9a25feb18bc45b05d780679f3aba"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
