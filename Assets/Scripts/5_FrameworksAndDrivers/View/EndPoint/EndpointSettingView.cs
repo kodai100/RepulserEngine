@@ -13,6 +13,7 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] public TMP_InputField portTextField;
 
         [SerializeField] private ConnectionCheckButton connectionCheckButton;
+        [SerializeField] private SignalSendAvailabilityButton signalSendAvailabilityButton;
 
         public override EndpointSettingViewModel Data => data;
         private EndpointSettingViewModel data = new EndpointSettingViewModel();
@@ -22,13 +23,12 @@ namespace ProjectBlue.RepulserEngine.View
             Observable.Merge(
                 ipTextField.OnValueChangedAsObservable().Skip(1),
                 portTextField.OnValueChangedAsObservable().Skip(1)
-            )
+                )
             .Subscribe(value =>
             {
                 SetDirty();
-
-                data = ParseData(ipTextField.text, portTextField.text);
-                if (data == null)
+                
+                if (ParseData(ipTextField.text, portTextField.text))
                 {
                     Invalid();
                 }
@@ -36,12 +36,14 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
             
             connectionCheckButton.SetEndPointViewModel(data);
+            signalSendAvailabilityButton.SetEndPointViewModel(data);
         }
 
         protected override void OnChangeIndex()
         {
             base.OnChangeIndex();
             connectionCheckButton.SetIndex(Index);
+            signalSendAvailabilityButton.SetEndPointViewModel(data);
         }
 
         public override void UpdateView(EndpointSettingViewModel data)
@@ -58,15 +60,17 @@ namespace ProjectBlue.RepulserEngine.View
             portTextField.text = data.EndPoint.Port.ToString();
         }
 
-        private EndpointSettingViewModel ParseData(string ip, string port)
+        private bool ParseData(string ip, string port)
         {
 
             if (IPAddress.TryParse(ip, out var ipParsed) && int.TryParse(port, out var portParsed))
             {
-                return new EndpointSettingViewModel(new IPEndPoint(ipParsed, portParsed), "", 0);
+                data.ip.Value = ipParsed.ToString();
+                data.port.Value = portParsed;
+                return true;
             }
 
-            return null;
+            return false;
         }
     }
     

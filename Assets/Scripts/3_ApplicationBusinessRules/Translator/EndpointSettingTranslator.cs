@@ -9,13 +9,13 @@ namespace ProjectBlue.RepulserEngine.Translators
 
         public static EndpointSettingDataModel Translate(EndpointSettingViewModel viewModel)
         {
-            var dataModel = new EndpointSettingDataModel(viewModel.EndPoint, viewModel.EndPointName, viewModel.OffsetFrame);
+            var dataModel = new EndpointSettingDataModel(viewModel.EndPoint, viewModel.EndPointName, viewModel.OffsetFrame, viewModel.ConnectionEnabled);
             return dataModel;
         }
         
         public static EndpointSettingViewModel Translate(EndpointSettingDataModel dataModel)
         {
-            var viewModel = new EndpointSettingViewModel(dataModel.EndPoint, dataModel.EndPointName, dataModel.OffsetFrame);
+            var viewModel = new EndpointSettingViewModel(dataModel.EndPoint, dataModel.EndPointName, dataModel.OffsetFrame, dataModel.ConnectionEnabled);
             return viewModel;
         }
         
