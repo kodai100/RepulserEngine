@@ -48,11 +48,13 @@ namespace ProjectBlue.RepulserEngine.View
             commandSettingPresenter.OnListChangedAsObservable.Subscribe(list =>
             {
                UpdateOptionList(list);
+               UpdateCommandSelection();
             }).AddTo(this);
 
             UpdateOptionList(commandSettingPresenter.Load());
         }
 
+        // プルダウンオプションの種類をCommandリストと同期
         private void UpdateOptionList(IEnumerable<CommandSetting> list)
         {
             
@@ -85,16 +87,26 @@ namespace ProjectBlue.RepulserEngine.View
             frameField.text = data.TimecodeData.frame.ToString();
 
             UpdateOptionList(commandSettingPresenter.Load());
-            
-            dropdown.value = 0;
+            UpdateCommandSelection();
+
+        }
+
+        private void UpdateCommandSelection()
+        {
+            // 選択しているコマンド名をプルダウンインデックスに変換
+            var result = 0;
             for (var i = 0; i < dropdown.options.Count; i++)
             {
                 var optionText = dropdown.options[i].text;
                 if (data.ConnectedCommandName == optionText)
                 {
-                    dropdown.value = i;
+                    result = i;
+                    Debug.Log(i);
+                    break;
                 }
             }
+
+            dropdown.value = result;
         }
 
         private TimecodeSetting ParseData(string hour, string minute, string second, string frame, string command)

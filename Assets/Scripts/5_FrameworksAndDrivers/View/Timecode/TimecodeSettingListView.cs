@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.Presentation;
-using UnityEngine;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
@@ -14,7 +13,6 @@ namespace ProjectBlue.RepulserEngine.View
         protected override void OnSaveButtonClicked(IEnumerable<TimecodeSetting> items)
         {
             timecodeSettingListPresenter.Save(items);
-            Debug.Log("Clicked");
         }
 
         protected override void OnUpdateList(IEnumerable<TimecodeSetting> items)
