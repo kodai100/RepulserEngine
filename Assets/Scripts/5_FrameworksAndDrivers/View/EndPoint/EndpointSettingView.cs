@@ -11,6 +11,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] public TMP_InputField ipTextField;
         [SerializeField] public TMP_InputField portTextField;
+        [SerializeField] public TMP_InputField labelTextField;
 
         [SerializeField] private ConnectionCheckButton connectionCheckButton;
         [SerializeField] private SignalSendAvailabilityButton signalSendAvailabilityButton;
@@ -22,13 +23,13 @@ namespace ProjectBlue.RepulserEngine.View
         {
             Observable.Merge(
                 ipTextField.OnValueChangedAsObservable().Skip(1),
-                portTextField.OnValueChangedAsObservable().Skip(1)
-                )
+                portTextField.OnValueChangedAsObservable().Skip(1),
+                labelTextField.OnValueChangedAsObservable().Skip(1))
             .Subscribe(value =>
             {
                 SetDirty();
                 
-                if (ParseData(ipTextField.text, portTextField.text))
+                if (!ParseData(ipTextField.text, portTextField.text))
                 {
                     Invalid();
                 }
@@ -52,16 +53,20 @@ namespace ProjectBlue.RepulserEngine.View
             {
                 ipTextField.text = "";
                 portTextField.text = "";
+                labelTextField.text = "";
                 return;
             }
             
             this.data = data;
             ipTextField.text = data.EndPoint.Address.ToString();
             portTextField.text = data.EndPoint.Port.ToString();
+            labelTextField.text = data.EndPointName;
         }
 
         private bool ParseData(string ip, string port)
         {
+            
+            data.endpointName.Value = labelTextField.text;
 
             if (IPAddress.TryParse(ip, out var ipParsed) && int.TryParse(port, out var portParsed))
             {

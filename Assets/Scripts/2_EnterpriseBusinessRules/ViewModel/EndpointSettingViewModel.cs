@@ -39,11 +39,6 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
             this.connectionEnabled.Value = connectionEnabled;
         }
 
-        public void ConnectionCheck()
-        {
-            
-        }
-
         public EndpointSettingViewModel() : this(new IPEndPoint(IPAddress.None, 2974), "NULL", 0, false)
         {
             

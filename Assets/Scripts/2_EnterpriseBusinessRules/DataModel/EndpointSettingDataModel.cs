@@ -33,7 +33,7 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
             port = endPoint.Port;
         }
 
-        public EndpointSettingDataModel() : this(new IPEndPoint(IPAddress.None, 2974), "NULL", 0, false)
+        public EndpointSettingDataModel() : this(new IPEndPoint(IPAddress.None, 2974), "", 0, false)
         {
             
         }
