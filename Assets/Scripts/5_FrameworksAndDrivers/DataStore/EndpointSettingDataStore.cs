@@ -15,7 +15,7 @@ namespace ProjectBlue.RepulserEngine.DataStore
         private static readonly string JsonFilePath =
             Path.Combine(UnityEngine.Application.streamingAssetsPath, "EndpointSetting.json");
         
-        private List<EndpointSettingDataModel> endpointList = new List<EndpointSettingDataModel>();
+        private List<EndpointSettingDataModel> endpointList = new List<EndpointSettingDataModel>();    // cache
 
         private bool loaded;
 

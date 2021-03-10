@@ -3,6 +3,7 @@ using System.Linq;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using Zenject;
 using UniRx;
+using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Controllers
 {
@@ -13,6 +14,7 @@ namespace ProjectBlue.RepulserEngine.Controllers
         private IEndPointSettingUseCase endPointSettingUseCase;
         private ISendToEndpointUseCase sendToEndpointUseCase;
         private ICommandSettingUseCase commandSettingUseCase;
+        private IOnAirSettingUseCase onAirSettingUseCase;
         
         private CompositeDisposable disposable = new CompositeDisposable();
         
@@ -20,12 +22,14 @@ namespace ProjectBlue.RepulserEngine.Controllers
             ITimecodeEvaluationUseCase timecodeEvaluationUseCase,
             IEndPointSettingUseCase endPointSettingUseCase,
             ISendToEndpointUseCase sendToEndpointUseCase,
-            ICommandSettingUseCase commandSettingUseCase)
+            ICommandSettingUseCase commandSettingUseCase,
+            IOnAirSettingUseCase onAirSettingUseCase)
         {
             this.timecodeEvaluationUseCase = timecodeEvaluationUseCase;
             this.endPointSettingUseCase = endPointSettingUseCase;
             this.sendToEndpointUseCase = sendToEndpointUseCase;
             this.commandSettingUseCase = commandSettingUseCase;
+            this.onAirSettingUseCase = onAirSettingUseCase;
         }
         
         
@@ -38,6 +42,12 @@ namespace ProjectBlue.RepulserEngine.Controllers
 
         private void SendCommandGlobal(string command)
         {
+
+            if (!onAirSettingUseCase.OnAirSettingViewModel.IsOnAir)
+            {
+                Debug.Log($"Current not on air. but this command triggered : {command}");
+                return;
+            }
 
             // TODO: CommandSettingUseCaseにGetCurrentを実装する
             var commandData = commandSettingUseCase.Load().FirstOrDefault(element => element.CommandName == command);

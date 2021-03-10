@@ -1,13 +1,17 @@
-﻿using TMPro;
+﻿using ProjectBlue.RepulserEngine.Presentation;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
     public class OnAirButtonView : MonoBehaviour
     {
 
+        [Inject] private IOnAirSettingPresenter onAirSettingPresenter;
+        
         [SerializeField] private Button button;
         [SerializeField] private Image buttonBackground;
 
@@ -16,26 +20,34 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] private Color onAirColor;
         [SerializeField] private Color standbyColor;
 
-        private bool currentOnAir;
-        
         private void Start()
         {
             button.OnClickAsObservable().Subscribe(_ =>
             {
-                currentOnAir = !currentOnAir;
-
-                if (currentOnAir)
-                {
-                    SetOnAir();
-                }
-                else
-                {
-                    SetStandby();
-                }
-                
+                Toggle();
             }).AddTo(this);
+
+            onAirSettingPresenter.OnAirSettingViewModel.isOnAir.Subscribe(SetBackground).AddTo(this);
             
-            SetStandby();
+            
+        }
+
+        private void Toggle()
+        {
+            onAirSettingPresenter.OnAirSettingViewModel.isOnAir.Value =
+                !onAirSettingPresenter.OnAirSettingViewModel.IsOnAir;
+        }
+
+        private void SetBackground(bool isOnAir)
+        {
+            if (isOnAir)
+            {
+                SetOnAir();
+            }
+            else
+            {
+                SetStandby();
+            }
         }
 
         private void SetStandby()

@@ -17,6 +17,8 @@ namespace ProjectBlue.RepulserEngine.Installers
 
             ConnectionCheckInstaller.Install(Container);
             
+            OnAirSettingInstaller.Install(Container);
+            
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
             
@@ -49,7 +51,7 @@ namespace ProjectBlue.RepulserEngine.Installers
             Container.BindInterfacesAndSelfTo<EndpointSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeSettingListPresenter>().AsSingle();
 
-
+            // Controllers
             Container.BindInterfacesAndSelfTo<Trigger>().AsSingle().NonLazy();
         }
     }
