@@ -2,32 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectBlue.RepulserEngine.Infrastructure;
-using UnityEngine;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
+    
+    /// <summary>
+    /// Reorderable list
+    /// </summary>
+    /// <typeparam name="T">List component with data model U (ReorderableListComponent<U>)</typeparam>
+    /// <typeparam name="U">data model</typeparam>
     public abstract class ReorderableListView<T, U> : MonoBehaviour where T : ReorderableListComponentView<U>
     {
 
         [Inject] private DiContainer container;
-        
+
         [SerializeField] private T listComponentPrefab;
         
         [SerializeField] private Button addButton;
         [SerializeField] protected Button saveButton;
         [SerializeField] private Button removeAllButton;
-        [SerializeField] protected RectTransform scrollViewParentTransform;
+        [SerializeField] protected RectTransform scrollViewContentTransform;
 
+        // bare component buffer (with no reordered)
         // リストのインデックスではなく、要素内に記録されているインデックスで参照するようにする
-        [SerializeField, ReadOnly] private List<T> componentList = new List<T>();
+        private List<T> componentListBuffer = new List<T>();
+
+        /// <summary>
+        /// Reordered component list
+        /// </summary>
+        private IEnumerable<T> ComponentList =>
+            componentListBuffer.OrderBy(component => component.Index);
+
+        /// <summary>
+        /// Reordered data list
+        /// </summary>
+        public List<U> DataList =>
+            ComponentList.Select(component => component.Data).ToList();
 
         protected abstract void OnSaveButtonClicked(IEnumerable<U> items);
+        
+        /// <summary>
+        /// リストが変更(再生成/追加/並び替え上下/クリア)されたときに継承先へ通知する
+        /// </summary>
+        /// <param name="items"></param>
         protected abstract void OnUpdateList(IEnumerable<U> items);
         
-        private void Start()
+        protected virtual void Start()
         {
 
             // リスト追加ボタンが押されたら
@@ -45,80 +69,84 @@ namespace ProjectBlue.RepulserEngine.View
             // 保存ボタンが押されたら
             saveButton.OnClickAsObservable().Subscribe(_ =>
             {
-                OnSaveButtonClicked(componentList.Select(componentView => componentView.GetData()));
-                foreach (var component in componentList)
+                OnSaveButtonClicked(DataList);
+                foreach (var component in ComponentList)
                 {
                     component.SetBackgroundSaved();
                 }
             }).AddTo(this);
-
-            StartInternal();
+            
         }
-
-        protected abstract void StartInternal();
 
         // リスト追加ボタンが押されたときの処理
         private void AddToList()
         {
             // コンポーネントをインスタンス化
-            var obj = container.InstantiatePrefab(listComponentPrefab, scrollViewParentTransform);
-            var listComponentView = obj.GetComponent<T>();
-            InitializeComponent(listComponentView);
-            listComponentView.Index = componentList.Count;
-            componentList.Add(listComponentView);
+            var listComponent = InstantiateListComponent(listComponentPrefab);
+            InitializeComponentEvents(listComponent);
+            listComponent.Index = componentListBuffer.Count;    // 現在の最終インデックス+1を付与
+            componentListBuffer.Add(listComponent);
 
-            OnUpdateList();
+            OnUpdateList(DataList);
         }
 
-        
         private void ReorderUp(T listComponentView)
         {
             SwapIndex(listComponentView, GetBeforeListComponentOf(listComponentView));
-            OnUpdateList();
+            OnUpdateList(DataList);
         }
         
         
         private void ReorderDown(T listComponentView)
         {
             SwapIndex(listComponentView, GetAfterListComponentOf(listComponentView));
-            OnUpdateList();
+            OnUpdateList(DataList);
         }
 
         public void RecreateAllItem(IEnumerable<U> items)
         {
-            componentList.Clear();
+            // 既存のリストは削除
+            ClearAll();
             
             foreach (var (item, index) in items.WithIndex())
             {
-                var obj = container.InstantiatePrefab(listComponentPrefab, scrollViewParentTransform);
-                var listComponentView = obj.GetComponent<T>();
-                InitializeComponent(listComponentView);
-                listComponentView.UpdateView(item);
-                listComponentView.Index = index;
-                componentList.Add(listComponentView);
+                var listComponent = InstantiateListComponent(listComponentPrefab);
+                InitializeComponentEvents(listComponent);
+                listComponent.UpdateView(item);
+                listComponent.Index = index;
+                componentListBuffer.Add(listComponent);
             }
             
-            OnUpdateList();
+            OnUpdateList(DataList);
         }
 
-        private T GetBeforeListComponentOf(T listComponentView)
+        private void Delete(T listComponent)
         {
-            var index = listComponentView.Index;
+            componentListBuffer.Remove(listComponent);
+            Destroy(listComponent.gameObject);
+                
+            RecalculateIndex();
+            OnUpdateList(DataList);
+        }
+
+        private T GetBeforeListComponentOf(T listComponent)
+        {
+            var index = listComponent.Index;
             if (index == 0)
             {
                 throw new IndexOutOfRangeException("This component is first component.");
             }
-            return componentList.FirstOrDefault(element => element.Index == index-1);
+            return ComponentList.FirstOrDefault(element => element.Index == index - 1);
         }
         
-        private T GetAfterListComponentOf(T listComponentView)
+        private T GetAfterListComponentOf(T listComponent)
         {
-            var index = listComponentView.Index;
-            if (index >= componentList.Count - 1)
+            var index = listComponent.Index;
+            if (index >= componentListBuffer.Count - 1)
             {
                 throw new IndexOutOfRangeException("This component is last component.");
             }
-            return componentList.FirstOrDefault(element => element.Index == index+1);
+            return ComponentList.FirstOrDefault(element => element.Index == index + 1);
         }
 
         private void SwapIndex(T target1, T target2)
@@ -129,18 +157,11 @@ namespace ProjectBlue.RepulserEngine.View
             RearrangeGameObjects();
         }
         
-        private void InitializeComponent(T listComponentView)
+        private void InitializeComponentEvents(T listComponentView)
         {
             listComponentView.Initialize(() =>
             {
-                componentList.Remove(listComponentView);
-                Destroy(listComponentView.gameObject);
-
-                // TODO: インデックスの再計算
-                foreach (var (component, i) in componentList.OrderBy(element => element.Index).WithIndex())
-                {
-                    component.Index = i;
-                }
+                Delete(listComponentView);
             }, () =>
             {
                 ReorderUp(listComponentView);
@@ -149,10 +170,33 @@ namespace ProjectBlue.RepulserEngine.View
                 ReorderDown(listComponentView);
             });
         }
+        
+        /// <summary>
+        /// コンポーネントにDIしたい場合はここを拡張
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <param name="parentTransform"></param>
+        /// <returns></returns>
+        protected virtual T InstantiateListComponent(T prefab)
+        {
+            var obj = container.InstantiatePrefab(prefab, scrollViewContentTransform);
+            var listComponent = obj.GetComponent<T>();
+            return listComponent;
+        }
 
+        // if the component was deleted, should be recalculate indexes
+        private void RecalculateIndex()
+        {
+            // コンポーネントをインデックス順に並び替え、昇順に振り直す
+            foreach (var (component, i) in ComponentList.WithIndex())
+            {
+                component.Index = i;
+            }
+        }
+        
         private void RearrangeGameObjects()
         {
-            foreach (var item in componentList.OrderBy(element => element.Index).Reverse())
+            foreach (var item in ComponentList.Reverse())
             {
                 item.transform.SetSiblingIndex(0);
             }
@@ -160,18 +204,13 @@ namespace ProjectBlue.RepulserEngine.View
         
         private void ClearAll()
         {
-            componentList.ForEach(pulse =>
+            componentListBuffer.ForEach(pulse =>
             {
                 Destroy(pulse.gameObject);
             });
-            componentList.Clear();
+            componentListBuffer.Clear();
 
-            OnUpdateList();
-        }
-
-        private void OnUpdateList()
-        {
-            OnUpdateList(componentList.OrderBy(element => element.Index).Select(componentView => componentView.GetData()));
+            OnUpdateList(DataList);
         }
 
     }

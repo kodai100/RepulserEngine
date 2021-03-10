@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.Presentation;
 using TMPro;
 using UniRx;
@@ -12,6 +13,8 @@ namespace ProjectBlue.RepulserEngine.View
     public class ConnectionCheckButton : MonoBehaviour
     {
 
+        private EndpointSettingViewModel endpointSettingviewModel;
+        
         [Inject] private IConnectionCheckPresenter connectionCheckPresenter;
 
         private int index = -1;
@@ -31,14 +34,14 @@ namespace ProjectBlue.RepulserEngine.View
         public void SetIndex(int index)
         {
             this.index = index;
-            image.color = failColor;
+            // image.color = failColor;
 
             if (indexText)
             {
                 indexText.text = (index+1).ToString();
             }
         }
-        
+
         private void Start()
         {
             
@@ -51,6 +54,28 @@ namespace ProjectBlue.RepulserEngine.View
             
         }
 
+        // set with button recreation
+        public void SetEndPointViewModel(EndpointSettingViewModel endpointSettingViewModel)
+        {
+            this.endpointSettingviewModel = endpointSettingViewModel;
+
+            endpointSettingViewModel.connected.Subscribe(state =>
+            {
+                if (state == ConnectionCheckStatus.Connected)
+                {
+                    image.color = successColor;
+                }
+                else if (state == ConnectionCheckStatus.Checking)
+                {
+                    image.color = checkingColor;
+                }
+                else
+                {
+                    image.color = failColor;
+                }
+            }).AddTo(this);
+        }
+
         private async Task Check()
         {
 
@@ -59,6 +84,7 @@ namespace ProjectBlue.RepulserEngine.View
             running = true;
 
             image.color = checkingColor;
+            endpointSettingviewModel.connected.Value = ConnectionCheckStatus.Checking;
             
             textFade?.gameObject.SetActive(true);
             
@@ -67,10 +93,12 @@ namespace ProjectBlue.RepulserEngine.View
             if (result)
             {
                 image.color = successColor;
+                endpointSettingviewModel.connected.Value = ConnectionCheckStatus.Connected;
             }
             else
             {
                 image.color = failColor;
+                endpointSettingviewModel.connected.Value = ConnectionCheckStatus.Failed;
             }
             
             textFade?.gameObject.SetActive(false);

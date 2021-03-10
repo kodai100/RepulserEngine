@@ -12,6 +12,7 @@ namespace ProjectBlue.RepulserEngine.View
     {
 
         [Inject] private IEndPointListPresenter endPointListPresenter;
+        
         [Inject] private DiContainer container;
 
         [SerializeField] private ConnectionCheckButton connectionCheckButtonPrefab;
@@ -20,10 +21,7 @@ namespace ProjectBlue.RepulserEngine.View
         
         private void Start()
         {
-            endPointListPresenter.OnListRecreatedAsObservable.Subscribe(list =>
-            {
-                GenerateButtons(list);
-            }).AddTo(this);
+            endPointListPresenter.OnListRecreatedAsObservable.Subscribe(GenerateButtons).AddTo(this);
         }
 
         private void GenerateButtons(IEnumerable<EndpointSettingViewModel> list)
@@ -35,6 +33,7 @@ namespace ProjectBlue.RepulserEngine.View
                 var obj = container.InstantiatePrefab(connectionCheckButtonPrefab, transform);
                 var button = obj.GetComponent<ConnectionCheckButton>();
                 button.SetIndex(i);
+                button.SetEndPointViewModel(element);
                 buttons.Add(button);
             }
             

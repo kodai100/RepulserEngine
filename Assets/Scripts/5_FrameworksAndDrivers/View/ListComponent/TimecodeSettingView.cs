@@ -20,7 +20,8 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] private TMP_InputField frameField;
 
         [SerializeField] private TMP_Dropdown dropdown;
-        
+
+        public override TimecodeSetting Data => data;
         private TimecodeSetting data = new TimecodeSetting();
 
         private void Start()
@@ -109,11 +110,7 @@ namespace ProjectBlue.RepulserEngine.View
 
             return null;
         }
-
-        public override TimecodeSetting GetData()
-        {
-            return data;
-        }
+        
     }
     
 }

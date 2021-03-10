@@ -4,6 +4,11 @@ using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Domain.ViewModel
 {
+
+    public enum ConnectionCheckStatus
+    {
+        Connected, Failed, Checking
+    }
     
     [Serializable]
     public class EndpointSettingViewModel
@@ -16,7 +21,7 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
         public ReactiveProperty<string> endpointName = new ReactiveProperty<string>();
         public ReactiveProperty<int> offsetFrame = new ReactiveProperty<int>();
 
-        public ReactiveProperty<bool> connected = new ReactiveProperty<bool>();
+        public ReactiveProperty<ConnectionCheckStatus> connected = new ReactiveProperty<ConnectionCheckStatus>();
 
         public IPEndPoint EndPoint => new IPEndPoint(IPAddress.Parse(ip.Value), port.Value);
         public string EndPointName => endpointName.Value;
@@ -30,7 +35,12 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
             ip.Value = endPoint.Address.ToString();
             port.Value = endPoint.Port;
 
-            connected.Value = false;
+            connected.Value = ConnectionCheckStatus.Failed;
+        }
+
+        public void ConnectionCheck()
+        {
+            
         }
 
         public EndpointSettingViewModel() : this(new IPEndPoint(IPAddress.None, 2974), "NULL", 0)

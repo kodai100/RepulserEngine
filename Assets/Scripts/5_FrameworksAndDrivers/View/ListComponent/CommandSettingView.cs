@@ -19,6 +19,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] private TMP_Dropdown modeDropdown;
 
+        public override CommandSetting Data => data;
         private CommandSetting data = new CommandSetting();
 
         private void Awake()
@@ -74,11 +75,6 @@ namespace ProjectBlue.RepulserEngine.View
             commandIdText.text = commandsetting.CommandName;
             commandText.text = commandsetting.CommandArguments;
             memoText.text = commandsetting.Memo;
-        }
-
-        public override CommandSetting GetData()
-        {
-            return data;
         }
     }
 

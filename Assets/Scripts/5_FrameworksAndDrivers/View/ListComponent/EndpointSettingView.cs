@@ -14,6 +14,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] private ConnectionCheckButton connectionCheckButton;
 
+        public override EndpointSettingViewModel Data => data;
         private EndpointSettingViewModel data = new EndpointSettingViewModel();
 
         private void Start()
@@ -33,10 +34,13 @@ namespace ProjectBlue.RepulserEngine.View
                 }
 
             }).AddTo(this);
+            
+            connectionCheckButton.SetEndPointViewModel(data);
         }
 
-        protected override void OnUpdateIndex(int index)
+        protected override void OnChangeIndex()
         {
+            base.OnChangeIndex();
             connectionCheckButton.SetIndex(Index);
         }
 
@@ -63,11 +67,6 @@ namespace ProjectBlue.RepulserEngine.View
             }
 
             return null;
-        }
-
-        public override EndpointSettingViewModel GetData()
-        {
-            return data;
         }
     }
     

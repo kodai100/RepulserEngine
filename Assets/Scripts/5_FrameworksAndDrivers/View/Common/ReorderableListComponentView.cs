@@ -15,18 +15,18 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] protected Button downButton;
 
         [SerializeField] protected Image backgroundImage;
-
-        private int index = 0;
         private Color defaultBackground = new Color(0.145098f, 0.145098f, 0.145098f);
         
         private Color editedBackgroundColor = new Color(0.5f, 0.5f, 0f);
         private Color invalidBackgroundColor = new Color(0.5f, 0f, 0f);
+        
+        private int index = 0;
 
-        private void Awake()
-        {
-            defaultBackground = backgroundImage.color;
-        }
-
+        /// <summary>
+        /// Default data instance
+        /// </summary>
+        public abstract T Data { get; }
+        
         public int Index
         {
             get => index;
@@ -55,17 +55,11 @@ namespace ProjectBlue.RepulserEngine.View
             }).AddTo(this);
         }
 
-        private void OnChangeIndex()
+        protected virtual void OnChangeIndex()
         {
             indexText.text = $"{Index+1:D2}";
-            OnUpdateIndex(Index);
         }
-
-        protected virtual void OnUpdateIndex(int index)
-        {
-            
-        }
-
+        
         protected void SetDirty()
         {
             ChangeBackgroundColor(editedBackgroundColor);
@@ -85,9 +79,8 @@ namespace ProjectBlue.RepulserEngine.View
         {
             backgroundImage.color = color;
         }
-
+        
         public abstract void UpdateView(T data);
-        public abstract T GetData();
 
     }
 

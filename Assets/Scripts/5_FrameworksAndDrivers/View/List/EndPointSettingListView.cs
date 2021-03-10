@@ -19,8 +19,9 @@ public class EndPointSettingListView : ReorderableListView<EndpointSettingView, 
         endPointListPresenter.Update(items);
     }
 
-    protected override void StartInternal()
+    protected override void Start()
     {
+        base.Start();
         RecreateAllItem(endPointListPresenter.Load());
     }
     

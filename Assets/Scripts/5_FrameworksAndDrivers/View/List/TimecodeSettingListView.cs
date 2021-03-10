@@ -22,8 +22,9 @@ namespace ProjectBlue.RepulserEngine.View
             // TODO: 上流に変更伝える
         }
 
-        protected override void StartInternal()
+        protected override void Start()
         {
+            base.Start();
             RecreateAllItem(timecodeSettingListPresenter.Load());
         }
     }

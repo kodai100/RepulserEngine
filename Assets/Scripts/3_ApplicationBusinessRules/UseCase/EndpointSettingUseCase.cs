@@ -6,7 +6,6 @@ using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.Translators;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
-using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
@@ -37,11 +36,6 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         public void Update(IEnumerable<EndpointSettingViewModel> list)
         {
             viewModelList = list;
-            Debug.Log("Updated");
-            foreach (var endpointSettingViewModel in list)
-            {
-                Debug.Log(endpointSettingViewModel.ip.Value);
-            }
             subj.OnNext(viewModelList);
         }
         
