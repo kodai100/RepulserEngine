@@ -1,3 +1,4 @@
+using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.Presentation;
@@ -48,6 +49,8 @@ namespace ProjectBlue.RepulserEngine.Installers
             Container.BindInterfacesAndSelfTo<EndpointSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeSettingListPresenter>().AsSingle();
 
+
+            Container.BindInterfacesAndSelfTo<Trigger>().AsSingle().NonLazy();
         }
     }
 }

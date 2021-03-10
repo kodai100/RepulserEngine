@@ -33,6 +33,11 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             return viewModelList;
         }
 
+        public IEnumerable<EndpointSettingViewModel> GetCurrent()
+        {
+            return viewModelList;
+        }
+
         public void Update(IEnumerable<EndpointSettingViewModel> list)
         {
             viewModelList = list;

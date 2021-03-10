@@ -8,6 +8,7 @@ namespace ProjectBlue.RepulserEngine.UseCaseInterfaces
     {
         void Update(IEnumerable<EndpointSettingViewModel> list);
         void Save();
+        IEnumerable<EndpointSettingViewModel> GetCurrent();
         IEnumerable<EndpointSettingViewModel> Load();
         public IObservable<IEnumerable<EndpointSettingViewModel>> OnListRecreatedAsObservable { get; }
     }

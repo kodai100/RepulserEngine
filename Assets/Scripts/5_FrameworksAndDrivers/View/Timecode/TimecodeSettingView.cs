@@ -101,7 +101,6 @@ namespace ProjectBlue.RepulserEngine.View
                 if (data.ConnectedCommandName == optionText)
                 {
                     result = i;
-                    Debug.Log(i);
                     break;
                 }
             }

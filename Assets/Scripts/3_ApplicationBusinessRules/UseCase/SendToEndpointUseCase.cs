@@ -1,104 +1,71 @@
 using System;
 using System.Net;
-using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using UniRx;
 using ProjectBlue.RepulserEngine.Repository;
-using UnityEngine;
+using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     
-    public class SendToEndpointUseCase : IDisposable
+    public class SendToEndpointUseCase : IDisposable, ISendToEndpointUseCase
     {
 
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         private ISenderRepository senderRepository;
-        private IEndpointSettingRepository endpointSettingRepository;
         
-        public SendToEndpointUseCase(ISenderRepository senderRepository, IEndpointSettingRepository endpointSettingRepository)
+        public SendToEndpointUseCase(ISenderRepository senderRepository)
         {
             this.senderRepository = senderRepository;
-            this.endpointSettingRepository = endpointSettingRepository;
         }
 
-        public void SendCommand(CommandSetting command)
-        {
-            
-            // var commandSendType = command.
-            
-        }
-        
-        public void Send(string oscAddress, string oscData)
+        public void Send(IPEndPoint endPoint, string commandName, string commandArgument, CommandType commandType)
         {
 
-            foreach (var setting in endpointSettingRepository.Load())
+            if (commandType == CommandType.Osc)
             {
-                SendIntermediator(setting.EndPoint, oscAddress, oscData);
-            }
-        }
-
-        public void SendToSpecificIP(string ipAddress, string oscAddress, string oscData)
-        {
-            var count = 0;
-            var arr =  ipAddress.Split(',');
-            
-            foreach (var setting in endpointSettingRepository.Load())
-            {
-                // TODO: Consider target port
-                if (setting.EndPoint.Address.ToString().Equals(ipAddress))
-                {
-                    SendIntermediator(setting.EndPoint, oscAddress, oscData);
-                }
-                    
-                foreach (var k in arr)
-                {
-                    if (!k.Equals(count.ToString())) continue;
-                    
-                    Debug.Log($"Specific ip: {setting.EndPoint.Address}");
-                    SendIntermediator(setting.EndPoint, oscAddress, oscData);
-                }
-                
-                count++;
+                SendOsc(endPoint, commandName, commandArgument);
             }
             
-            Debug.Log($"{oscAddress} : {oscData}");
         }
 
 
-        private void SendIntermediator(IPEndPoint endPoint, string oscAddress, string oscData)
+        private void SendOsc(IPEndPoint endPoint, string commandName, string commandArgument)
         {
-
-            if (string.IsNullOrEmpty(oscData))
+            
+            // OSCアドレスに変換
+            commandName = $"/{commandName}";
+            
+            if (string.IsNullOrEmpty(commandArgument))
             {
-                senderRepository.Send(endPoint, oscAddress, "null");
+                senderRepository.Send(endPoint, commandName, "null");
                 return;
             }
             
             // float detection
-            if (oscData.Contains("."))
+            if (commandArgument.Contains("."))
             {
-                if (float.TryParse(oscData, out var floaResult))
+                if (float.TryParse(commandArgument, out var floaResult))
                 {
-                    senderRepository.Send(endPoint, oscAddress, floaResult);
+                    senderRepository.Send(endPoint, commandName, floaResult);
                 }
                 else
                 {
-                    senderRepository.Send(endPoint, oscAddress, oscData);
+                    senderRepository.Send(endPoint, commandName, commandArgument);
                 }
 
                 return;
             }
             
             // int detection
-            if (int.TryParse(oscData, out var intResult))
+            if (int.TryParse(commandArgument, out var intResult))
             {
-                senderRepository.Send(endPoint, oscAddress, intResult);
+                senderRepository.Send(endPoint, commandName, intResult);
             }
             else
             {
-                senderRepository.Send(endPoint, oscAddress, oscData);
+                senderRepository.Send(endPoint, commandName, commandArgument);
             }
             
         }
