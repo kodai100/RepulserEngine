@@ -12,7 +12,7 @@ namespace ProjectBlue.RepulserEngine.View
     public class CommandButtonView : MonoBehaviour
     {
 
-        [Inject] private ISendCommandPresenter sendCommandPresenter;
+        [Inject] private ICommandTriggerPresenter _commandTriggerPresenter;
         
         [SerializeField] private Button button;
         [SerializeField] private TMP_Text text;
@@ -26,7 +26,7 @@ namespace ProjectBlue.RepulserEngine.View
 
             button.OnClickAsObservable().Subscribe(_ =>
             {
-                sendCommandPresenter.Send(command);
+                _commandTriggerPresenter.Send(command);
             }).AddTo(this);
         }
         

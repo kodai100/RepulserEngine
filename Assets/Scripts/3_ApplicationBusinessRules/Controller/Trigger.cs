@@ -1,16 +1,14 @@
 using System;
 using System.Linq;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
-using Zenject;
 using UniRx;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Controllers
 {
     
-    public class Trigger : IInitializable, IDisposable
+    public class Trigger : IDisposable
     {
-        private ITimecodeEvaluationUseCase timecodeEvaluationUseCase;
         private IEndPointSettingUseCase endPointSettingUseCase;
         private ISendToEndpointUseCase sendToEndpointUseCase;
         private ICommandSettingUseCase commandSettingUseCase;
@@ -23,21 +21,17 @@ namespace ProjectBlue.RepulserEngine.Controllers
             IEndPointSettingUseCase endPointSettingUseCase,
             ISendToEndpointUseCase sendToEndpointUseCase,
             ICommandSettingUseCase commandSettingUseCase,
-            IOnAirSettingUseCase onAirSettingUseCase)
+            IOnAirSettingUseCase onAirSettingUseCase,
+            ICommandTriggerUseCase commandTriggerUseCase)
         {
-            this.timecodeEvaluationUseCase = timecodeEvaluationUseCase;
             this.endPointSettingUseCase = endPointSettingUseCase;
             this.sendToEndpointUseCase = sendToEndpointUseCase;
             this.commandSettingUseCase = commandSettingUseCase;
             this.onAirSettingUseCase = onAirSettingUseCase;
-        }
-        
-        
-        public void Initialize()
-        {
 
             timecodeEvaluationUseCase.OnTriggerPulsedAsObservable.Subscribe(SendCommandGlobal).AddTo(disposable);
 
+            commandTriggerUseCase.OnCommandTriggeredAsObservable.Subscribe(SendCommandGlobal).AddTo(disposable);
         }
 
         private void SendCommandGlobal(string command)

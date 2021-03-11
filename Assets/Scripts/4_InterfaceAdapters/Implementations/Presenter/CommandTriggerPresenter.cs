@@ -4,11 +4,11 @@ using ProjectBlue.RepulserEngine.ViewInterfaces;
 namespace ProjectBlue.RepulserEngine.Presentation
 {
 
-    public class SendCommandPresenter : ISendCommandPresenter
+    public class CommandTriggerPresenter : ICommandTriggerPresenter
     {
         private IOverlayView overlayView;
         
-        public SendCommandPresenter(IOverlayView overlayView)
+        public CommandTriggerPresenter(IOverlayView overlayView)
         {
             this.overlayView = overlayView;
         }

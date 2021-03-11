@@ -2,7 +2,7 @@
 
 namespace ProjectBlue.RepulserEngine.Presentation
 {
-    public interface ISendCommandPresenter
+    public interface ICommandTriggerPresenter
     {
         void Send(CommandSetting command);
     }

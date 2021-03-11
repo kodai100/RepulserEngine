@@ -45,7 +45,10 @@ namespace ProjectBlue.RepulserEngine.Installers
             Container.BindInterfacesAndSelfTo<OverlayPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeEvaluationUseCase>().AsSingle().NonLazy();
 
-            Container.BindInterfacesAndSelfTo<SendCommandPresenter>().AsSingle();
+            // Trigger Button
+            Container.BindInterfacesAndSelfTo<CommandTriggerPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CommandTriggerUseCase>().AsSingle();
+            
             Container.BindInterfacesAndSelfTo<TimecodeDisplayPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingListPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingListPresenter>().AsSingle();
