@@ -86,7 +86,6 @@ namespace ProjectBlue.RepulserEngine.Controllers
         private void OnTimecodeUpdated(TimecodeData timecode)
         {
             var offsetTimecode = OffsetFilter(timecode);
-            Debug.Log($"{timecode} : {offsetTimecode}");
 
             foreach (var timecodeSetting in timecodeSettingUseCase.Load())
             {
