@@ -1,4 +1,5 @@
 using ProjectBlue.RepulserEngine.Controllers;
+using ProjectBlue.RepulserEngine.Data.DataStore;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.Repository;
@@ -16,6 +17,11 @@ namespace ProjectBlue.RepulserEngine.Installers
             ConnectionCheckInstaller.Install(Container);
 
             OnAirSettingInstaller.Install(Container);
+
+            GlobalFrameOffsetSettingDataStoreInstaller.Install(Container);
+            GlobalFrameOffsetSettingRepositoryInstaller.Install(Container);
+            GlobalFrameOffsetSettingUseCaseInstaller.Install(Container);
+            GlobalFrameOffsetSettingControllerInstaller.Install(Container);
 
             Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();

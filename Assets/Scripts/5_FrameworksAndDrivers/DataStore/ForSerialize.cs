@@ -9,13 +9,14 @@ namespace ProjectBlue.RepulserEngine.DataStore
     {
         public List<CommandSetting> Data = new List<CommandSetting>();
 
-        public CommandSettingListForSerialize(){}
-        
+        public CommandSettingListForSerialize()
+        {
+        }
+
         public CommandSettingListForSerialize(IEnumerable<CommandSetting> data)
         {
-            
             Data.Clear();
-            
+
             foreach (var component in data)
             {
                 Data.Add(component);
@@ -28,41 +29,40 @@ namespace ProjectBlue.RepulserEngine.DataStore
     {
         public List<EndpointSettingDataModel> Data = new List<EndpointSettingDataModel>();
 
-        public EndpointSettingListForSerialize(){}
-        
+        public EndpointSettingListForSerialize()
+        {
+        }
+
         public EndpointSettingListForSerialize(IEnumerable<EndpointSettingDataModel> data)
         {
-            
             Data.Clear();
-            
+
             foreach (var component in data)
             {
-                if(component == null) continue;
+                if (component == null) continue;
                 Data.Add(component);
             }
         }
     }
-    
+
     [Serializable]
     public class TimecodeSettingListForSerialize
     {
         public List<TimecodeSetting> Data = new List<TimecodeSetting>();
 
-        public TimecodeSettingListForSerialize(){}
-        
+        public TimecodeSettingListForSerialize()
+        {
+        }
+
         public TimecodeSettingListForSerialize(IEnumerable<TimecodeSetting> data)
         {
-            
             Data.Clear();
-            
+
             foreach (var component in data)
             {
-                if(component == null) continue;
+                if (component == null) continue;
                 Data.Add(component);
             }
-            
         }
     }
-
-
 }
