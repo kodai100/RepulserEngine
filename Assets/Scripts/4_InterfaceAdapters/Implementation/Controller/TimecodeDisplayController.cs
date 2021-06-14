@@ -46,13 +46,10 @@ namespace ProjectBlue.RepulserEngine.Controllers
             var num = TimeCodeCalculator.TimeCodeToNumber(timecodeForCalculator, info);
             num += setting.Offset;
 
-            // if smaller than zero by minus offset, return raw input value
+            // if smaller than zero by minus offset, return zero
             if (num < 0)
             {
-                var failed = new TimecodeData(inputTimecode.hour, inputTimecode.minute, inputTimecode.second,
-                    inputTimecode.frame,
-                    inputTimecode.dropFrame);
-                return failed;
+                return new TimecodeData(0, 0, 0, 0, inputTimecode.dropFrame);
             }
 
             var filteredTc = TimeCodeCalculator.FrameNumberToTimeCode(num, info);
