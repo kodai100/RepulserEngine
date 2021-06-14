@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
-using ProjectBlue.RepulserEngine.Presentation;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-
     public class CommandSettingListView : ReorderableListView<CommandSettingView, CommandSetting>
     {
-        
-        [Inject] private ICommandSettingListPresenter commandSettingListPresenter;
-        
+        [Inject] private ICommandSettingListController commandSettingListController;
+
         protected override void OnSaveButtonClicked(IEnumerable<CommandSetting> items)
         {
-            commandSettingListPresenter.Save(items);
+            commandSettingListController.Save(items);
         }
 
         protected override void OnUpdateList(IEnumerable<CommandSetting> items)
@@ -24,9 +22,8 @@ namespace ProjectBlue.RepulserEngine.View
         protected override void Start()
         {
             base.Start();
-            
-            RecreateAllItem(commandSettingListPresenter.Load());
+
+            RecreateAllItem(commandSettingListController.Load());
         }
     }
-    
 }

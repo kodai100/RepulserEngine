@@ -1,21 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
-using UniRx;
-using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
-
     public class TimecodeSettingUseCase : ITimecodeSettingUseCase
     {
-
         private ITimecodeSettingRepository timecodeSettingRepository;
-        
-        
+
         public TimecodeSettingUseCase(ITimecodeSettingRepository timecodeSettingRepository)
         {
             this.timecodeSettingRepository = timecodeSettingRepository;
@@ -25,11 +18,10 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         {
             return timecodeSettingRepository.Load();
         }
-        
+
         public void Save(IEnumerable<TimecodeSetting> timecodeSettings)
         {
             timecodeSettingRepository.Save(timecodeSettings);
         }
     }
-    
 }

@@ -1,4 +1,4 @@
-﻿using ProjectBlue.RepulserEngine.Presentation;
+﻿using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.ViewInterfaces;
 using UniRx;
 using UnityEngine;
@@ -9,8 +9,7 @@ namespace ProjectBlue.RepulserEngine.View
 {
     public class OverlayView : MonoBehaviour, IOverlayView
     {
-
-        [Inject] private IOverlayPresenter overlayPresenter;
+        [Inject] private IOverlayController _overlayController;
 
         [SerializeField] private Image overlayImage;
         [SerializeField] private float fadeTime = 1;
@@ -19,7 +18,7 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] private float defaultAlpha = 0.5f;
 
         private Color currentColor;
-    
+
         private float time = 0;
 
         private float fraction = 0;
@@ -28,10 +27,7 @@ namespace ProjectBlue.RepulserEngine.View
         {
             Finish();
 
-            overlayPresenter.OnTriggerAsObservable.Subscribe(color =>
-            {
-                Trigger();
-            }).AddTo(this);
+            _overlayController.OnOverlayTriggeredAsObservable.Subscribe(color => { Trigger(); }).AddTo(this);
         }
 
         public void Trigger()
@@ -59,9 +55,6 @@ namespace ProjectBlue.RepulserEngine.View
             {
                 Finish();
             }
-
         }
-    
     }
-
 }

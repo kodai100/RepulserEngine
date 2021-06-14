@@ -1,6 +1,6 @@
-﻿using ProjectBlue.RepulserEngine.DataStore;
+﻿using ProjectBlue.RepulserEngine.Controllers;
+using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
-using ProjectBlue.RepulserEngine.Presentation;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 
@@ -13,7 +13,7 @@ namespace ProjectBlue.RepulserEngine.Installers
             Container.BindInterfacesAndSelfTo<ConnectionCheckDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<ConnectionCheckRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<ConnectionCheckUseCase>().AsSingle();
-            Container.BindInterfacesAndSelfTo<ConnectionCheckPresenter>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ConnectionCheckController>().AsSingle();
         }
     }
 }

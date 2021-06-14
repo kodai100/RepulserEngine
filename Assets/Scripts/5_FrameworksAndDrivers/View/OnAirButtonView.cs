@@ -1,4 +1,4 @@
-﻿using ProjectBlue.RepulserEngine.Presentation;
+﻿using ProjectBlue.RepulserEngine.Controllers;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -9,9 +9,8 @@ namespace ProjectBlue.RepulserEngine.View
 {
     public class OnAirButtonView : MonoBehaviour
     {
+        [Inject] private IOnAirSettingController _onAirSettingController;
 
-        [Inject] private IOnAirSettingPresenter onAirSettingPresenter;
-        
         [SerializeField] private Button button;
         [SerializeField] private Image buttonBackground;
 
@@ -22,20 +21,15 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void Start()
         {
-            button.OnClickAsObservable().Subscribe(_ =>
-            {
-                Toggle();
-            }).AddTo(this);
+            button.OnClickAsObservable().Subscribe(_ => { Toggle(); }).AddTo(this);
 
-            onAirSettingPresenter.OnAirSettingViewModel.isOnAir.Subscribe(SetBackground).AddTo(this);
-            
-            
+            _onAirSettingController.OnAirSettingViewModel.isOnAir.Subscribe(SetBackground).AddTo(this);
         }
 
         private void Toggle()
         {
-            onAirSettingPresenter.OnAirSettingViewModel.isOnAir.Value =
-                !onAirSettingPresenter.OnAirSettingViewModel.IsOnAir;
+            _onAirSettingController.OnAirSettingViewModel.isOnAir.Value =
+                !_onAirSettingController.OnAirSettingViewModel.IsOnAir;
         }
 
         private void SetBackground(bool isOnAir)
@@ -55,12 +49,11 @@ namespace ProjectBlue.RepulserEngine.View
             buttonBackground.color = standbyColor;
             text.text = "STAND\nBY";
         }
-        
+
         private void SetOnAir()
         {
             buttonBackground.color = onAirColor;
             text.text = "ON AIR";
         }
     }
-
 }

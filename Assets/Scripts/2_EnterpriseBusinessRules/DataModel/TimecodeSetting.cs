@@ -1,24 +1,25 @@
 ﻿using System;
+using ProjectBlue.RepulserEngine.Domain.Entity;
 using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.DataModel
 {
-
     public enum PulseState
     {
-        Predecessor, Pulse, Successor
+        Predecessor,
+        Pulse,
+        Successor
     }
-    
+
     [Serializable]
     public class TimecodeSetting
     {
-
         [SerializeField] private TimecodeData timecodeData;
         [SerializeField] private string connectedCommandName;
 
         public TimecodeData TimecodeData => timecodeData;
         public string ConnectedCommandName => connectedCommandName;
-        
+
         public PulseState PulseState { get; private set; } = PulseState.Predecessor;
 
         public TimecodeSetting(TimecodeData timecodeData, string connectedCommandName)
@@ -29,19 +30,17 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
 
         public TimecodeSetting() : this(new TimecodeData(), "NULL")
         {
-            
         }
-        
+
         public PulseState Evaluate(TimecodeData timecode)
         {
-            
             if (timecode == timecodeData)
             {
                 Debug.Log($"Pulse : {timecodeData}");
                 PulseState = PulseState.Pulse;
                 return PulseState;
             }
-            
+
             if (timecode < timecodeData)
             {
                 PulseState = PulseState.Predecessor;
@@ -52,10 +51,7 @@ namespace ProjectBlue.RepulserEngine.Domain.DataModel
                 PulseState = PulseState.Successor;
             }
 
-            return PulseState;    // TODO: Error code
+            return PulseState; // TODO: Error code
         }
-
-
     }
-
 }

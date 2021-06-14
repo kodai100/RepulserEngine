@@ -2,7 +2,8 @@
     "name": "RepulserEngine.ViewModel",
     "rootNamespace": "",
     "references": [
-        "UniRx"
+        "UniRx",
+        "RepulserEngine.Entity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

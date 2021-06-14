@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace ProjectBlue.RepulserEngine.UseCaseInterfaces
 {
     public interface IConnectionCheckUseCase
     {
-        Task<bool> Check(int endpointId);
+        Task<bool> Check(IPAddress address);
     }
 }

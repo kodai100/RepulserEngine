@@ -1,11 +1,10 @@
 ﻿using System;
-using Ltc;
-using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.Entity;
 
 namespace ProjectBlue.RepulserEngine.DataStore
 {
     public interface ITimecodeDecoderDataStore
     {
-        IObservable<TimecodeData> OnTimecodeUpdatedAsObserbable { get; }
+        IObservable<TimecodeData> OnTimecodeUpdatedAsObservable { get; }
     }
 }

@@ -1,7 +1,9 @@
 {
     "name": "RepulserEngine.DataModel",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:91dfeb94bc806354d8d2f9bd5fe99a99"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

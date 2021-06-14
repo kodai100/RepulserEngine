@@ -1,66 +1,48 @@
 ﻿using System;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
-using ProjectBlue.RepulserEngine.Presentation;
+using ProjectBlue.RepulserEngine.Domain.Entity;
 using ProjectBlue.RepulserEngine.Repository;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
-using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
-    public class TimecodeEvaluationUseCase : IDisposable, ITimecodeEvaluationUseCase
+    public class TimecodeEvaluationUseCase : ITimecodeEvaluationUseCase, IDisposable
     {
         private ITimecodeSettingRepository timecodeSettingRepository;
 
-        private IOverlayPresenter overlayPresenter;
-        
+        private Subject<string> onPulsedSubject = new Subject<string>();
         private CompositeDisposable disposable = new CompositeDisposable();
 
-        public IObservable<string> OnTriggerPulsedAsObservable => onTriggerPulsedSubject;
-        private Subject<string> onTriggerPulsedSubject = new Subject<string>();
+        public IObservable<string> OnTriggerPulsedAsObservable => onPulsedSubject;
 
-        public TimecodeEvaluationUseCase(
-            ITimecodeDecoderRepository timecodeDecoderRepository,
-            ITimecodeSettingRepository timecodeSettingRepository,
-            IOverlayPresenter overlayPresenter
-            )
+        public TimecodeEvaluationUseCase(ITimecodeSettingRepository timecodeSettingRepository,
+            ITimecodeDecoderRepository timecodeDecoderRepository)
         {
-            
             this.timecodeSettingRepository = timecodeSettingRepository;
 
-            this.overlayPresenter = overlayPresenter;
-            
-            
             timecodeDecoderRepository.OnTimecodeUpdatedAsObservable.Subscribe(OnTimecodeUpdated).AddTo(disposable);
-            
         }
 
         private void OnTimecodeUpdated(TimecodeData timecode)
         {
-
             foreach (var timecodeSetting in timecodeSettingRepository.Load())
             {
-                
-                if(timecodeSetting == null) continue;
+                if (timecodeSetting == null) continue;
 
                 var state = timecodeSetting.Evaluate(timecode);
 
                 if (state == PulseState.Pulse)
                 {
-                    overlayPresenter.Trigger(Color.red);
-                    onTriggerPulsedSubject.OnNext(timecodeSetting.ConnectedCommandName);
+                    onPulsedSubject.OnNext(timecodeSetting.ConnectedCommandName);
                 }
-                
             }
         }
 
         public void Dispose()
         {
-            disposable.Dispose();
-            onTriggerPulsedSubject.Dispose();
+            disposable?.Dispose();
         }
     }
-
 }
-

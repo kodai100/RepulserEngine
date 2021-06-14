@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
+using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
-using ProjectBlue.RepulserEngine.Presentation;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
     public class TimecodeSettingListView : ReorderableListView<TimecodeSettingView, TimecodeSetting>
     {
+        [Inject] private ITimecodeSettingListController _timecodeSettingListController;
 
-        [Inject] private ITimecodeSettingListPresenter timecodeSettingListPresenter;
-    
         protected override void OnSaveButtonClicked(IEnumerable<TimecodeSetting> items)
         {
-            timecodeSettingListPresenter.Save(items);
+            _timecodeSettingListController.Save(items);
         }
 
         protected override void OnUpdateList(IEnumerable<TimecodeSetting> items)
@@ -23,7 +22,7 @@ namespace ProjectBlue.RepulserEngine.View
         protected override void Start()
         {
             base.Start();
-            RecreateAllItem(timecodeSettingListPresenter.Load());
+            RecreateAllItem(_timecodeSettingListController.Load());
         }
     }
 }
