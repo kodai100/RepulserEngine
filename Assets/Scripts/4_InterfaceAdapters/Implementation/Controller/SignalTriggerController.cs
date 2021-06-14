@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using kodai100.TimeCodeCalculation;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.Domain.Entity;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
@@ -15,6 +16,7 @@ namespace ProjectBlue.RepulserEngine.Controllers
         public IObservable<CommandSetting> OnTriggerAsObservable { get; }
 
         private ITimecodeSettingUseCase timecodeSettingUseCase;
+        private IGlobalFrameOffsetSettingUseCase globalFrameOffsetSettingUseCase;
 
         private IEndPointSettingUseCase endPointSettingUseCase;
         private ISendToEndpointUseCase sendToEndpointUseCase;
@@ -33,9 +35,11 @@ namespace ProjectBlue.RepulserEngine.Controllers
             ICommandSettingUseCase commandSettingUseCase,
             IOnAirSettingUseCase onAirSettingUseCase,
             ICommandTriggerUseCase commandTriggerUseCase,
+            IGlobalFrameOffsetSettingUseCase globalFrameOffsetSettingUseCase,
             IOverlayUseCase overlayUseCase)
         {
             this.timecodeSettingUseCase = timecodeSettingUseCase;
+            this.globalFrameOffsetSettingUseCase = globalFrameOffsetSettingUseCase;
 
             this.endPointSettingUseCase = endPointSettingUseCase;
             this.sendToEndpointUseCase = sendToEndpointUseCase;
@@ -81,17 +85,52 @@ namespace ProjectBlue.RepulserEngine.Controllers
 
         private void OnTimecodeUpdated(TimecodeData timecode)
         {
+            var offsetTimecode = OffsetFilter(timecode);
+            Debug.Log($"{timecode} : {offsetTimecode}");
+
             foreach (var timecodeSetting in timecodeSettingUseCase.Load())
             {
                 if (timecodeSetting == null) continue;
 
-                var state = timecodeSetting.Evaluate(timecode);
+                var state = timecodeSetting.Evaluate(offsetTimecode);
 
                 if (state == PulseState.Pulse)
                 {
                     Send(timecodeSetting.ConnectedCommandName);
                 }
             }
+        }
+
+        // TODO: combine to decode use case (same code in TimecodeDisplayController)
+        private TimecodeData OffsetFilter(TimecodeData inputTimecode)
+        {
+            var setting = globalFrameOffsetSettingUseCase.GetCurrent();
+            var info = new FrameRateInfo((FrameRateType) Enum.ToObject(typeof(FrameRateType), setting.FrameRateType));
+            var timecodeForCalculator = new TimeCode
+            {
+                DropFrame = info.DropFrame, Hour = inputTimecode.hour, Minute = inputTimecode.minute,
+                Second = inputTimecode.second,
+                Frame = inputTimecode.frame
+            };
+            var num = TimeCodeCalculator.TimeCodeToNumber(timecodeForCalculator, info);
+            num += setting.Offset;
+
+            // if smaller than zero by minus offset, return raw input value
+            if (num < 0)
+            {
+                var failed = new TimecodeData(inputTimecode.hour, inputTimecode.minute, inputTimecode.second,
+                    inputTimecode.frame,
+                    inputTimecode.dropFrame);
+                return failed;
+            }
+
+            var filteredTc = TimeCodeCalculator.FrameNumberToTimeCode(num, info);
+
+            // avoid reference data override
+            var result = new TimecodeData(filteredTc.Hour, filteredTc.Minute, filteredTc.Second, filteredTc.Frame,
+                info.DropFrame);
+
+            return result;
         }
 
         public void Dispose()
