@@ -46,6 +46,25 @@ namespace ProjectBlue.RepulserEngine.DataStore
     }
 
     [Serializable]
+    public class AudioDeviceSettingForSerialize
+    {
+        public int Device;
+        public int Channel;
+
+        public AudioDeviceSettingForSerialize()
+        {
+            Device = 0;
+            Channel = 0;
+        }
+
+        public AudioDeviceSettingForSerialize(int device, int channel)
+        {
+            Device = device;
+            Channel = channel;
+        }
+    }
+
+    [Serializable]
     public class TimecodeSettingListForSerialize
     {
         public List<TimecodeSetting> Data = new List<TimecodeSetting>();

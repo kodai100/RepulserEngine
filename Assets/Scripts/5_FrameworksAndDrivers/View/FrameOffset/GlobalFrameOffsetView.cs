@@ -35,8 +35,8 @@ namespace ProjectBlue.RepulserEngine.View
 
             framerateDropdown.options = new List<TMP_Dropdown.OptionData>()
             {
-                new TMP_Dropdown.OptionData("30"), new TMP_Dropdown.OptionData("29.97"),
-                new TMP_Dropdown.OptionData("60"), new TMP_Dropdown.OptionData("59.97")
+                new TMP_Dropdown.OptionData("30 FPS"), new TMP_Dropdown.OptionData("29.97 FPS"),
+                new TMP_Dropdown.OptionData("60 FPS"), new TMP_Dropdown.OptionData("59.97 FPS")
             };
 
             framerateDropdown.value = savedData.FrameRateType;

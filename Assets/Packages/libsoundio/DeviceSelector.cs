@@ -24,7 +24,20 @@ public sealed class DeviceSelector : MonoBehaviour
 
     #region Public properties
 
-    public int Channel => _channelList.value;
+    // kodai100 : for save recovery
+    public int Device
+    {
+        get { return _deviceList.value; }
+        set { _deviceList.value = value; }
+    }
+
+    // kodai100 : for save recovery
+    public int Channel
+    {
+        get { return _channelList.value; }
+        set { _channelList.value = value; }
+    }
+
     public int ChannelCount => _stream?.ChannelCount ?? 0;
     public int SampleRate => _stream?.SampleRate ?? 0;
 
@@ -48,7 +61,9 @@ public sealed class DeviceSelector : MonoBehaviour
 
     #region MonoBehaviour implementation
 
-    void Start()
+    // kodai100: Start -> initialize
+    // called inside TimecodeDecoderDataStore
+    public void Initialize()
     {
         // Buffer allocation
         _audioData = new NativeArray<float>(4096, Allocator.Persistent);
@@ -59,13 +74,12 @@ public sealed class DeviceSelector : MonoBehaviour
         _statusText.text = "";
 
         // Null device option
-        _deviceList.options.Add(new TMP_Dropdown.OptionData() { text = "--" });
+        _deviceList.options.Add(new TMP_Dropdown.OptionData() {text = "--"});
 
         // Device list initialization
         _deviceList.options.AddRange(
-            Enumerable.Range(0, DeviceDriver.DeviceCount).
-                Select(i => DeviceDriver.GetDeviceName(i)).
-                Select(name => new TMP_Dropdown.OptionData() { text = name }));
+            Enumerable.Range(0, DeviceDriver.DeviceCount).Select(i => DeviceDriver.GetDeviceName(i))
+                .Select(name => new TMP_Dropdown.OptionData() {text = name}));
 
         _deviceList.RefreshShownValue();
     }
@@ -135,10 +149,8 @@ public sealed class DeviceSelector : MonoBehaviour
 
         // Construct the channel list.
         _channelList.options =
-            Enumerable.Range(0, _stream.ChannelCount).
-            Select(i => $"Channel {i + 1}").
-            Select(text => new TMP_Dropdown.OptionData() { text = text }).
-            ToList();
+            Enumerable.Range(0, _stream.ChannelCount).Select(i => $"Channel {i + 1}")
+                .Select(text => new TMP_Dropdown.OptionData() {text = text}).ToList();
 
         _channelList.RefreshShownValue();
     }
