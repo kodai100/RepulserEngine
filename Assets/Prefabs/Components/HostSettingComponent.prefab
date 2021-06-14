@@ -2651,6 +2651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 6581427198115027790}
   image: {fileID: 8145999160326460421}
+  statusText: {fileID: 8046803591216369572}
   enabledColor: {r: 0, g: 0.7, b: 0.7, a: 1}
   disabledColor: {r: 0.7, g: 0, b: 0, a: 1}
   indexText: {fileID: 0}
