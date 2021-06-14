@@ -93,8 +93,6 @@ Editorの場合は、```Assets/StreamingAssets``` 以下に保存され、
 
 This project is designed with [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
-![arch](https://github.com/ProjectBLUE-000/RepulserEngine/blob/master/Thumbnails/arch.png)
-
 
 
 # LICENSE
