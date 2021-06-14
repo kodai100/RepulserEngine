@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
+using System.Threading;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.Entity;
+using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
 using UnityEngine;
@@ -10,6 +13,8 @@ namespace ProjectBlue.RepulserEngine.Controllers
     public class SignalTriggerController : IDisposable, ISignalTriggerController
     {
         public IObservable<CommandSetting> OnTriggerAsObservable { get; }
+
+        private ITimecodeSettingUseCase timecodeSettingUseCase;
 
         private IEndPointSettingUseCase endPointSettingUseCase;
         private ISendToEndpointUseCase sendToEndpointUseCase;
@@ -21,7 +26,8 @@ namespace ProjectBlue.RepulserEngine.Controllers
         private IOverlayUseCase overlayUseCase;
 
         public SignalTriggerController(
-            ITimecodeEvaluationUseCase timecodeEvaluationUseCase,
+            ITimecodeSettingUseCase timecodeSettingUseCase,
+            ITimecodeDecodeUseCase timecodeDecodeUseCase,
             IEndPointSettingUseCase endPointSettingUseCase,
             ISendToEndpointUseCase sendToEndpointUseCase,
             ICommandSettingUseCase commandSettingUseCase,
@@ -29,6 +35,8 @@ namespace ProjectBlue.RepulserEngine.Controllers
             ICommandTriggerUseCase commandTriggerUseCase,
             IOverlayUseCase overlayUseCase)
         {
+            this.timecodeSettingUseCase = timecodeSettingUseCase;
+
             this.endPointSettingUseCase = endPointSettingUseCase;
             this.sendToEndpointUseCase = sendToEndpointUseCase;
             this.commandSettingUseCase = commandSettingUseCase;
@@ -36,7 +44,7 @@ namespace ProjectBlue.RepulserEngine.Controllers
 
             this.overlayUseCase = overlayUseCase;
 
-            timecodeEvaluationUseCase.OnTriggerPulsedAsObservable.Subscribe(Send).AddTo(disposable);
+            timecodeDecodeUseCase.OnTimecodeUpdatedAsObservable.Subscribe(OnTimecodeUpdated).AddTo(disposable);
 
             commandTriggerUseCase.OnCommandTriggeredAsObservable.Subscribe(Send).AddTo(disposable);
         }
@@ -67,6 +75,21 @@ namespace ProjectBlue.RepulserEngine.Controllers
                         commandData.CommandType);
 
                     overlayUseCase.Trigger(Color.red);
+                }
+            }
+        }
+
+        private void OnTimecodeUpdated(TimecodeData timecode)
+        {
+            foreach (var timecodeSetting in timecodeSettingUseCase.Load())
+            {
+                if (timecodeSetting == null) continue;
+
+                var state = timecodeSetting.Evaluate(timecode);
+
+                if (state == PulseState.Pulse)
+                {
+                    Send(timecodeSetting.ConnectedCommandName);
                 }
             }
         }

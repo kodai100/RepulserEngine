@@ -8,6 +8,8 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         IObservable<GlobalFrameOffset> OnDataSavedAsObservable { get; }
         IObservable<GlobalFrameOffset> OnDataUpdatedAsObservable { get; }
 
+        GlobalFrameOffset GetCurrent();
+
         /// <summary>
         /// Save to file
         /// </summary>

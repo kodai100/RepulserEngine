@@ -21,6 +21,11 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             this.repository = settingRepository;
         }
 
+        public GlobalFrameOffset GetCurrent()
+        {
+            return valueCache;
+        }
+
         public void Save()
         {
             repository.Save(valueCache);
@@ -39,6 +44,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         public void Dispose()
         {
+            onDataUpdated.Dispose();
         }
     }
 
