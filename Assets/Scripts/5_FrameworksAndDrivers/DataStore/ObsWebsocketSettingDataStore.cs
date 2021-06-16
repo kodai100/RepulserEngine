@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.Domain.Entity;
 using Zenject;
 using UniRx;
@@ -7,27 +8,17 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Data.DataStore
 {
-    public class GlobalFrameOffsetSettingDataStore : IGlobalFrameOffsetSettingDataStore, IDisposable
+    public class ObsWebsocketSettingDataStore : IObsWebsocketSettingDataStore
     {
         private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "OffsetFrame.json");
+            Path.Combine(UnityEngine.Application.streamingAssetsPath, "ObsWebsocket.json");
 
         private bool loaded;
 
-        private GlobalFrameOffset cache;
+        private ObsWebsocketSettingDataModel cache;
 
-        private Subject<GlobalFrameOffset> onDataChangedSubject = new Subject<GlobalFrameOffset>();
-        public IObservable<GlobalFrameOffset> OnDataSavedAsObservable => onDataChangedSubject;
-
-        public void Dispose()
+        public void Save(ObsWebsocketSettingDataModel frameOffset)
         {
-            onDataChangedSubject.Dispose();
-        }
-
-        public void Save(GlobalFrameOffset frameOffset)
-        {
-            onDataChangedSubject.OnNext(frameOffset);
-
             var json = JsonUtility.ToJson(frameOffset);
 
             using (var sw = new StreamWriter(JsonFilePath, false))
@@ -48,11 +39,11 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
         }
 
 
-        public GlobalFrameOffset Load()
+        public ObsWebsocketSettingDataModel Load()
         {
             if (loaded) return cache;
 
-            var jsonDeserializedData = new GlobalFrameOffset();
+            var jsonDeserializedData = new ObsWebsocketSettingDataModel();
 
             try
             {
@@ -61,7 +52,7 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
                 {
                     var result = sr.ReadToEnd();
 
-                    jsonDeserializedData = JsonUtility.FromJson<GlobalFrameOffset>(result);
+                    jsonDeserializedData = JsonUtility.FromJson<ObsWebsocketSettingDataModel>(result);
                 }
             }
             catch (Exception e)
@@ -78,11 +69,11 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
         }
     }
 
-    public class GlobalFrameOffsetSettingDataStoreInstaller : Installer<GlobalFrameOffsetSettingDataStoreInstaller>
+    public class ObsWebsocketSettingDataStoreInstaller : Installer<ObsWebsocketSettingDataStoreInstaller>
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<GlobalFrameOffsetSettingDataStore>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ObsWebsocketSettingDataStore>().AsSingle();
         }
     }
 }

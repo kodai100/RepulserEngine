@@ -18,6 +18,8 @@ namespace ProjectBlue.RepulserEngine.Installers
 
             OnAirSettingInstaller.Install(Container);
 
+            ObsWebsocketSettingInstaller.Install(Container);
+
             GlobalFrameOffsetSettingDataStoreInstaller.Install(Container);
             GlobalFrameOffsetSettingRepositoryInstaller.Install(Container);
             GlobalFrameOffsetSettingUseCaseInstaller.Install(Container);
