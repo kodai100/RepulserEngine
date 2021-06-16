@@ -14,6 +14,10 @@ jobs:
         lfs: true
         clean: false
 
+    - name: Encryption
+      shell: cmd
+      run: 'copy ${{secrets.ENCRYPT_INFO_SRC}} ${{secrets.ENCRYPT_INFO_DST}}'
+
     - name: Windows
       shell: cmd
       run: '"C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Unity.exe" -quit -batchmode -nographics -silent-crashes -logFile - -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}}'

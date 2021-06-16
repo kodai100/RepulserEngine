@@ -27,6 +27,7 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
             obs.SceneChanged += (sender, sceneName) => { onSceneChanged.OnNext(sceneName); };
         }
 
+        // TODO: implement timeout
         public bool Connect(string serverAddress, string password)
         {
             if (!obs.IsConnected)
@@ -47,9 +48,14 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
                 }
 
                 currentServerUrl = serverAddress;
-                Debug.Log($"OBS Connected : {obs.GetVersion().OBSStudioVersion}");
 
-                return true;
+                if (obs.IsConnected)
+                {
+                    Debug.Log($"OBS Connected : {obs.GetVersion().OBSStudioVersion}");
+                    return true;
+                }
+
+                return false;
             }
 
 

@@ -16,9 +16,12 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
 
         private ObsWebsocketSettingDataModel cache;
 
-        public void Save(ObsWebsocketSettingDataModel frameOffset)
+        public void Save(ObsWebsocketSettingDataModel setting)
         {
-            var json = JsonUtility.ToJson(frameOffset);
+            setting.ServerAddress = AesEncryption.Encrypt(setting.ServerAddress);
+            setting.Password = AesEncryption.Encrypt(setting.Password);
+
+            var json = JsonUtility.ToJson(setting);
 
             using (var sw = new StreamWriter(JsonFilePath, false))
             {
@@ -32,11 +35,10 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
                 }
             }
 
-            cache = frameOffset;
+            cache = setting;
 
             Debug.Log($"Saved : {JsonFilePath}");
         }
-
 
         public ObsWebsocketSettingDataModel Load()
         {
@@ -59,6 +61,9 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
                 Debug.Log("No data");
                 return jsonDeserializedData;
             }
+
+            jsonDeserializedData.ServerAddress = AesEncryption.Decrypt(jsonDeserializedData.ServerAddress);
+            jsonDeserializedData.Password = AesEncryption.Decrypt(jsonDeserializedData.Password);
 
             loaded = true;
 
