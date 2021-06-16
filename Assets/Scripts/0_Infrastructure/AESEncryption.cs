@@ -2,26 +2,11 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using ProjectBlue.RepulserEngine.Infrastructure;
 using UnityEngine;
-
-[Serializable]
-public class EncryptionInfo
-{
-    public int BlockSize;
-    public int KeySize;
-    public string IV;
-    public string Key;
-}
 
 public static class AesEncryption
 {
-    private static EncryptionInfo GetUserDefinedEncryptionData()
-    {
-        var textAsset = Resources.Load<TextAsset>("EncryptionInfo");
-        var info = JsonUtility.FromJson<EncryptionInfo>(textAsset.text);
-        return info;
-    }
-
     /// <summary>
     /// 対称鍵暗号を使って文字列を暗号化する
     /// </summary>
@@ -33,7 +18,7 @@ public static class AesEncryption
 
         using (var rijndael = new RijndaelManaged())
         {
-            var info = GetUserDefinedEncryptionData();
+            var info = new EncryptionInfo();
 
             rijndael.BlockSize = info.BlockSize;
             rijndael.KeySize = info.KeySize;
@@ -74,7 +59,7 @@ public static class AesEncryption
 
         using (var rijndael = new RijndaelManaged())
         {
-            var info = GetUserDefinedEncryptionData();
+            var info = new EncryptionInfo();
 
             rijndael.BlockSize = info.BlockSize;
             rijndael.KeySize = info.KeySize;
