@@ -26,9 +26,6 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         {
             var dataModel = repository.Load();
 
-            Debug.Log(dataModel.Password);
-            Debug.Log(ViewModel.Password.Value);
-
             ViewModel.Update(dataModel.ServerAddress, dataModel.Password,
                 dataModel.AutoReconnectOnStart, dataModel.ChangeScene, dataModel.RestartMedia);
         }

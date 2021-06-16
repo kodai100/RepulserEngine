@@ -10,15 +10,18 @@ namespace ProjectBlue.RepulserEngine.View
     public class ObsWebsocketSettingView : MonoBehaviour
     {
         [Inject] private IObsWebsocketSettingController controller;
+        [Inject] private IObsWebsocketCommunicationController communicationController;
 
         [SerializeField] private TMP_InputField serverAddressInput;
         [SerializeField] private TMP_InputField passwordInput;
 
-        [SerializeField] private Button connectButton;
+        [SerializeField] private ObsWebsocketConnectButton connectButton;
 
         [SerializeField] private Toggle autoReconnectToggle;
         [SerializeField] private Toggle changeSceneToggle;
         [SerializeField] private Toggle restartMediaToggle;
+
+        private bool connected;
 
         public void Start()
         {
@@ -26,6 +29,12 @@ namespace ProjectBlue.RepulserEngine.View
 
             InitializeViewData();
             RegisterEvents();
+
+            // auto reconnect procedure
+            if (autoReconnectToggle.isOn)
+            {
+                Connect();
+            }
         }
 
         private void InitializeViewData()
@@ -34,7 +43,6 @@ namespace ProjectBlue.RepulserEngine.View
             passwordInput.text = controller.ViewModel.Password.Value;
 
             autoReconnectToggle.isOn = controller.ViewModel.AutoReconnectOnStart.Value;
-            // auto reconnect procedure
 
             changeSceneToggle.isOn = controller.ViewModel.ChangeScene.Value;
             restartMediaToggle.isOn = controller.ViewModel.RestartMedia.Value;
@@ -68,12 +76,39 @@ namespace ProjectBlue.RepulserEngine.View
                 controller.ViewModel.RestartMedia.Value = value;
             }).AddTo(this);
 
-            connectButton.OnClickAsObservable().Subscribe(_ => Connect()).AddTo(this);
+            connectButton.OnClicked.Subscribe(_ =>
+            {
+                controller.Save();
+
+                if (!connected)
+                {
+                    Connect();
+                }
+                else
+                {
+                    Disconnect();
+                }
+            }).AddTo(this);
         }
 
         private void Connect()
         {
-            controller.Save();
+            var status = communicationController.Connect();
+
+            if (status)
+            {
+                connectButton.SetConnected();
+            }
+            else
+            {
+                connectButton.SetDisconnected();
+            }
+        }
+
+        private void Disconnect()
+        {
+            communicationController.Disconnect();
+            connectButton.SetDisconnected();
         }
     }
 }
