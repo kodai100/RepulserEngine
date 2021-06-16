@@ -16,7 +16,7 @@ jobs:
 
     - name: Encryption
       shell: cmd
-      run: 'copy ${{secrets.ENCRYPT_INFO_SRC}} ${{secrets.ENCRYPT_INFO_DST}}'
+      run: 'copy /Y ${{secrets.ENCRYPT_INFO_SRC}} ${{secrets.ENCRYPT_INFO_DST}}'
 
     - name: Windows
       shell: cmd
