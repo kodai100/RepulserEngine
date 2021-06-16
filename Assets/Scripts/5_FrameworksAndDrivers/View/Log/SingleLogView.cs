@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class SingleLogView : SingletonMonoBehaviour<LogListView>
+    public class SingleLogView : SingletonMonoBehaviour<SingleLogView>
     {
-
         [SerializeField] private TMP_Text text;
 
         private void Awake()
@@ -47,5 +46,4 @@ namespace ProjectBlue.RepulserEngine.View
             }
         }
     }
-    
 }

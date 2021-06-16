@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Data.DataStore
 {
-    public class ObsWebsocketCommunicationDataStore : IObsWebsocketCommunicationDataStore
+    public class ObsWebsocketCommunicationDataStore : IObsWebsocketCommunicationDataStore, IDisposable
     {
         private OBSWebsocket obs = new OBSWebsocket();
 
@@ -47,6 +47,8 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
                 }
 
                 currentServerUrl = serverAddress;
+                Debug.Log($"OBS Connected : {obs.GetVersion().OBSStudioVersion}");
+
                 return true;
             }
 
@@ -58,6 +60,7 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
         public void Disconnect()
         {
             obs.Disconnect();
+            Debug.Log($"OBS Disconnected : {currentServerUrl}");
         }
 
         public void SetScene(string sceneName)
@@ -74,6 +77,11 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
             {
                 obs.RestartMedia(mediaSourceName);
             }
+        }
+
+        public void Dispose()
+        {
+            Disconnect();
         }
     }
 

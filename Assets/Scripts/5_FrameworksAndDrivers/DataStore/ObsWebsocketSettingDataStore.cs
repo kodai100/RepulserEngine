@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
-using ProjectBlue.RepulserEngine.Domain.Entity;
 using Zenject;
 using UniRx;
 using UnityEngine;

@@ -21,7 +21,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         public void SetConnected()
         {
-            label.text = "Disconnect";
+            label.text = "Connected";
             backgroundImage.color = connectedColor;
         }
 
