@@ -15,14 +15,9 @@ namespace ProjectBlue.RepulserEngine.View
 
         [SerializeField] private Color connectedColor = Color.cyan;
 
-        private Color disconnectedColor;
+        private Color disconnectedColor = new Color(0.34f, 0.34f, 0.34f);
 
         public IObservable<Unit> OnClicked => button.OnClickAsObservable();
-
-        private void Start()
-        {
-            disconnectedColor = backgroundImage.color;
-        }
 
         public void SetConnected()
         {

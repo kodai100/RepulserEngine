@@ -93,9 +93,9 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void Connect()
         {
-            var status = communicationController.Connect();
+            connected = communicationController.Connect();
 
-            if (status)
+            if (connected)
             {
                 connectButton.SetConnected();
             }
@@ -109,6 +109,8 @@ namespace ProjectBlue.RepulserEngine.View
         {
             communicationController.Disconnect();
             connectButton.SetDisconnected();
+
+            connected = false;
         }
     }
 }
