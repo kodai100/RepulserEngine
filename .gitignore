@@ -63,3 +63,6 @@ Assets/Packages/UnityVS*
 Assets/Plugins/Zenject/OptionalExtras/Signals/Zenject-Signals.csproj.meta
 Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking.csproj.meta
 Assets/Plugins/Zenject/Source/Usage/Zenject-usage.pdb.meta
+
+EncryptionInfo.json
+EncryptionInfo.json.meta

@@ -23,6 +23,9 @@ namespace ProjectBlue.RepulserEngine.Controllers
         private ICommandSettingUseCase commandSettingUseCase;
         private IOnAirSettingUseCase onAirSettingUseCase;
 
+        private IObsWebsocketSettingUseCase obsSettingUseCase;
+        private IObsWebsocketCommunicationUseCase obsCommunucationUseCase;
+
         private CompositeDisposable disposable = new CompositeDisposable();
 
         private IOverlayUseCase overlayUseCase;
@@ -36,6 +39,8 @@ namespace ProjectBlue.RepulserEngine.Controllers
             IOnAirSettingUseCase onAirSettingUseCase,
             ICommandTriggerUseCase commandTriggerUseCase,
             IGlobalFrameOffsetSettingUseCase globalFrameOffsetSettingUseCase,
+            IObsWebsocketSettingUseCase obsSettingUseCase,
+            IObsWebsocketCommunicationUseCase obsCommunucationUseCase,
             IOverlayUseCase overlayUseCase)
         {
             this.timecodeSettingUseCase = timecodeSettingUseCase;
@@ -45,6 +50,9 @@ namespace ProjectBlue.RepulserEngine.Controllers
             this.sendToEndpointUseCase = sendToEndpointUseCase;
             this.commandSettingUseCase = commandSettingUseCase;
             this.onAirSettingUseCase = onAirSettingUseCase;
+
+            this.obsSettingUseCase = obsSettingUseCase;
+            this.obsCommunucationUseCase = obsCommunucationUseCase;
 
             this.overlayUseCase = overlayUseCase;
 
@@ -81,6 +89,19 @@ namespace ProjectBlue.RepulserEngine.Controllers
                     overlayUseCase.Trigger(Color.red);
                 }
             }
+
+            // =================== OBS
+            if (obsSettingUseCase.ViewModel.ChangeScene.Value)
+            {
+                obsCommunucationUseCase.SetScene(command);
+            }
+
+            if (obsSettingUseCase.ViewModel.RestartMedia.Value)
+            {
+                obsCommunucationUseCase.RestartMediaSource(command);
+            }
+
+            // =================== OBS
         }
 
         private void OnTimecodeUpdated(TimecodeData timecode)

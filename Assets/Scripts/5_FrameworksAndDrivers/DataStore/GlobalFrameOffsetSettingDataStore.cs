@@ -56,7 +56,7 @@ namespace ProjectBlue.RepulserEngine.Data.DataStore
 
             try
             {
-                using (var fs = new FileStream(JsonFilePath, FileMode.OpenOrCreate))
+                using (var fs = new FileStream(JsonFilePath, FileMode.Open))
                 using (var sr = new StreamReader(fs))
                 {
                     var result = sr.ReadToEnd();

@@ -24,7 +24,6 @@ namespace ProjectBlue.RepulserEngine.View
         [SerializeField] private Color checkingColor = new Color(0.7f, 0.7f, 0f);
         [SerializeField] private Color failColor = new Color(0.7f, 0f, 0f);
 
-        [SerializeField] private TextFade textFade;
         [SerializeField] private TMP_Text indexText;
 
         private bool running;
@@ -42,8 +41,6 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void Start()
         {
-            textFade?.gameObject.SetActive(false);
-
             button.OnClickAsObservable().Subscribe(_ => { Check(); }).AddTo(this);
         }
 
@@ -78,8 +75,6 @@ namespace ProjectBlue.RepulserEngine.View
             image.color = checkingColor;
             endpointSettingviewModel.connected.Value = ConnectionCheckStatus.Checking;
 
-            textFade?.gameObject.SetActive(true);
-
             var result = await connectionCheckController.Check(index);
 
             if (result)
@@ -92,8 +87,6 @@ namespace ProjectBlue.RepulserEngine.View
                 image.color = failColor;
                 endpointSettingviewModel.connected.Value = ConnectionCheckStatus.Failed;
             }
-
-            textFade?.gameObject.SetActive(false);
 
             running = false;
         }
