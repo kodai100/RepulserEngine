@@ -1,5 +1,4 @@
 ﻿using ProjectBlue.RepulserEngine.Controllers;
-using ProjectBlue.RepulserEngine.ViewInterfaces;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,7 @@ using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class OverlayView : MonoBehaviour, IOverlayView
+    public class OverlayView : MonoBehaviour
     {
         [Inject] private IOverlayController _overlayController;
 
