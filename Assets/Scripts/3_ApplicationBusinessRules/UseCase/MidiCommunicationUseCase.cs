@@ -1,14 +1,14 @@
-
-
+using System;
+using ProjectBlue.RepulserEngine.Domain.Entity;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
 using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
-
     public class MidiCommunicationUseCase : IMidiCommunicationUseCase
     {
+        public IObservable<MidiData> OnMidiAsObservable => repository.OnMidiAsObservable;
 
         IMidiCommunicationRepository repository;
 

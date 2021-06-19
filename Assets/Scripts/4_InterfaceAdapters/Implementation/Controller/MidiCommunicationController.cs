@@ -1,14 +1,14 @@
-
-
+using System;
+using ProjectBlue.RepulserEngine.Domain.Entity;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using Zenject;
 using UniRx;
 
 namespace ProjectBlue.RepulserEngine.Controllers
 {
-
-    public class MidiCommunicationController : IMidiCommunicationController 
+    public class MidiCommunicationController : IMidiCommunicationController
     {
+        public IObservable<MidiData> OnMidiAsObservable => useCase.OnMidiAsObservable;
 
         IMidiCommunicationUseCase useCase;
 
@@ -16,7 +16,6 @@ namespace ProjectBlue.RepulserEngine.Controllers
         {
             this.useCase = useCase;
         }
-
     }
 
     public class MidiCommunicationControllerInstaller : Installer<MidiCommunicationControllerInstaller>

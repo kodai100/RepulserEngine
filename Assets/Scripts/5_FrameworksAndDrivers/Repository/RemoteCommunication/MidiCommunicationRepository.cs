@@ -88,7 +88,7 @@ namespace ProjectBlue.RepulserEngine.Repository
         }
     }
 
-    public class MidiCommunicationDataStoreInstaller : Installer<MidiCommunicationDataStoreInstaller>
+    public class MidiCommunicationRepositoryInstaller : Installer<MidiCommunicationRepositoryInstaller>
     {
         public override void InstallBindings()
         {
