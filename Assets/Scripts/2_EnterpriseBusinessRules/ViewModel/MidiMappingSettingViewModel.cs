@@ -12,6 +12,8 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
         public ReactiveProperty<int> midiNumber = new ReactiveProperty<int>();
         public ReactiveProperty<string> oscAddressConversion = new ReactiveProperty<string>();
 
+        public int prevValue = 0;
+
         public MidiType MidiType => midiType.Value;
         public int MidiNumber => midiNumber.Value;
         public string OscAddressConversion => oscAddressConversion.Value;

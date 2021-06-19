@@ -62,6 +62,8 @@ namespace ProjectBlue.RepulserEngine.Installers
 
             // Controllers
             Container.BindInterfacesAndSelfTo<SignalTriggerController>().AsSingle().NonLazy();
+
+            Container.BindInterfacesAndSelfTo<MidiOscConversionController>().AsSingle().NonLazy();
         }
     }
 }

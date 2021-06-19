@@ -1,18 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using ProjectBlue.RepulserEngine.Domain.DataModel;
+using ProjectBlue.RepulserEngine.Domain.Entity;
+using ProjectBlue.RepulserEngine.Domain.UseCase;
+using ProjectBlue.RepulserEngine.UseCaseInterfaces;
+using UniRx;
 using UnityEngine;
 
-public class MidiOscConversionController : MonoBehaviour
+namespace ProjectBlue.RepulserEngine.Controllers
 {
-    // Start is called before the first frame update
-    void Start()
+    public class MidiOscConversionController : IDisposable
     {
-        
-    }
+        private IEndPointSettingUseCase endPointSettingUseCase;
+        private ISendToEndpointUseCase sendToEndpointUseCase;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private IMidiMappingSettingUseCase midiSettingUseCase;
+
+        private CompositeDisposable disposable = new CompositeDisposable();
+
+        public MidiOscConversionController(
+            ISendToEndpointUseCase sendToEndpointUseCase,
+            IEndPointSettingUseCase endPointSettingUseCase,
+            IMidiCommunicationUseCase midiCommunicationUseCase,
+            IMidiMappingSettingUseCase midiSettingUseCase)
+        {
+            this.endPointSettingUseCase = endPointSettingUseCase;
+            this.sendToEndpointUseCase = sendToEndpointUseCase;
+
+            this.midiSettingUseCase = midiSettingUseCase;
+
+            midiCommunicationUseCase.OnMidiAsObservable.Subscribe(OnMidiData).AddTo(disposable);
+        }
+
+        private void OnMidiData(MidiData data)
+        {
+            var endPoints = endPointSettingUseCase.GetCurrent();
+
+            foreach (var endPoint in endPoints)
+            {
+                // 設定で有効じゃない場合はスキップ
+                if (!endPoint.ConnectionEnabled) continue;
+
+                var ipEndPoint = endPoint.EndPoint;
+
+                foreach (var mapping in midiSettingUseCase.GetCurrent())
+                {
+                    if (data.Number == mapping.MidiNumber)
+                    {
+                        if (mapping.MidiType == MidiType.Note)
+                        {
+                            if (mapping.prevValue < 127 / 2f)
+                            {
+                                if (data.Value >= 127 / 2f)
+                                {
+                                    sendToEndpointUseCase.Send(ipEndPoint, mapping.OscAddressConversion,
+                                        data.Value.ToString(),
+                                        CommandType.Osc);
+                                }
+                            }
+
+                            mapping.prevValue = data.Value;
+                        }
+
+                        // 
+                    }
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            disposable.Dispose();
+        }
     }
 }

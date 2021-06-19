@@ -7,14 +7,12 @@ using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 
 namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
-    
     public class SendToEndpointUseCase : IDisposable, ISendToEndpointUseCase
     {
-
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         private ISenderRepository senderRepository;
-        
+
         public SendToEndpointUseCase(ISenderRepository senderRepository)
         {
             this.senderRepository = senderRepository;
@@ -22,27 +20,23 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         public void Send(IPEndPoint endPoint, string commandName, string commandArgument, CommandType commandType)
         {
-
             if (commandType == CommandType.Osc)
             {
                 SendOsc(endPoint, commandName, commandArgument);
             }
-            
         }
 
 
         private void SendOsc(IPEndPoint endPoint, string commandName, string commandArgument)
         {
-            
             // OSCアドレスに変換
-            commandName = $"/{commandName}";
-            
+
             if (string.IsNullOrEmpty(commandArgument))
             {
                 senderRepository.Send(endPoint, commandName, "null");
                 return;
             }
-            
+
             // float detection
             if (commandArgument.Contains("."))
             {
@@ -57,7 +51,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
                 return;
             }
-            
+
             // int detection
             if (int.TryParse(commandArgument, out var intResult))
             {
@@ -67,7 +61,6 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             {
                 senderRepository.Send(endPoint, commandName, commandArgument);
             }
-            
         }
 
         public void Dispose()
@@ -75,6 +68,4 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
             _disposable.Dispose();
         }
     }
-
 }
-
