@@ -1,6 +1,4 @@
 using ProjectBlue.RepulserEngine.Controllers;
-using ProjectBlue.RepulserEngine.Data.DataStore;
-using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.Repository;
 using Zenject;
@@ -11,7 +9,6 @@ namespace ProjectBlue.RepulserEngine.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<KeyboardInputDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<KeyboardInputRepository>().AsSingle();
 
             ConnectionCheckInstaller.Install(Container);
@@ -20,26 +17,20 @@ namespace ProjectBlue.RepulserEngine.Installers
 
             ObsWebsocketSettingInstaller.Install(Container);
 
-            GlobalFrameOffsetSettingDataStoreInstaller.Install(Container);
             GlobalFrameOffsetSettingRepositoryInstaller.Install(Container);
             GlobalFrameOffsetSettingUseCaseInstaller.Install(Container);
             GlobalFrameOffsetSettingControllerInstaller.Install(Container);
 
-            Container.BindInterfacesAndSelfTo<TimecodeDecoderDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeDecoderUseCase>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<OscSenderDataStore>().AsSingle();
-            Container.BindInterfacesAndSelfTo<SenderRepository>().AsSingle();
+            Container.BindInterfacesAndSelfTo<OscSenderRepository>().AsSingle();
 
 
-            Container.BindInterfacesAndSelfTo<CommandSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<CommandSettingRepository>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<EndpointSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<EndpointSettingRepository>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<TimecodeSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<TimecodeSettingRepository>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<TimecodeDisplayUseCase>().AsSingle();

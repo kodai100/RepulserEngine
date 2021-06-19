@@ -10,7 +10,6 @@ namespace ProjectBlue.RepulserEngine.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<OnAirSettingDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<OnAirSettingRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<OnAirSettingUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<OnAirSettingController>().AsSingle();

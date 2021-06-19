@@ -1,0 +1,25 @@
+{
+    "name": "RepulserEngine.DataStore",
+    "rootNamespace": "",
+    "references": [
+        "GUID:db50f50b3962ccb4083db31bf9150d7f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:5ad975578e9a2b04b8d16b397fc64ef0",
+        "GUID:13f3c5b32965e744c949f00c200dc653",
+        "GUID:0e53b2bb75da5b9488eee3180595203d",
+        "GUID:91dfeb94bc806354d8d2f9bd5fe99a99",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:684a27c626fc4af498ea8fcde2a8b7d0",
+        "GUID:c34497210fc934c449a984b9fc96a13d",
+        "GUID:d2c0aa680bd17bf478610e82c624be8b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

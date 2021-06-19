@@ -114,6 +114,13 @@
         "org.nuget.system.memory": "4.5.3"
       }
     },
+    "jp.keijiro.rtmidi": {
+      "version": "1.0.3",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.com"
+    },
     "org.nuget.system.buffers": {
       "version": "4.4.0",
       "depth": 2,

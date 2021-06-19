@@ -10,7 +10,6 @@ namespace ProjectBlue.RepulserEngine.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<ConnectionCheckDataStore>().AsSingle();
             Container.BindInterfacesAndSelfTo<ConnectionCheckRepository>().AsSingle();
             Container.BindInterfacesAndSelfTo<ConnectionCheckUseCase>().AsSingle();
             Container.BindInterfacesAndSelfTo<ConnectionCheckController>().AsSingle();
