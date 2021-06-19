@@ -17,6 +17,10 @@ namespace ProjectBlue.RepulserEngine.Installers
 
             ObsWebsocketSettingInstaller.Install(Container);
 
+            MidiMappingSettingRepositoryInstaller.Install(Container);
+            MidiMappingSettingUseCaseInstaller.Install(Container);
+            MidiMappingSettingControllerInstaller.Install(Container);
+
             MidiCommunicationRepositoryInstaller.Install(Container);
             MidiCommunicationUseCaseInstaller.Install(Container);
             MidiCommunicationControllerInstaller.Install(Container);

@@ -30683,7 +30683,6 @@ GameObject:
   - component: {fileID: 2054794659197219705}
   - component: {fileID: 2054794659197219704}
   - component: {fileID: 2054794659197219687}
-  - component: {fileID: 7787011349527893439}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -31293,26 +31292,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7787011349527893439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054794659197219685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b7eac9075b933498db73a12422d4ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indexText: {fileID: 0}
-  upButton: {fileID: 0}
-  deleteButton: {fileID: 0}
-  downButton: {fileID: 0}
-  backgroundImage: {fileID: 2054794659197219704}
-  midiTypeDropdown: {fileID: 0}
-  midiNumberTextInput: {fileID: 0}
-  oscConvertAddressTextInput: {fileID: 0}
 --- !u!224 &8031158308714239951
 RectTransform:
   m_ObjectHideFlags: 0

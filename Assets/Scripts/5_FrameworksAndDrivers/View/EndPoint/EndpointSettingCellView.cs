@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.View
 {
-    public class EndpointSettingView : ReorderableListComponentView<EndpointSettingViewModel>
+    public class EndpointSettingCellView : ReorderableListComponentView<EndpointSettingViewModel>
     {
 
         [SerializeField] public TMP_InputField ipTextField;

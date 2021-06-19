@@ -39,18 +39,30 @@ namespace ProjectBlue.RepulserEngine.View
                 {
                     SetDirty();
 
-                    data = ParseData(midiTypeDropdown.value, midiNumberTextInput.text, oscConvertAddressTextInput.text);
+                    if (!ParseData(midiNumberTextInput.text))
+                    {
+                        Invalid();
+                    }
                 }).AddTo(this);
         }
 
-        private MidiMappingSettingViewModel ParseData(int midiType, string number, string oscAddress)
+        private bool ParseData(string number)
         {
-            return new MidiMappingSettingViewModel();
+            data.midiType.Value = (MidiType) Enum.ToObject(typeof(MidiType), midiTypeDropdown.value);
+            data.oscAddressConversion.Value = oscConvertAddressTextInput.text;
+
+            if (int.TryParse(number, out var parsed))
+            {
+                data.midiNumber.Value = parsed;
+                return true;
+            }
+
+            return false;
         }
 
         public override void UpdateView(MidiMappingSettingViewModel viewModel)
         {
-            this.data = viewModel;
+            data = viewModel;
 
             if (viewModel == null)
             {
@@ -60,9 +72,9 @@ namespace ProjectBlue.RepulserEngine.View
                 return;
             }
 
-            // midiTypeDropdown.value = viewModel.MidiType;
-            // midiNumberTextInput.text = viewModel.MidiNumber;
-            // oscConvertAddressTextInput.text = viewModel.OscConvertAddress;
+            midiTypeDropdown.value = (int) viewModel.MidiType;
+            midiNumberTextInput.text = viewModel.MidiNumber.ToString();
+            oscConvertAddressTextInput.text = viewModel.OscAddressConversion;
         }
     }
 }

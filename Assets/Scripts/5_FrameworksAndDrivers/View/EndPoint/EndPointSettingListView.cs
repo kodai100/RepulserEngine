@@ -4,7 +4,7 @@ using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.View;
 using Zenject;
 
-public class EndPointSettingListView : ReorderableListView<EndpointSettingView, EndpointSettingViewModel>
+public class EndPointSettingListView : ReorderableListView<EndpointSettingCellView, EndpointSettingViewModel>
 {
     [Inject] private IEndPointListController _endPointListController;
 

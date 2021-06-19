@@ -46,6 +46,27 @@ namespace ProjectBlue.RepulserEngine.Repository
     }
 
     [Serializable]
+    public class MidiMappingSettingListForSerialize
+    {
+        public List<MidiMappingSettingDataModel> Data = new List<MidiMappingSettingDataModel>();
+
+        public MidiMappingSettingListForSerialize()
+        {
+        }
+
+        public MidiMappingSettingListForSerialize(IEnumerable<MidiMappingSettingDataModel> data)
+        {
+            Data.Clear();
+
+            foreach (var component in data)
+            {
+                if (component == null) continue;
+                Data.Add(component);
+            }
+        }
+    }
+
+    [Serializable]
     public class AudioDeviceSettingForSerialize
     {
         public int Device;
