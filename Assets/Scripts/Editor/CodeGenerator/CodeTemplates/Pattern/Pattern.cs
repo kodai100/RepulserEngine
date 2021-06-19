@@ -14,25 +14,19 @@ namespace ProjectBlue.CodeGenerator
             // Model
             // Generate(baseScriptPath, new ModelTemplate(nameSpace, "2_EnterpriseBusinessRules/Model/", className));
 
-            // DataStore
-            Generate(baseScriptPath, new DataStoreTemplate(nameSpace, "5_FrameworksAndDrivers/DataStore/", className));
-
             // Repository
             Generate(baseScriptPath,
-                new DataStoreInterfaceTemplate(nameSpace, "4_InterfaceAdapters/Interface/DataStoreInterfaces/",
+                new RepositoryInterfaceTemplate(nameSpace, "4_InterfaceAdapters/Interface/RepositoryInterfaces/",
                     className));
             Generate(baseScriptPath,
-                new RepositoryTemplate(nameSpace, "4_InterfaceAdapters/Implementation/Repository/", className));
+                new RepositoryTemplate(nameSpace, "5_FrameworksAndDrivers/Repository/", className));
 
             // UseCase
-            Generate(baseScriptPath,
-                new RepositoryInterfaceTemplate(nameSpace, "3_ApplicationBusinessRules/RepositoryInterfaces/",
-                    className));
             Generate(baseScriptPath, new UseCaseTemplate(nameSpace, "3_ApplicationBusinessRules/UseCase/", className));
             Generate(baseScriptPath,
                 new UseCaseInterfaceTemplate(nameSpace, "3_ApplicationBusinessRules/UseCaseInterfaces/", className));
 
-            // Presenter
+            // Controller
             Generate(baseScriptPath,
                 new ControllerTemplate(nameSpace, "4_InterfaceAdapters/Implementation/Controller/", className));
             Generate(baseScriptPath,

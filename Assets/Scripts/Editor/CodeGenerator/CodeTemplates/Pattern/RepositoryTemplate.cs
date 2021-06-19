@@ -5,11 +5,12 @@
         public override string FileName => $"{className}Repository.cs";
 
         public RepositoryTemplate(string nameSpaceName, string folderPath, string className) : base(nameSpaceName,
-            folderPath, className) { }
+            folderPath, className)
+        {
+        }
 
         protected override string Template => @"
 
-using #NAME_SPACE#.Data.DataStore;
 using Zenject;
 using UniRx;
 
@@ -19,11 +20,8 @@ namespace #NAME_SPACE#.Repository
     public class #CLASS_NAME#Repository : I#CLASS_NAME#Repository 
     {
 
-        I#CLASS_NAME#DataStore dataStore;
-
-        public #CLASS_NAME#Repository(I#CLASS_NAME#DataStore dataStore)
+        public #CLASS_NAME#Repository()
         {
-            this.dataStore = dataStore;
         }
 
     }
