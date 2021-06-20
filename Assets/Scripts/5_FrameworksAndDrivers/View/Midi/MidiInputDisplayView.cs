@@ -37,7 +37,7 @@ namespace ProjectBlue.RepulserEngine.View
             {
                 var data = queue.Dequeue();
                 stringList.Add(
-                    $"[{time.Minute:D2}:{time.Second:D2}:{time.Millisecond:D2}] {data.midiType} ch:{data.Channel} n:{data.Number} v:{data.Value}");
+                    $"[{time.Minute:D2}:{time.Second:D2}:{time.Millisecond:D3}] {data.midiType} ch:{data.Channel} n:{data.Number} v:{data.Value}");
 
                 if (stringList.Count > 28)
                 {
