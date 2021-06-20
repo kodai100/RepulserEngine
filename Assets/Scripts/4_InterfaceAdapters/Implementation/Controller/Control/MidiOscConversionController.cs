@@ -35,34 +35,31 @@ namespace ProjectBlue.RepulserEngine.Controllers
         {
             var endPoints = endPointSettingUseCase.GetCurrent();
 
-            foreach (var endPoint in endPoints)
+            foreach (var mapping in midiSettingUseCase.GetCurrent())
             {
-                // 設定で有効じゃない場合はスキップ
-                if (!endPoint.ConnectionEnabled) continue;
-
-                var ipEndPoint = endPoint.EndPoint;
-
-                foreach (var mapping in midiSettingUseCase.GetCurrent())
+                if (data.Number == mapping.MidiNumber)
                 {
-                    if (data.Number == mapping.MidiNumber)
+                    if (mapping.MidiType == MidiType.Note)
                     {
-                        if (mapping.MidiType == MidiType.Note)
+                        if (mapping.prevValue < 127 / 2f)
                         {
-                            if (mapping.prevValue < 127 / 2f)
+                            if (data.Value >= 127 / 2f)
                             {
-                                if (data.Value >= 127 / 2f)
+                                foreach (var endPoint in endPoints)
                                 {
+                                    if (!endPoint.ConnectionEnabled) continue;
+
+                                    var ipEndPoint = endPoint.EndPoint;
+
                                     sendToEndpointUseCase.Send(ipEndPoint, mapping.OscAddressConversion,
                                         data.Value.ToString(),
                                         CommandType.Osc);
                                 }
                             }
-
-                            mapping.prevValue = data.Value;
                         }
-
-                        // 
                     }
+
+                    mapping.prevValue = data.Value;
                 }
             }
         }
