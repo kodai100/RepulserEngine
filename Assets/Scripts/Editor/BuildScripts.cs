@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class BuildScripts : MonoBehaviour
 {
-
     private static string LocationPathName()
     {
         var args = System.Environment.GetCommandLineArgs();
@@ -19,11 +19,9 @@ public class BuildScripts : MonoBehaviour
 
         return null;
     }
-    
-    
+
     public static void BuildStandaloneWindows64()
     {
-
         var locationPathName = LocationPathName();
 
         if (locationPathName != null)
@@ -42,10 +40,8 @@ public class BuildScripts : MonoBehaviour
         {
             Debug.Log("Build Path is not set");
         }
-        
-        
     }
-    
+
     static string[] GetEnabledScenes()
     {
         return (

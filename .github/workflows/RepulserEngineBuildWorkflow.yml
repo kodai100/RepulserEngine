@@ -16,7 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      run: echo ${{ github.ref }}
 
     - name: Encryption
       shell: cmd
@@ -24,7 +24,7 @@ jobs:
 
     - name: Windows
       shell: cmd
-      run: '"C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Unity.exe" -quit -batchmode -nographics -silent-crashes -logFile - -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}}'
+      run: '"C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Unity.exe" -quit -batchmode -nographics -silent-crashes -logFile - -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}} -version ${{github.ref}}'
 
     - name: Create Installer
       shell: cmd
