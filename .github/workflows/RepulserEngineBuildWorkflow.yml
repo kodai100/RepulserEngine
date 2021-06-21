@@ -55,6 +55,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{secrets.INSTALLER_PATH}}
+        asset_path: ${{secrets.INSTALLER_PATH}}\RepulserEngine_v${{ steps.get_version.outputs.TAG }}_Setup.exe
         asset_name: RepulserEngine_v${{ steps.get_version.outputs.TAG }}_Setup.exe
         asset_content_type: application/exe
