@@ -8,14 +8,14 @@ public class PreProcessBuild : IPreprocessBuildWithReport
     public int callbackOrder => 0;
 
 
-    private static string GetVersion()
+    private static string GetGitHubRef()
     {
         var args = System.Environment.GetCommandLineArgs();
         for (var i = 0; i < args.Length; ++i)
         {
             switch (args[i])
             {
-                case "-version":
+                case "-githubref":
                     return args[i + 1];
             }
         }
@@ -25,8 +25,14 @@ public class PreProcessBuild : IPreprocessBuildWithReport
 
     public void OnPreprocessBuild(BuildReport report)
     {
-        PlayerSettings.bundleVersion = GetVersion();
+        var githubRef = GetGitHubRef();
 
-        Debug.Log($"======== Version : {GetVersion()}");
+        var res = githubRef.Split('/');
+
+        if (res.Length == 3)
+        {
+            PlayerSettings.bundleVersion = res[2];
+            Debug.Log($"======== Version : {PlayerSettings.bundleVersion}");
+        }
     }
 }
