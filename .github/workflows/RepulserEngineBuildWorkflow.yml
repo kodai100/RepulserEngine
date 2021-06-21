@@ -16,7 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ${{ github.ref }}
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
 
     - name: Encryption
       shell: cmd
@@ -53,5 +53,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{secrets.INSTALLER_PATH}}
-        asset_name: RepulserEngine_Setup.exe
+        asset_name: RepulserEngine_v${{ steps.get_version.outputs.VERSION }}_Setup.exe
         asset_content_type: application/exe
