@@ -16,7 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      run: echo ::set-output name=VERSION::$(echo %[${{github.ref}}]:[refs/tags/]=%)
 
     - name: Encryption
       shell: cmd
