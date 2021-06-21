@@ -26,9 +26,9 @@ jobs:
       shell: cmd
       run: '"C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Unity.exe" -quit -batchmode -nographics -silent-crashes -logFile - -projectPath ${{secrets.UNITY_PROJECT_PATH}} -executeMethod BuildScripts.BuildStandaloneWindows64 -buildTarget StandaloneWindows64 -locationPathName ${{secrets.EXE_BUILD_PATH}}'
 
-    - name: zip
+    - name: Create Installer
       shell: cmd
-      run: powershell compress-archive -Force -Path ${{secrets.BUILD_FOLDER_PATH}} -DestinationPath ${{secrets.ARTIFACT_ZIP_PATH}}
+      run: 'iscc "${{secrets.ISS_PATH}}"'
 
     - name: Create release
       id: create_release
@@ -48,6 +48,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ${{secrets.ARTIFACT_ZIP_PATH}}
-        asset_name: RepulserEngine.zip
-        asset_content_type: application/zip
+        asset_path: ${{secrets.INSTALLER_PATH}}
+        asset_name: RepulserEngine_Setup.exe
+        asset_content_type: application/exe
