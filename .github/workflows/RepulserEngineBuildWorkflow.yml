@@ -18,7 +18,8 @@ jobs:
       id: get_version
       run: |
         set STR=${{github.ref}}
-        echo ::set-output name=TAG::%STR:refs/tags/=%
+        set REPLACED=%STR:refs/tags/=%
+        echo ::set-output name=TAG::%REPLACED%
 
     - name: Check Version
       run: echo ${{ steps.get_version.outputs.TAG }}
