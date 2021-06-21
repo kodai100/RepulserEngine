@@ -8,24 +8,24 @@ namespace ProjectBlue.RepulserEngine.Domain.ViewModel
 {
     public class MidiMappingSettingViewModel
     {
-        public ReactiveProperty<MidiType> midiType = new ReactiveProperty<MidiType>();
+        public ReactiveProperty<MidiSendType> midiSendType = new ReactiveProperty<MidiSendType>();
         public ReactiveProperty<int> midiNumber = new ReactiveProperty<int>();
         public ReactiveProperty<string> oscAddressConversion = new ReactiveProperty<string>();
 
         public int prevValue = 0;
 
-        public MidiType MidiType => midiType.Value;
+        public MidiSendType MidiSendType => midiSendType.Value;
         public int MidiNumber => midiNumber.Value;
         public string OscAddressConversion => oscAddressConversion.Value;
 
-        public MidiMappingSettingViewModel(MidiType midiType, int midiNumber, string oscAddressConversion)
+        public MidiMappingSettingViewModel(MidiSendType midiSendType, int midiNumber, string oscAddressConversion)
         {
-            this.midiType.Value = midiType;
+            this.midiSendType.Value = midiSendType;
             this.midiNumber.Value = midiNumber;
             this.oscAddressConversion.Value = oscAddressConversion;
         }
 
-        public MidiMappingSettingViewModel() : this(MidiType.Note, 0, "")
+        public MidiMappingSettingViewModel() : this(MidiSendType.Bypass, 0, "")
         {
         }
     }

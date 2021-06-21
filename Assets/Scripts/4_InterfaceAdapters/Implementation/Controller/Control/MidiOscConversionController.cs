@@ -2,9 +2,9 @@ using System;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using ProjectBlue.RepulserEngine.Domain.Entity;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
+using ProjectBlue.RepulserEngine.Domain.ViewModel;
 using ProjectBlue.RepulserEngine.UseCaseInterfaces;
 using UniRx;
-using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Controllers
 {
@@ -33,34 +33,54 @@ namespace ProjectBlue.RepulserEngine.Controllers
 
         private void OnMidiData(MidiData data)
         {
-            var endPoints = endPointSettingUseCase.GetCurrent();
-
             foreach (var mapping in midiSettingUseCase.GetCurrent())
             {
-                if (data.Number == mapping.MidiNumber)
+                if (data.Number != mapping.MidiNumber) continue;
+
+                switch (mapping.MidiSendType)
                 {
-                    if (mapping.MidiType == MidiType.Note)
-                    {
-                        if (mapping.prevValue < 127 / 2f)
-                        {
-                            if (data.Value >= 127 / 2f)
-                            {
-                                foreach (var endPoint in endPoints)
-                                {
-                                    if (!endPoint.ConnectionEnabled) continue;
-
-                                    var ipEndPoint = endPoint.EndPoint;
-
-                                    sendToEndpointUseCase.Send(ipEndPoint, mapping.OscAddressConversion,
-                                        data.Value.ToString(),
-                                        CommandType.Osc);
-                                }
-                            }
-                        }
-                    }
-
-                    mapping.prevValue = data.Value;
+                    case MidiSendType.Bypass:
+                        SendThrough(data, mapping);
+                        break;
+                    case MidiSendType.OnOnly:
+                        SendOnOnly(data, mapping);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
+
+                mapping.prevValue = data.Value;
+            }
+        }
+
+        private void SendOnOnly(MidiData data, MidiMappingSettingViewModel mapping)
+        {
+            if (mapping.prevValue > 127 / 2f) return;
+            if (data.Value <= 127 / 2f) return;
+
+            var endPoints = endPointSettingUseCase.GetCurrent();
+
+            foreach (var endPoint in endPoints)
+            {
+                if (!endPoint.ConnectionEnabled) continue;
+
+                sendToEndpointUseCase.Send(endPoint.EndPoint, mapping.OscAddressConversion,
+                    data.Value.ToString(),
+                    CommandType.Osc);
+            }
+        }
+
+        private void SendThrough(MidiData data, MidiMappingSettingViewModel mapping)
+        {
+            var endPoints = endPointSettingUseCase.GetCurrent();
+
+            foreach (var endPoint in endPoints)
+            {
+                if (!endPoint.ConnectionEnabled) continue;
+
+                sendToEndpointUseCase.Send(endPoint.EndPoint, mapping.OscAddressConversion,
+                    data.Value.ToString(),
+                    CommandType.Osc);
             }
         }
 

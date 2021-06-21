@@ -6,6 +6,12 @@ namespace ProjectBlue.RepulserEngine.Domain.Entity
         CC
     }
 
+    public enum MidiSendType
+    {
+        Bypass,
+        OnOnly
+    }
+
     public class MidiData
     {
         public MidiType midiType;

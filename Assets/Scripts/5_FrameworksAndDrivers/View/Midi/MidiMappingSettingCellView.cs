@@ -22,7 +22,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         private void Awake()
         {
-            var array = Enum.GetValues(typeof(MidiType));
+            var array = Enum.GetValues(typeof(MidiSendType));
             var list = (from object item in array select item.ToString()).ToList();
             midiTypeDropdown.ClearOptions();
             midiTypeDropdown.AddOptions(list);
@@ -48,7 +48,7 @@ namespace ProjectBlue.RepulserEngine.View
 
         private bool ParseData(string number)
         {
-            data.midiType.Value = (MidiType) Enum.ToObject(typeof(MidiType), midiTypeDropdown.value);
+            data.midiSendType.Value = (MidiSendType) Enum.ToObject(typeof(MidiSendType), midiTypeDropdown.value);
             data.oscAddressConversion.Value = oscConvertAddressTextInput.text;
 
             if (int.TryParse(number, out var parsed))
@@ -72,7 +72,7 @@ namespace ProjectBlue.RepulserEngine.View
                 return;
             }
 
-            midiTypeDropdown.value = (int) viewModel.MidiType;
+            midiTypeDropdown.value = (int) viewModel.MidiSendType;
             midiNumberTextInput.text = viewModel.MidiNumber.ToString();
             oscConvertAddressTextInput.text = viewModel.OscAddressConversion;
         }

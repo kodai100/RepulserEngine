@@ -9,7 +9,7 @@ namespace ProjectBlue.RepulserEngine.Translators
     {
         public static MidiMappingSettingDataModel Translate(MidiMappingSettingViewModel viewModel)
         {
-            var dataModel = new MidiMappingSettingDataModel((int) viewModel.MidiType, viewModel.MidiNumber,
+            var dataModel = new MidiMappingSettingDataModel((int) viewModel.MidiSendType, viewModel.MidiNumber,
                 viewModel.OscAddressConversion);
             return dataModel;
         }
@@ -17,7 +17,7 @@ namespace ProjectBlue.RepulserEngine.Translators
         public static MidiMappingSettingViewModel Translate(MidiMappingSettingDataModel dataModel)
         {
             var viewModel = new MidiMappingSettingViewModel(
-                (MidiType) Enum.ToObject(typeof(MidiType), dataModel.MidiType),
+                (MidiSendType) Enum.ToObject(typeof(MidiSendType), dataModel.MidiType),
                 dataModel.MidiNumber,
                 dataModel.OscAddressConversion);
             return viewModel;
