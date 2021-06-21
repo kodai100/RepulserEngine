@@ -3,7 +3,7 @@ name: StandaloneWindows64
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   build:
@@ -13,6 +13,10 @@ jobs:
       with:
         lfs: true
         clean: false
+
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
     - name: Encryption
       shell: cmd
