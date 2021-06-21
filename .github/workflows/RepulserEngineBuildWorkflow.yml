@@ -16,7 +16,12 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::$(echo %[${{github.ref}}]:[refs/tags/]=%)
+      run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+    - name: Chek version
+      run: echo $SOURCE_TAG
+      env:
+        SOURCE_TAG: ${{steps.get_version.outputs.SOURCE_TAG}} 
 
     - name: Encryption
       shell: cmd
@@ -53,5 +58,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ${{secrets.INSTALLER_PATH}}
-        asset_name: RepulserEngine_v${{ steps.get_version.outputs.VERSION }}_Setup.exe
+        asset_name: RepulserEngine_v${{ steps.get_version.outputs.SOURCE_TAG }}_Setup.exe
         asset_content_type: application/exe
