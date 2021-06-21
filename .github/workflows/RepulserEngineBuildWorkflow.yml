@@ -16,6 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
+      shell: cmd
       run: |
         set A="::set-output name=TAG::"
         set B=${{github.ref}}
