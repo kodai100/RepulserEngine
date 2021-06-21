@@ -16,7 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: ${{VERSION_EXTRACT_BAT_PATH}} ${{github.ref}} 
+      run: ${{secrets.VERSION_EXTRACT_BAT_PATH}} ${{github.ref}} 
 
     - name: Check Version
       run: echo ${{ steps.get_version.outputs.TAG }}
