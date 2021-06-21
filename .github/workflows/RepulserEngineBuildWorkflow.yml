@@ -16,10 +16,7 @@ jobs:
 
     - name: Get the version
       id: get_version
-      run: |
-        set STR=${{github.ref}}
-        set REPLACED=%STR:refs/tags/=%
-        echo ::set-output name=TAG::%REPLACED%
+      run: ${{secrets.VERSION_EXTRACT_BAT_PATH}} ${{github.ref}}
 
     - name: Check Version
       run: echo ${{ steps.get_version.outputs.TAG }}
