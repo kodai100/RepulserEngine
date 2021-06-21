@@ -16,6 +16,16 @@ namespace ProjectBlue.RepulserEngine.Controllers
         {
             this.useCase = useCase;
         }
+
+        public void Connect()
+        {
+            useCase.Connect();
+        }
+
+        public void Disconnect()
+        {
+            useCase.Disconnect();
+        }
     }
 
     public class MidiCommunicationControllerInstaller : Installer<MidiCommunicationControllerInstaller>

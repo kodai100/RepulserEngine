@@ -5,7 +5,7 @@ namespace ProjectBlue.RepulserEngine.Repository
 {
     public interface IMidiMappingSettingRepository
     {
-        void Save(IEnumerable<MidiMappingSettingDataModel> pulseSettingList);
-        IEnumerable<MidiMappingSettingDataModel> Load();
+        void Save(bool enabled, IEnumerable<MidiMappingSettingDataModel> pulseSettingList);
+        (bool, IEnumerable<MidiMappingSettingDataModel>) Load();
     }
 }

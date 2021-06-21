@@ -14,13 +14,15 @@ namespace ProjectBlue.RepulserEngine.Repository
         private static readonly string JsonFilePath =
             Path.Combine(UnityEngine.Application.streamingAssetsPath, "MidiMappingSetting.json");
 
-        private List<MidiMappingSettingDataModel> endpointList = new List<MidiMappingSettingDataModel>(); // cache
+        private List<MidiMappingSettingDataModel> mappingList = new List<MidiMappingSettingDataModel>(); // cache
+
+        private bool enabled;
 
         private bool loaded;
 
-        public void Save(IEnumerable<MidiMappingSettingDataModel> endpointSettings)
+        public void Save(bool enabled, IEnumerable<MidiMappingSettingDataModel> endpointSettings)
         {
-            var target = new MidiMappingSettingListForSerialize(endpointSettings);
+            var target = new MidiMappingSettingListForSerialize(enabled, endpointSettings);
 
             var json = JsonUtility.ToJson(target);
 
@@ -36,15 +38,16 @@ namespace ProjectBlue.RepulserEngine.Repository
                 }
             }
 
-            endpointList = endpointSettings.ToList();
+            mappingList = endpointSettings.ToList();
+            this.enabled = enabled;
 
             Debug.Log($"Saved : {JsonFilePath}");
         }
 
 
-        public IEnumerable<MidiMappingSettingDataModel> Load()
+        public (bool, IEnumerable<MidiMappingSettingDataModel>) Load()
         {
-            if (loaded) return endpointList;
+            if (loaded) return (enabled, mappingList);
 
             var jsonDeserializedData = new MidiMappingSettingListForSerialize();
 
@@ -63,11 +66,11 @@ namespace ProjectBlue.RepulserEngine.Repository
                 Debug.Log(e);
             }
 
-            endpointList = jsonDeserializedData.Data.ToList();
+            mappingList = jsonDeserializedData.Data.ToList();
 
             loaded = true;
 
-            return jsonDeserializedData.Data;
+            return (jsonDeserializedData.Enabled, jsonDeserializedData.Data);
         }
     }
 

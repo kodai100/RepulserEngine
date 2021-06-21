@@ -7648,6 +7648,7 @@ MonoBehaviour:
   saveButton: {fileID: 2096437719}
   removeAllButton: {fileID: 700303365}
   scrollViewContentTransform: {fileID: 864061114}
+  enableToggle: {fileID: 1573990637}
 --- !u!114 &461776589
 MonoBehaviour:
   m_ObjectHideFlags: 0

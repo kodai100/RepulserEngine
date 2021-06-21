@@ -6,10 +6,11 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 {
     public interface IMidiMappingSettingUseCase
     {
+        void UpdateEnabled(bool isEnabled);
         void Update(IEnumerable<MidiMappingSettingViewModel> list);
         void Save();
-        IEnumerable<MidiMappingSettingViewModel> GetCurrent();
-        IEnumerable<MidiMappingSettingViewModel> Load();
+        (bool, IEnumerable<MidiMappingSettingViewModel>) GetCurrent();
+        (bool, IEnumerable<MidiMappingSettingViewModel>) Load();
         public IObservable<IEnumerable<MidiMappingSettingViewModel>> OnListRecreatedAsObservable { get; }
     }
 }

@@ -16,6 +16,16 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         {
             this.repository = repository;
         }
+
+        public void Connect()
+        {
+            repository.Connect();
+        }
+
+        public void Disconnect()
+        {
+            repository.Disconnect();
+        }
     }
 
     public class MidiCommunicationUseCaseInstaller : Installer<MidiCommunicationUseCaseInstaller>

@@ -48,14 +48,18 @@ namespace ProjectBlue.RepulserEngine.Repository
     [Serializable]
     public class MidiMappingSettingListForSerialize
     {
+        public bool Enabled;
+
         public List<MidiMappingSettingDataModel> Data = new List<MidiMappingSettingDataModel>();
 
         public MidiMappingSettingListForSerialize()
         {
         }
 
-        public MidiMappingSettingListForSerialize(IEnumerable<MidiMappingSettingDataModel> data)
+        public MidiMappingSettingListForSerialize(bool enabled, IEnumerable<MidiMappingSettingDataModel> data)
         {
+            Enabled = enabled;
+
             Data.Clear();
 
             foreach (var component in data)

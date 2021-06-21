@@ -19,11 +19,15 @@ namespace ProjectBlue.RepulserEngine.Controllers
         public IObservable<IEnumerable<MidiMappingSettingViewModel>> OnListRecreatedAsObservable =>
             useCase.OnListRecreatedAsObservable;
 
-        public IEnumerable<MidiMappingSettingViewModel> Load()
+        public (bool, IEnumerable<MidiMappingSettingViewModel>) Load()
         {
             return useCase.Load();
         }
 
+        public void UpdateEnabled(bool isEnabled)
+        {
+            useCase.UpdateEnabled(isEnabled);
+        }
 
         public void Update(IEnumerable<MidiMappingSettingViewModel> settingList)
         {

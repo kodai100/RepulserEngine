@@ -6,9 +6,10 @@ namespace ProjectBlue.RepulserEngine.Controllers
 {
     public interface IMidiMappingSettingController
     {
+        void UpdateEnabled(bool isEnabled);
         void Update(IEnumerable<MidiMappingSettingViewModel> settingList);
         void Save();
-        IEnumerable<MidiMappingSettingViewModel> Load();
+        (bool, IEnumerable<MidiMappingSettingViewModel>) Load();
         IObservable<IEnumerable<MidiMappingSettingViewModel>> OnListRecreatedAsObservable { get; }
     }
 }

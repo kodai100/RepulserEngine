@@ -14,9 +14,10 @@ namespace ProjectBlue.RepulserEngine.Repository
 
         private Subject<MidiData> onMidiSubject = new Subject<MidiData>();
 
-
         MidiProbe probe;
         List<MidiInPort> ports = new List<MidiInPort>();
+
+        private bool run;
 
         public MidiCommunicationRepository()
         {
@@ -25,15 +26,18 @@ namespace ProjectBlue.RepulserEngine.Repository
 
         public void Tick()
         {
-            // Rescan when the number of ports changed.
-            if (ports.Count != probe.PortCount)
+            if (run)
             {
-                DisposePorts();
-                ScanPorts();
-            }
+                // Rescan when the number of ports changed.
+                if (ports.Count != probe.PortCount)
+                {
+                    DisposePorts();
+                    ScanPorts();
+                }
 
-            // Process queued messages in the opened ports.
-            foreach (var p in ports) p?.ProcessMessages();
+                // Process queued messages in the opened ports.
+                foreach (var p in ports) p?.ProcessMessages();
+            }
         }
 
         private void ScanPorts()
@@ -79,11 +83,21 @@ namespace ProjectBlue.RepulserEngine.Repository
             ports.Clear();
         }
 
+        public void Connect()
+        {
+            run = true;
+        }
+
+        public void Disconnect()
+        {
+            run = false;
+            DisposePorts();
+        }
+
         public void Dispose()
         {
             probe?.Dispose();
-            DisposePorts();
-
+            Disconnect();
             onMidiSubject.Dispose();
         }
     }

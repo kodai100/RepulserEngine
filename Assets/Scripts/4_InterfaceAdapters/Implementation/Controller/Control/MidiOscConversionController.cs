@@ -33,7 +33,7 @@ namespace ProjectBlue.RepulserEngine.Controllers
 
         private void OnMidiData(MidiData data)
         {
-            foreach (var mapping in midiSettingUseCase.GetCurrent())
+            foreach (var mapping in midiSettingUseCase.GetCurrent().Item2)
             {
                 if (data.Number != mapping.MidiNumber) continue;
 

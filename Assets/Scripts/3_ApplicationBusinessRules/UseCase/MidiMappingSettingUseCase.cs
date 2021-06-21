@@ -19,23 +19,33 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
         }
 
         private IEnumerable<MidiMappingSettingViewModel> viewModelList;
+        private bool enabled;
 
         public IObservable<IEnumerable<MidiMappingSettingViewModel>> OnListRecreatedAsObservable => subj;
 
         private Subject<IEnumerable<MidiMappingSettingViewModel>> subj =
             new Subject<IEnumerable<MidiMappingSettingViewModel>>();
 
-        public IEnumerable<MidiMappingSettingViewModel> Load()
+        public (bool, IEnumerable<MidiMappingSettingViewModel>) Load()
         {
-            var list = repository.Load();
-            viewModelList = list.Select(MidiMappingSettingTranslator.Translate);
+            var data = repository.Load();
+
+            enabled = data.Item1;
+
+            viewModelList = data.Item2.Select(MidiMappingSettingTranslator.Translate);
             subj.OnNext(viewModelList);
-            return viewModelList;
+
+            return (enabled, viewModelList);
         }
 
-        public IEnumerable<MidiMappingSettingViewModel> GetCurrent()
+        public (bool, IEnumerable<MidiMappingSettingViewModel>) GetCurrent()
         {
-            return viewModelList;
+            return (enabled, viewModelList);
+        }
+
+        public void UpdateEnabled(bool isEnabled)
+        {
+            enabled = isEnabled;
         }
 
         public void Update(IEnumerable<MidiMappingSettingViewModel> list)
@@ -46,7 +56,7 @@ namespace ProjectBlue.RepulserEngine.Domain.UseCase
 
         public void Save()
         {
-            repository.Save(viewModelList.Select(MidiMappingSettingTranslator.Translate));
+            repository.Save(enabled, viewModelList.Select(MidiMappingSettingTranslator.Translate));
         }
     }
 
