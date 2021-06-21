@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.Domain.Entity;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.View
@@ -16,6 +16,7 @@ namespace ProjectBlue.RepulserEngine.View
         [Inject] private IMidiCommunicationController midiController;
 
         [SerializeField] private TMP_Text text;
+        [SerializeField] private Button clearButton;
 
         private List<string> stringList = new List<string>();
         private Queue<MidiData> queue = new Queue<MidiData>(28);
@@ -27,6 +28,8 @@ namespace ProjectBlue.RepulserEngine.View
         private void Start()
         {
             midiController.OnMidiAsObservable.Subscribe(data => { queue.Enqueue(data); }).AddTo(this);
+
+            clearButton?.OnClickAsObservable().Subscribe(_ => { stringList.Clear(); }).AddTo(this);
         }
 
         private void Update()
