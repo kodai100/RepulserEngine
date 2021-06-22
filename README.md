@@ -1,4 +1,4 @@
-![](https://github.com/kodai100/RepulserEngine/workflows/StandaloneWindows64/badge.svg)
+![](https://github.com/kodai100/RepulserEngine/workflows/StandaloneWindows64/badge.svg) ![total](https://img.shields.io/github/downloads/kodai100/RepulserEngine/total)
 
 # Repulser Engine
 
