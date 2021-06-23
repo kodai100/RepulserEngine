@@ -9,9 +9,6 @@ namespace ProjectBlue.RepulserEngine.Repository
 {
     public class GlobalFrameOffsetSettingRepository : IGlobalFrameOffsetSettingRepository, IDisposable
     {
-        private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "OffsetFrame.json");
-
         private bool loaded;
 
         private GlobalFrameOffset cache;
@@ -28,23 +25,9 @@ namespace ProjectBlue.RepulserEngine.Repository
         {
             onDataChangedSubject.OnNext(frameOffset);
 
-            var json = JsonUtility.ToJson(frameOffset);
-
-            using (var sw = new StreamWriter(JsonFilePath, false))
-            {
-                try
-                {
-                    sw.Write(json);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
+            FileIOUtility.Write(frameOffset, "OffsetFrame");
 
             cache = frameOffset;
-
-            Debug.Log($"Saved : {JsonFilePath}");
         }
 
 
@@ -52,29 +35,13 @@ namespace ProjectBlue.RepulserEngine.Repository
         {
             if (loaded) return cache;
 
-            var jsonDeserializedData = new GlobalFrameOffset();
-
-            try
-            {
-                using (var fs = new FileStream(JsonFilePath, FileMode.Open))
-                using (var sr = new StreamReader(fs))
-                {
-                    var result = sr.ReadToEnd();
-
-                    jsonDeserializedData = JsonUtility.FromJson<GlobalFrameOffset>(result);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log("No data");
-                return jsonDeserializedData;
-            }
+            var data = FileIOUtility.Read<GlobalFrameOffset>("OffsetFrame");
 
             loaded = true;
 
-            cache = jsonDeserializedData;
+            cache = data;
 
-            return jsonDeserializedData;
+            return data;
         }
     }
 

@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using ProjectBlue.RepulserEngine.DataStore;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
 using UniRx;
-using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Repository
 {
     public class CommandSettingRepository : ICommandSettingRepository, IDisposable
     {
-        private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "CommandSetting.json");
-
         private List<CommandSetting> commandList = new List<CommandSetting>();
 
         private bool loaded;
@@ -34,23 +29,9 @@ namespace ProjectBlue.RepulserEngine.Repository
 
             var target = new CommandSettingListForSerialize(enumerable);
 
-            var json = JsonUtility.ToJson(target);
-
-            using (var sw = new StreamWriter(JsonFilePath, false))
-            {
-                try
-                {
-                    sw.Write(json);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
+            FileIOUtility.Write(target, "CommandSetting");
 
             commandList = enumerable.ToList();
-
-            Debug.Log($"Saved : {JsonFilePath}");
         }
 
 
@@ -58,28 +39,13 @@ namespace ProjectBlue.RepulserEngine.Repository
         {
             if (loaded) return commandList;
 
-            var jsonDeserializedData = new CommandSettingListForSerialize();
+            var data = FileIOUtility.Read<CommandSettingListForSerialize>("CommandSetting");
 
-            try
-            {
-                using (var fs = new FileStream(JsonFilePath, FileMode.Open))
-                using (var sr = new StreamReader(fs))
-                {
-                    var result = sr.ReadToEnd();
-
-                    jsonDeserializedData = JsonUtility.FromJson<CommandSettingListForSerialize>(result);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
-
-            commandList = jsonDeserializedData.Data.ToList();
+            commandList = data.Data.ToList();
 
             loaded = true;
 
-            return jsonDeserializedData.Data;
+            return data.Data;
         }
     }
 }

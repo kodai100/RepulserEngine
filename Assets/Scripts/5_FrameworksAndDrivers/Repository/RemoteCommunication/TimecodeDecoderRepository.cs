@@ -11,9 +11,6 @@ namespace ProjectBlue.RepulserEngine.Repository
 {
     public class TimecodeDecoderRepository : ITickable, IDisposable, ITimecodeDecoderRepository
     {
-        private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "AudioDevice.json");
-
         private TimecodeDecoder timecodeDecoder = new TimecodeDecoder();
         private DeviceSelector deviceSelector;
 
@@ -54,44 +51,14 @@ namespace ProjectBlue.RepulserEngine.Repository
 
         private AudioDeviceSettingForSerialize Load()
         {
-            var jsonDeserializedData = new AudioDeviceSettingForSerialize();
+            var data = FileIOUtility.Read<AudioDeviceSettingForSerialize>("AudioDevice");
 
-            try
-            {
-                using (var fs = new FileStream(JsonFilePath, FileMode.OpenOrCreate))
-                using (var sr = new StreamReader(fs))
-                {
-                    var result = sr.ReadToEnd();
-
-                    jsonDeserializedData = JsonUtility.FromJson<AudioDeviceSettingForSerialize>(result);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log("No data");
-                return jsonDeserializedData;
-            }
-
-            return jsonDeserializedData;
+            return data;
         }
 
         private void Save(AudioDeviceSettingForSerialize data)
         {
-            var json = JsonUtility.ToJson(data);
-
-            using (var sw = new StreamWriter(JsonFilePath, false))
-            {
-                try
-                {
-                    sw.Write(json);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
-
-            Debug.Log($"Saved : {JsonFilePath}");
+            FileIOUtility.Write(data, "OnAirSetting");
         }
 
         public void Tick()

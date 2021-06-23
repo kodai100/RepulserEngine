@@ -27,19 +27,7 @@ namespace ProjectBlue.RepulserEngine.Repository
         {
             var target = new TimecodeSettingListForSerialize(endpointSettings);
 
-            var json = JsonUtility.ToJson(target);
-
-            using (var sw = new StreamWriter(JsonFilePath, false))
-            {
-                try
-                {
-                    sw.Write(json);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
+            FileIOUtility.Write(target, "TimecodeSetting");
 
             endpointList = endpointSettings.ToList();
 
@@ -51,28 +39,13 @@ namespace ProjectBlue.RepulserEngine.Repository
         {
             if (loaded) return endpointList;
 
-            var jsonDeserializedData = new TimecodeSettingListForSerialize();
+            var data = FileIOUtility.Read<TimecodeSettingListForSerialize>("TimecodeSetting");
 
-            try
-            {
-                using (var fs = new FileStream(JsonFilePath, FileMode.Open))
-                using (var sr = new StreamReader(fs))
-                {
-                    var result = sr.ReadToEnd();
-
-                    jsonDeserializedData = JsonUtility.FromJson<TimecodeSettingListForSerialize>(result);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
-
-            endpointList = jsonDeserializedData.Data.ToList();
+            endpointList = data.Data.ToList();
 
             loaded = true;
 
-            return jsonDeserializedData.Data;
+            return data.Data;
         }
     }
 }

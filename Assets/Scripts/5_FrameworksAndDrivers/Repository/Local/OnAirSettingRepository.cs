@@ -1,71 +1,28 @@
-using System;
-using System.IO;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
-using UnityEngine;
 
 namespace ProjectBlue.RepulserEngine.Repository
 {
     public class OnAirSettingRepository : IOnAirSettingRepository
     {
-        private static readonly string JsonFilePath =
-            Path.Combine(UnityEngine.Application.streamingAssetsPath, "OnAirSetting.json");
-
         private OnAirSettingDataModel onAirSettingDataModel;
 
         private bool loaded;
 
         public void Save(OnAirSettingDataModel onAirSettingDataModel)
         {
-            var json = JsonUtility.ToJson(onAirSettingDataModel);
-
-            using (var sw = new StreamWriter(JsonFilePath, false))
-            {
-                try
-                {
-                    sw.Write(json);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
+            FileIOUtility.Write(onAirSettingDataModel, "OnAirSetting");
 
             this.onAirSettingDataModel = onAirSettingDataModel;
-
-            Debug.Log($"Saved : {JsonFilePath}");
         }
 
         public OnAirSettingDataModel Load()
         {
             if (loaded) return onAirSettingDataModel;
 
-            var jsonDeserializedData = new OnAirSettingDataModel();
+            var data = FileIOUtility.Read<OnAirSettingDataModel>("OnAirSetting");
 
-            try
-            {
-                using (var fs = new FileStream(JsonFilePath, FileMode.Open))
-                using (var sr = new StreamReader(fs))
-                {
-                    var result = sr.ReadToEnd();
+            onAirSettingDataModel = data;
 
-                    jsonDeserializedData = JsonUtility.FromJson<OnAirSettingDataModel>(result);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-
-                onAirSettingDataModel = new OnAirSettingDataModel();
-                loaded = true;
-                return onAirSettingDataModel;
-            }
-
-            if (jsonDeserializedData == null)
-            {
-                jsonDeserializedData = new OnAirSettingDataModel();
-            }
-
-            onAirSettingDataModel = jsonDeserializedData;
             loaded = true;
             return onAirSettingDataModel;
         }
