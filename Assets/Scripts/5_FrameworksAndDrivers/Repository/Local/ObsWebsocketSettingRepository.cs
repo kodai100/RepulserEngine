@@ -1,4 +1,6 @@
+using System;
 using ProjectBlue.RepulserEngine.Domain.DataModel;
+using UnityEngine;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Repository
@@ -25,8 +27,17 @@ namespace ProjectBlue.RepulserEngine.Repository
 
             var data = FileIOUtility.Read<ObsWebsocketSettingDataModel>("ObsWebsocket");
 
-            data.ServerAddress = AesEncryption.Decrypt(data.ServerAddress);
-            data.Password = AesEncryption.Decrypt(data.Password);
+            try
+            {
+                data.ServerAddress = AesEncryption.Decrypt(data.ServerAddress);
+                data.Password = AesEncryption.Decrypt(data.Password);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Encryption info is updated. please re-enter address and password.");
+                data.ServerAddress = "";
+                data.Password = "";
+            }
 
             loaded = true;
 
