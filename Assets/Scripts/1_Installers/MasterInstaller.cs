@@ -1,6 +1,7 @@
 using ProjectBlue.RepulserEngine.Controllers;
 using ProjectBlue.RepulserEngine.Domain.UseCase;
 using ProjectBlue.RepulserEngine.Repository;
+using UnityEngine;
 using Zenject;
 
 namespace ProjectBlue.RepulserEngine.Installers
@@ -64,6 +65,8 @@ namespace ProjectBlue.RepulserEngine.Installers
             Container.BindInterfacesAndSelfTo<SignalTriggerController>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<MidiOscConversionController>().AsSingle().NonLazy();
+
+            Screen.SetResolution(1280, 720, false);
         }
     }
 }
